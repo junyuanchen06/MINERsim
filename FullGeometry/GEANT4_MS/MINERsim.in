@@ -1,0 +1,94 @@
+# focused beam
+#
+/run/initialize
+
+#/ReverseCompton/Zip
+#/hits/activate Zip 
+
+/gps/verbose 0
+/gps/source/set 0
+/gps/source/intensity 1.
+/gps/particle gamma
+/gps/pos/type Surface
+/gps/pos/shape Sphere 
+/gps/pos/centre 0. 0. 0.
+/gps/pos/radius 15. cm
+/gps/ang/type cos
+/gps/ene/type  User
+
+/gps/hist/type energy
+/control/execute gammas_Th232_plus_naturalU.gdat
+
+
+#/gps/source/add 0.11
+#/gps/source/set 1
+#/gps/particle gamma
+#/gps/pos/type Surface
+#/gps/pos/shape Sphere
+#/gps/pos/centre 0. 0. 0.
+#/gps/pos/radius 15. cm
+#/gps/energy 1.46083 MeV
+#/gps/ang/type cos
+#/gps/ene/type Mono
+
+#/gps/source/add 0.0031
+#/gps/source/set 2
+#/gps/particle gamma
+#/gps/pos/type Surface
+#/gps/pos/shape Sphere
+#/gps/pos/centre 0. 0. 0.
+#/gps/pos/radius 15. cm
+#/gps/energy 2.955 keV
+#/gps/ang/type cos
+#/gps/ene/type Mono
+
+
+#/gps/source/add 0.0062
+#/gps/source/set 3
+#/gps/particle gamma
+#/gps/pos/type Surface
+#/gps/pos/shape Sphere
+#/gps/pos/centre 0. 0. 0.
+#/gps/pos/radius 15. cm
+#/gps/energy 2.957 keV
+#/gps/ang/type cos
+#/gps/ene/type Mono
+
+
+#/gps/source/add 0.00025
+#/gps/source/set 4
+#/gps/particle gamma
+#/gps/pos/type Surface
+#/gps/pos/shape Sphere
+#/gps/pos/centre 0. 0. 0.
+#/gps/pos/radius 15. cm
+#/gps/energy 3.19 keV
+#/gps/ang/type cos
+#/gps/ene/type Mono
+
+
+#/gps/source/add 0.00049
+#/gps/source/set 5
+#/gps/particle gamma
+#/gps/pos/type Surface
+#/gps/pos/shape Sphere
+#/gps/pos/centre 0. 0. 0.
+#/gps/pos/radius 15. cm
+#/gps/energy 3.19 keV
+#/gps/ang/type cos
+#/gps/ene/type Mono
+
+
+/gps/source/list
+
+/run/printProgress 100
+#/tracking/verbose 1
+#/event/verbose 1
+
+#/control/execute vis.mac
+#/root/fileName /home/share/andy/naturalU_Th232_4p5RingVeto.root
+/root/fileName test.root
+
+/run/beamOn 500
+
+#/vis/reviewKeptEvents savePic.mac
