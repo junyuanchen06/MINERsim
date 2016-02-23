@@ -212,7 +212,7 @@ I_spec=np.array([I_spec_n,I_spec_g])
 def Layers(I_n,I_g,M,l):    
     O_n,O_g=I_n,I_g
     for i in range(l):
-        O_n , O_g = M[0][0].transpose()@(O_n)+M[1][0].transpose()@(O_g) , M[0][1].transpose()@(O_n)+M[1][1].transpose()@(O_g)
+        O_n , O_g = M[0][0].transpose().dot(O_n)+M[1][0].transpose().dot(O_g) , M[0][1].transpose().dot(O_n)+M[1][1].transpose().dot(O_g)
     return O_n,O_g
  
 
