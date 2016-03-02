@@ -71,6 +71,6 @@ private:
    int hitC;
    int trackC;
    int event;
-   float eInc,  eDet;
+   float eInc;
 };
 #endif // INCLUDE_ROOTIO_HH

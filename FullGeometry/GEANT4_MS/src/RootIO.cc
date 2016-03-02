@@ -91,13 +91,11 @@ void RootIO::Setup()
   theTree->Branch("trackC",&trackC,"trackC/I");
   theTree->Branch("event",&event,"event/I");
   theTree->Branch("eInc",&eInc,"eInc/F");
-  theTree->Branch("eDet",&eDet,"eDet/F");
 
   hitC = 0;
   trackC = 0;
   event = 1;
   eInc = 0.;
-  eDet = 0;
 
 }
 
@@ -132,7 +130,6 @@ RootIO* RootIO::GetInstance()
 
 void RootIO::AddHits(MinerHitsCollection * zipHits, G4int detID)
 {
-  if (detID == 1 || detID == 2 || detID == 3 || detID == 4 || detID == 5){
     for (G4int i = 0; i < zipHits->entries(); i++){
       BaseHit* hit = new ((*sHits)[hitC]) BaseHit;
       G4ThreeVector vec = (*zipHits)[i]->GetPos();
@@ -147,10 +144,8 @@ void RootIO::AddHits(MinerHitsCollection * zipHits, G4int detID)
       hit->SetPreProcess((*zipHits)[i]->GetPreProcess());
       hit->SetPostProcess((*zipHits)[i]->GetPostProcess());
       hit->SetInc(0);
-      if (detID == 6){ eDet += (*zipHits)[i]->GetEdep(); }
       hitC++;
     }
-  }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -194,7 +189,6 @@ void RootIO::Write()
   sTracks->Clear();
   hitC = 0;
   trackC = 0;
-  eDet = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

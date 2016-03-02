@@ -64,18 +64,33 @@ void EventAction::EndOfEventAction(const G4Event* event)
   
   G4SDManager* fSDM = G4SDManager::GetSDMpointer();
   G4HCofThisEvent* HCofEvent = event->GetHCofThisEvent();
-  MinerHitsCollection*  vacHits1 = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("ACVacHitsCollection1")));
-  MinerHitsCollection*  vacHits2 = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("ACVacHitsCollection2")));
-  MinerHitsCollection*  vacHits3 = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("ACVacHitsCollection3")));
-  MinerHitsCollection*  vacHits4 = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("ACVacHitsCollection4")));
-  MinerHitsCollection*  zipHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("ACZipHitsCollection")));
+  MinerHitsCollection*  craigHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_Craig_hits")));
+  MinerHitsCollection*  muVetoTopHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_muVetoTop_hits")));
+  MinerHitsCollection*  muVetoBottomHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_muVetoBottom_hits")));
+  MinerHitsCollection*  backScintHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_backScint_hits")));
+  MinerHitsCollection*  det1Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det1_hits")));
+  MinerHitsCollection*  det2Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det2_hits")));
+  MinerHitsCollection*  det3Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det3_hits")));
+  MinerHitsCollection*  det4Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det4_hits")));
+  MinerHitsCollection*  det5Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det5_hits")));
+  MinerHitsCollection*  det6Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det6_hits")));
+  MinerHitsCollection*  det7Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det7_hits")));
+  MinerHitsCollection*  det8Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det8_hits")));
 
 
-  RootIO::GetInstance()->AddHits(vacHits1,1);
-  RootIO::GetInstance()->AddHits(vacHits2,2);
-  RootIO::GetInstance()->AddHits(vacHits3,3);
-  RootIO::GetInstance()->AddHits(vacHits4,4);
-  RootIO::GetInstance()->AddHits(zipHits,5);
+  RootIO::GetInstance()->AddHits(craigHits,12);
+  RootIO::GetInstance()->AddHits(muVetoTopHits,9);
+  RootIO::GetInstance()->AddHits(muVetoBottomHits,10);
+  RootIO::GetInstance()->AddHits(backScintHits,11);
+  RootIO::GetInstance()->AddHits(det1Hits,1);
+  RootIO::GetInstance()->AddHits(det2Hits,2);
+  RootIO::GetInstance()->AddHits(det3Hits,3);
+  RootIO::GetInstance()->AddHits(det4Hits,4);
+  RootIO::GetInstance()->AddHits(det5Hits,5);
+  RootIO::GetInstance()->AddHits(det6Hits,6);
+  RootIO::GetInstance()->AddHits(det7Hits,7);
+  RootIO::GetInstance()->AddHits(det8Hits,8);
+
 
   RootIO::GetInstance()->Write();
 
