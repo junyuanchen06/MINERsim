@@ -67,7 +67,7 @@ target_link_libraries(MINERsim hit track ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(MINERsim_SCRIPTS
-    MINERsim.in vis.mac
+    MINERsim.in
   )
 
 foreach(_script ${MINERsim_SCRIPTS})
