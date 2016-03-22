@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC  -W -Wall -pedantic -Wno-non-virtual-dtor -Wno-long-long -Wwrite-strings -Wpointer-arith -Woverloaded-virtual -Wno-variadic-macros -Wshadow -pipe -pthread -ftls-model=initial-exec -std=c++98    -shared -Wl,-soname,libtrack.so -o libtrack.so CMakeFiles/track.dir/BaseTrackDict.cxx.o 

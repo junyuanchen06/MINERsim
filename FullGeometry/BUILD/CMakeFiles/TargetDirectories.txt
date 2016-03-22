@@ -1,3 +1,0 @@
-/home/andy/MINERgit/MINERsim/FullGeometry/BUILD/CMakeFiles/MINERsim.dir
-/home/andy/MINERgit/MINERsim/FullGeometry/BUILD/CMakeFiles/hit.dir
-/home/andy/MINERgit/MINERsim/FullGeometry/BUILD/CMakeFiles/track.dir
