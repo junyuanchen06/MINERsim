@@ -46,10 +46,21 @@
 #include "G4UIExecutive.hh"
 #endif
 
+#include "MINERMaterials.hh"
 #include "GeometryConstruction.hh"
 #include "Shielding.hh"
 #include "ActionInitialization.hh"
 #include "RootIO.hh"
+
+// stuff for importance sampling
+#include "G4GeometryManager.hh"
+#include "ImportanceGeometryConstruction.hh"
+#include "G4ImportanceBiasing.hh"
+#include "G4ParallelWorldPhysics.hh"
+#include "G4GeometrySampler.hh"
+#include "G4IStore.hh"
+#include "G4VWeightWindowStore.hh"
+#include "G4WeightWindowAlgorithm.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
 
@@ -69,12 +80,53 @@ int main(int argc,char** argv) {
 #endif
 
   // set mandatory initialization classes
-
+  MINERMaterials::Instance();
   GeometryConstruction* detector = new GeometryConstruction;
   runManager->SetUserInitialization(detector);
-  runManager->SetUserInitialization(new Shielding);
+
+  ImportanceGeometryConstruction *pdet = new ImportanceGeometryConstruction("ParallelBiasingWorld");
+  detector->RegisterParallelWorld(pdet);
+
+  G4GeometrySampler pgsN(pdet->GetWorldVolume(),"neutron");
+  G4GeometrySampler pgsG(pdet->GetWorldVolume(),"gamma");
+  pgsG.SetParallel(true);
+  pgsN.SetParallel(true);
+
+
+  G4VModularPhysicsList *physicsList = new Shielding;
+  physicsList->RegisterPhysics(new G4ParallelWorldPhysics("ParallelBiasingWorld"));
+  physicsList->RegisterPhysics(new G4ImportanceBiasing(&pgsG,"ParallelBiasingWorld"));
+  physicsList->RegisterPhysics(new G4ImportanceBiasing(&pgsN,"ParallelBiasingWorld"));
+
+  /*
+  // add thermal neutron model
+  G4HadronElasticProcess* theNeutronElasticProcess = new G4HadronElasticProcess;
+  // Cross Section Data set
+  G4NeutronHPElasticData* theHPElasticData = new G4NeutronHPElasticData;
+  theNeutronElasticProcess->AddDataSet(theHPElasticData);
+  G4NeutronHPThermalScatteringData* theHPThermalScatteringData = new G4NeutronHPThermalScatteringData;
+  theNeutronElasticProcess->AddDataSet(theHPThermalScatteringData);
+  // Models
+  G4NeutronHPElastic* theNeutronElasticModel = new G4NeutronHPElastic;
+  theNeutronElasticModel->SetMinEnergy(4.0*eV);
+  theNeutronElasticProcess->RegisterMe(theNeutronElasticModel);
+  G4NeutronHPThermalScattering* theNeutronThermalElasticModel = new G4NeutronHPThermalScattering;
+  theNeutronThermalElasticModel->SetMaxEnergy(4.0*eV);
+  theNeutronElasticProcess->RegisterMe(theNeutronThermalElasticModel);
+  // Apply Processes to Process Manager of Neutron
+  G4ProcessManager* pmanager = G4Neutron::Neutron()->GetProcessManager();
+  pmanager->AddDiscreteProcess(theNeutronElasticProcess);
+  */
+
+
+  runManager->SetUserInitialization(physicsList);
   runManager->SetUserInitialization(new ActionInitialization);
   RootIO::GetInstance();
+
+  runManager->Initialize();
+
+  pdet->CreateImportanceStore();
+
 
 #ifdef G4VIS_USE
   // visualization manager
@@ -110,6 +162,9 @@ int main(int argc,char** argv) {
 
   // job termination
   //
+  G4GeometryManager::GetInstance()->OpenGeometry();
+  pgsG.ClearSampling();
+  pgsN.ClearSampling();
   delete runManager;
   
   return 0;

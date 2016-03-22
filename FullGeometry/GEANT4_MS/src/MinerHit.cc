@@ -43,6 +43,7 @@ MinerHit::MinerHit()
    fPDGID(0),
    fPreProc(0),
    fPostProc(0),
+   fWeight(1),
    fTime(-1),
    fEdep(0.),
    fPos(G4ThreeVector()),
@@ -63,6 +64,7 @@ MinerHit::MinerHit(const MinerHit& right)
   fPDGID     = right.fPDGID;
   fPreProc   = right.fPreProc;
   fPostProc  = right.fPostProc;
+  fWeight    = right.fWeight;
   fTime      = right.fTime;
   fEdep      = right.fEdep;
   fEnergy    = right.fEnergy;
@@ -78,6 +80,7 @@ const MinerHit& MinerHit::operator=(const MinerHit& right)
   fPDGID     = right.fPDGID;
   fPreProc   = right.fPreProc;
   fPostProc  = right.fPostProc;
+  fWeight    = right.fWeight;
   fTime      = right.fTime;
   fEdep      = right.fEdep;
   fEnergy    = right.fEnergy;

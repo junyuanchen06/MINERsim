@@ -1,4 +1,4 @@
-#
+# example run with visualization
 /run/initialize
 
 /vis/open OGLSX 1200x1200-0+0

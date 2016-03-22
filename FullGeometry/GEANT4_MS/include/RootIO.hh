@@ -49,6 +49,7 @@ public:
   static RootIO* GetInstance();
   void Write();
   void Close();
+  void SetIncomingE(G4double en);
   void AddHits(MinerHitsCollection * zipHits, G4int detID);
   void AddTrack(const G4Track* trk);
   void Setup();

@@ -37,6 +37,7 @@
 #include "G4NistManager.hh"
 
 #include "MinerSD.hh"
+#include "MINERMaterials.hh"
 
 #include "G4SystemOfUnits.hh"
 #include "G4UnionSolid.hh"
@@ -136,155 +137,9 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 {
 
   // some useful stuff
-  G4NistManager* nistManager = G4NistManager::Instance();
   G4double in = 2.54*cm;
   G4bool fCheckOverlaps = true;
-
-
-
-  // material definitions go here:
-
-  G4Material* vac = new G4Material("Vacuum", 1., 1.01*g/mole, universe_mean_density,
-                                 kStateGas,0.000017*kelvin,1.e-19*pascal);
-
-
-  //Define Stainless Steel
-  G4Element* C  = nistManager->FindOrBuildElement("C");
-  G4Element* Si = nistManager->FindOrBuildElement("Si");
-  G4Element* Cr = nistManager->FindOrBuildElement("Cr");
-  G4Element* Mn = nistManager->FindOrBuildElement("Mn");
-  G4Element* Fe = nistManager->FindOrBuildElement("Fe");
-  G4Element* Ni = nistManager->FindOrBuildElement("Ni");
-  G4Material* StainlessSteel = new G4Material("StainlessSteel", 8.06*g/cm3, 6);
-  StainlessSteel->AddElement(C, 0.001);
-  StainlessSteel->AddElement(Si, 0.007);
-  StainlessSteel->AddElement(Cr, 0.18);
-  StainlessSteel->AddElement(Mn, 0.01);
-  StainlessSteel->AddElement(Fe, 0.712);
-  StainlessSteel->AddElement(Ni, 0.09);
-
-  G4Material* liquidNitrogen = new G4Material("LiquidNitrogen",7.,14.01*g/mole,0.808*g/cm3, kStateLiquid,77.*kelvin);
-  G4Material* air  = nistManager->FindOrBuildMaterial("G4_AIR");
-
-
-  // this is temporary until we have better understanding of HD concrete composition
-  //G4double concreteDensity = 3.53*g/cm3;
-  //G4Material* HDConcrete = nistManager->BuildMaterialWithNewDensity("HDConcrete","G4_CONCRETE",concreteDensity);
-
-  //G4_POLYETHYLENE  (C_2H_4)_N-Polyethylene  0.94 g/cm3,  
-  //             1     0.143711
-  //             6     0.856289
-  G4Material *boron   = nistManager->FindOrBuildMaterial("G4_B");
-  G4Material *copper   = nistManager->FindOrBuildMaterial("G4_Cu");
-
-  G4Material *det_Ge = nistManager->FindOrBuildMaterial("G4_Ge");
-  G4Material *det_Si = nistManager->FindOrBuildMaterial("G4_Si");
-
-  G4Material *shieldLead = nistManager->FindOrBuildMaterial("G4_Pb");     
-  G4Material *HDPE = nistManager->FindOrBuildMaterial("G4_POLYETHYLENE");  
-  //http://www.shieldwerx.com
-  // 5% borated polyethylene = SWX203
-  G4Material *boratedpoly05 = new G4Material("BoratedPoly05",1.06*g/cm3, 2); 
-  boratedpoly05->AddMaterial(boron,0.05);
-  boratedpoly05->AddMaterial(HDPE,0.95);
-
-  // 30% borated polyethylene = SWX210
-  G4Material *boratedpoly30 = new G4Material("BoratedPoly30",1.19*g/cm3, 2);
-  boratedpoly30->AddMaterial(boron,0.3);
-  boratedpoly30->AddMaterial(HDPE,0.70);
-
-
-  // stand in for boraflex
-  G4Material *Boraflex = new G4Material("Boraflex",1.64*g/cm3, 2);
-  Boraflex->AddMaterial(boron,0.276);
-  Boraflex->AddMaterial(HDPE,0.724);
-
-  // HD Concrete in NSC
-  G4Element *H1 = new G4Element("H1","H1", 1, 1.0078*g/mole);
-  G4Element *O16 = new G4Element("O16","O16", 8, 15.9949*g/mole);
-  G4Element *Mg24 = new G4Element("Mg24","MG24", 12, 23.985*g/mole);
-  G4Element *Mg25 = new G4Element("Mg25","Mg25", 12, 24.9858*g/mole);
-  G4Element *Mg26 = new G4Element("Mg26","Mg26", 12, 25.9826*g/mole);
-  G4Element *Al27 = new G4Element("Al27","Al27", 13, 26.9815*g/mole);
-  G4Element *Si28 = new G4Element("Si28","Si28", 14, 27.9769*g/mole);
-  G4Element *Si29 = new G4Element("Si29","Si29", 14, 28.9765*g/mole);
-  G4Element *Si30 = new G4Element("Si30","Si30", 14, 29.9738*g/mole);
-  G4Element *S32 = new G4Element("S32","S32", 16, 31.9721*g/mole);
-  G4Element *S33 = new G4Element("S33","S33", 16, 32.9745*g/mole);
-  G4Element *S34 = new G4Element("S34","S34", 16, 33.9679*g/mole);
-  G4Element *Ca40 = new G4Element("Ca40","Ca40", 20, 39.9626*g/mole);
-  G4Element *Ca42 = new G4Element("Ca42","Ca42", 20, 41.9586*g/mole);
-  G4Element *Ca43 = new G4Element("Ca43","Ca43", 20, 42.9588*g/mole);
-  G4Element *Ca44 = new G4Element("Ca44","Ca44", 20, 43.9555*g/mole);
-  G4Element *Ca46 = new G4Element("Ca46","Ca46", 20, 45.9537*g/mole);
-  G4Element *Ca48 = new G4Element("Ca48","Ca48", 20, 47.9525*g/mole);
-  G4Element *Ti46 = new G4Element("Ti46","Ti46", 22, 45.9526*g/mole);
-  G4Element *Ti47 = new G4Element("Ti47","Ti47", 22, 46.9518*g/mole);
-  G4Element *Ti48 = new G4Element("Ti48","Ti48", 22, 47.9479*g/mole);
-  G4Element *Ti49 = new G4Element("Ti49","Ti49", 22, 48.9479*g/mole);
-  G4Element *Ti50 = new G4Element("Ti50","Ti50", 22, 49.9448*g/mole);
-  G4Element *V51 = new G4Element("V51","V51", 23, 50.9440*g/mole);
-  G4Element *Cr50 = new G4Element("Cr50","Cr50", 24, 49.9460*g/mole);
-  G4Element *Cr52 = new G4Element("Cr52","Cr52", 24, 51.9405*g/mole);
-  G4Element *Cr53 = new G4Element("Cr53","Cr53", 24, 52.9407*g/mole);
-  G4Element *Cr54 = new G4Element("Cr54","Cr54", 24, 53.9389*g/mole);
-  G4Element *Mn55 = new G4Element("Mn55","Mn55", 25, 54.9380*g/mole);
-  G4Element *Fe54 = new G4Element("Fe54","Fe54", 26, 53.9396*g/mole);
-  G4Element *Fe56 = new G4Element("Fe56","Fe56", 26, 55.9308*g/mole);
-  G4Element *Fe57 = new G4Element("Fe57","Fe57", 26, 56.9354*g/mole);
-  G4Element *Fe58 = new G4Element("Fe58","Fe58", 26, 57.9333*g/mole);
-
-
-  G4Material *HDConcrete = new G4Material("HDConcrete",3.53*g/cm3, 33);
-  HDConcrete->AddElement(H1,.003113);
-  HDConcrete->AddElement(O16,.330504);
-  HDConcrete->AddElement(Mg24,.007279);
-  HDConcrete->AddElement(Mg25,.00096);
-  HDConcrete->AddElement(Mg26,.001099);
-  HDConcrete->AddElement(Al27,.023468);
-  HDConcrete->AddElement(Si28,.023657);
-  HDConcrete->AddElement(Si29,.001241);
-  HDConcrete->AddElement(Si30,.000852);
-  HDConcrete->AddElement(S32,.001341);
-  HDConcrete->AddElement(S33,.000011);
-  HDConcrete->AddElement(S34,.000063);
-  HDConcrete->AddElement(Ca40,.068668);
-  HDConcrete->AddElement(Ca42,.000481);
-  HDConcrete->AddElement(Ca43,.000103);
-  HDConcrete->AddElement(Ca44,.00161);
-  HDConcrete->AddElement(Ca46,.000003);
-  HDConcrete->AddElement(Ca48,.000159);
-  HDConcrete->AddElement(Ti46,.004171);
-  HDConcrete->AddElement(Ti47,.003889);
-  HDConcrete->AddElement(Ti48,.040153);
-  HDConcrete->AddElement(Ti49,.003055);
-  HDConcrete->AddElement(Ti50,.00306);
-  HDConcrete->AddElement(V51,.003113);
-  HDConcrete->AddElement(Cr50,.000071);
-  HDConcrete->AddElement(Cr52,.001421);
-  HDConcrete->AddElement(Cr53,.000164);
-  HDConcrete->AddElement(Cr54,.000041);
-  HDConcrete->AddElement(Mn55,.001981);
-  HDConcrete->AddElement(Fe54,.027027);
-  HDConcrete->AddElement(Fe56,.435692);
-  HDConcrete->AddElement(Fe57,.010154);
-  HDConcrete->AddElement(Fe58,.001378);
-
-
-  // this is roughly NE213 liquid scint.
-  G4double densityS = 0.874*g/cm3;
-  G4Material* NE213 = new G4Material("NE213", densityS,2);
-
-  G4double aH = 1.01*g/mole;
-  G4Element* elH  = new G4Element("Hydrogen","H" ,1., aH);
-  //might be able to replace with xylene?
-  G4double aC = 12.01*g/mole;
-  G4Element* elC  = new G4Element("Carbon"  ,"C" ,6., aC);
-  NE213->AddElement(elC,0.5479);
-  NE213->AddElement(elH,0.4521);
-
-  
-
+  const MINERMaterials * mats = MINERMaterials::GetInstance();
 
 
   // ok, let's make a real attempt at the thermal column geometry.  I'm going to attempt 
@@ -305,7 +160,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 
   // define the world volume
   G4Box * universe_s  = new G4Box("universe_s", worldX/2.,worldY/2.,worldZ/2.);
-  G4LogicalVolume * universe_log = new G4LogicalVolume(universe_s,air,"universe_L",0,0,0);
+  G4LogicalVolume * universe_log = new G4LogicalVolume(universe_s,mats->GetAir(),"universe_L",0,0,0);
 
 
   G4double bioShield_thick = (19.625 + 49.6875) *in ; //1.7*m; // this includes SS plating which is why you'll see it subtracted out below
@@ -325,9 +180,17 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4double gb_depth = 26.5625*in; // depth of graphite block
   G4double gb_width = 29.5*in; // width of graphite block ESTIMATE
   G4double gb_height = 29.5*in; // height of graphite block
-  G4double largeOverburden_length = 19.625*in; // this is the lenght of the part of the TC with the largest overburden
+  G4double largeOverburden_length = 19.625*in; // this is the length of the part of the TC with the largest overburden
+  G4double TC_water_length = 25.8125*in; // this is the length of the part of the TC that extends into the water (ignoring the curvature of the wall)
+                                         //  and also = the length of the extension that's aluminum instead of SS
 
-  G4cout << water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small-SSPlate_thick-gb_depth << 0. << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
+
+  //G4cout << water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small-SSPlate_thick-gb_depth << 0. << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
+  //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out + 0.5*thermalC_height_small << G4endl;
+  //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out - 0.5*thermalC_height_small << G4endl;
+  //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0.5*thermalC_height_small  << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
+
+  G4cout << poolC_to_TC - 3.86*m << "  " << 0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
 
   // floor
   // fill the entire world volume x and y with floor
@@ -339,14 +202,14 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4UnionSolid *floorI = new G4UnionSolid("floorI",floor_tubs_pool,floor_rec_pool,0,poolFloorTransX);
   G4ThreeVector poolFloorTransZ(0,0,(floor_thick_out - (floor_to_TC_pool-floor_to_TC_out) - SSPlate_thick)/2.); // check this
   G4SubtractionSolid *floor = new G4SubtractionSolid("floor",floor_out,floorI,0,poolFloorTransZ);
-  G4LogicalVolume *floor_log = new G4LogicalVolume(floor,HDConcrete ,"floor_log");
+  G4LogicalVolume *floor_log = new G4LogicalVolume(floor,mats->GetHDConcrete() ,"floor_log");
   G4ThreeVector floorPlacement(0,0,-(worldZ/2.)+(floor_thick_out/2.));
 
 
   // graphite block in the ppol
   G4Box *graphite_block = new G4Box("graphite_block", gb_depth/2.,gb_width/2.,gb_height/2.);
   G4ThreeVector graphite_Placement(water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small- (gb_depth/2.),0., -(worldZ/2.) + floor_thick_out + floor_to_TC_out);
-  G4LogicalVolume *graphite_log = new G4LogicalVolume(graphite_block,nistManager->FindOrBuildMaterial("G4_GRAPHITE"),"graphite_lot");
+  G4LogicalVolume *graphite_log = new G4LogicalVolume(graphite_block,mats->GetGraphite(),"graphite_lot");
 
   //water 
   // all the way up for now
@@ -360,7 +223,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4SubtractionSolid *poolI2 = new G4SubtractionSolid("poolI2",poolI,TC_pool_cutout,0,TC_in_poolPlacement);
   G4SubtractionSolid *pool = new G4SubtractionSolid("pool",poolI2,graphite_block,0,GB_in_poolPlacement);
   G4ThreeVector poolPlacement(0,0,floor_thick_pool/2.);
-  G4LogicalVolume *pool_log = new G4LogicalVolume(pool,nistManager->FindOrBuildMaterial("G4_WATER"),"pool_log");
+  G4LogicalVolume *pool_log = new G4LogicalVolume(pool,mats->GetWater(),"pool_log");
   // could add support legs, probably a third order effect
 
 
@@ -393,7 +256,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector Flat_BSPlacement(water_rad + bioShield_thick - sagitta/2.,0,0);
   G4UnionSolid *bioShield = new G4UnionSolid("bioShield",bioShieldI3,bioShield_front_sub,0,Flat_BSPlacement);
   G4ThreeVector bioShieldPlacement(0,0,(floor_thick_out)/2.);
-  G4LogicalVolume *bioShield_log = new G4LogicalVolume(bioShield,HDConcrete,"bioShield_log");
+  G4LogicalVolume *bioShield_log = new G4LogicalVolume(bioShield,mats->GetHDConcrete(),"bioShield_log");
 
 
   // SS pool liner
@@ -414,17 +277,25 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4UnionSolid *poolSSI4 = new G4UnionSolid("poolSSI4",poolSSI3,poolSS_bot_rec,0,poolSS3Trans);
   G4UnionSolid *poolSS = new G4UnionSolid("poolSS",poolSSI4,poolSS_bot_tubs,0,poolSS4Trans);
   G4ThreeVector poolSSPlacement(0,0,floor_thick_pool/2.);
-  G4LogicalVolume *poolSS_log = new G4LogicalVolume(poolSS,StainlessSteel,"poolSS_log");
+  G4LogicalVolume *poolSS_log = new G4LogicalVolume(poolSS,mats->GetStainlessSteel(),"poolSS_log");
 
   // SS TC liner 
   // SS only in the small box part
   // there's some SS that goes into the HDC that I'm not including yet
-  G4Box *TC_SS_box = new G4Box("TC_SS_box", thermalC_length_small/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  // Fixed March 9: TC extension is actually aluminum
+  G4Box *TC_SS_box = new G4Box("TC_SS_box", (thermalC_length_small-TC_water_length)/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
   G4Box *TC_SS_cutout = new G4Box("TC_SS_cutout", thermalC_length_small/2.,thermalC_height_small/2.,thermalC_height_small/2.);
-  G4ThreeVector TC_SS_cutout_Trans(SSPlate_thick,0.,0.);
-  G4SubtractionSolid *TC_SS = new G4SubtractionSolid("TC_SS",TC_SS_box,TC_SS_cutout,0,TC_SS_cutout_Trans);
-  G4ThreeVector TC_SS_placement(water_rad+bioShield_thick-thermalC_length_big-(thermalC_length_small/2.),0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
-  G4LogicalVolume *TC_SS_log =  new G4LogicalVolume(TC_SS,StainlessSteel,"TC_SS_log");
+  G4ThreeVector TC_SS_placement(water_rad+bioShield_thick-thermalC_length_big- (thermalC_length_small-TC_water_length)/2.,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4SubtractionSolid *TC_SS = new G4SubtractionSolid("TC_SS",TC_SS_box,TC_SS_cutout);
+
+  G4Box *TC_Al_extI = new G4Box("TC_Al_extI", TC_water_length/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  G4Box *TC_Al_cut = new G4Box("TC_Al_cut", TC_water_length/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  G4ThreeVector TC_Alext_cutout_Trans(SSPlate_thick,0.,0.);
+  G4SubtractionSolid *TC_Al_ext = new G4SubtractionSolid("TC_Al_ext",TC_Al_extI,TC_Al_cut,0,TC_Alext_cutout_Trans);
+  G4ThreeVector TC_Alext_placement(water_rad+bioShield_thick-thermalC_length_big - (thermalC_length_small-TC_water_length) - (TC_water_length/2.),0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+
+  G4LogicalVolume *TC_SS_log =  new G4LogicalVolume(TC_SS,mats->GetStainlessSteel(),"TC_SS_log");
+  G4LogicalVolume *TC_Alext_log =  new G4LogicalVolume(TC_Al_ext,mats->GetAluminum(),"TC_Alext_log");
 
   // Al TC liner 
   // Al only in the big box part
@@ -435,7 +306,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector TC_Al_cutout_Trans2(-aluminumPlate_thick,0.,0.);
   G4SubtractionSolid *TC_Al = new G4SubtractionSolid("TC_Al",TC_AlI,TC_SS_cutout,0,TC_Al_cutout_Trans2);
   G4ThreeVector TC_Al_placement(water_rad+bioShield_thick-thermalC_length_big/2.,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
-  G4LogicalVolume *TC_Al_log =  new G4LogicalVolume(TC_Al,nistManager->FindOrBuildMaterial("G4_Al"),"TC_Al_log");
+  G4LogicalVolume *TC_Al_log =  new G4LogicalVolume(TC_Al,mats->GetAluminum(),"TC_Al_log");
 
   // the movable door
   // keep it simple for now
@@ -451,10 +322,10 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector doorLeadPos(((3./8.)*in) + (4.*in)/2.,0.,0.);
   G4ThreeVector doorConcretePos(((3./8.)*in) + (4.*in) + (20.*in)/2.,0.,0.);
   G4ThreeVector doorSteelPos(((3./8.)*in) + (4.*in) + (20.*in) + ((1./16.)*in)/2.,0.,0.);
-  G4LogicalVolume *door_Liner_log = new G4LogicalVolume(doorLiner,Boraflex ,"door_Liner_log");
-  G4LogicalVolume *door_Lead_log = new G4LogicalVolume(doorLead,shieldLead ,"door_Lead_log");
-  G4LogicalVolume *door_Concrete_log = new G4LogicalVolume(doorConcrete,HDConcrete ,"door_Concrete_log");
-  G4LogicalVolume *door_Steel_log = new G4LogicalVolume(doorSteel,StainlessSteel ,"door_Steel_log");
+  G4LogicalVolume *door_Liner_log = new G4LogicalVolume(doorLiner,mats->GetBoraflex(),"door_Liner_log");
+  G4LogicalVolume *door_Lead_log = new G4LogicalVolume(doorLead,mats->GetShieldLead() ,"door_Lead_log");
+  G4LogicalVolume *door_Concrete_log = new G4LogicalVolume(doorConcrete,mats->GetHDConcrete() ,"door_Concrete_log");
+  G4LogicalVolume *door_Steel_log = new G4LogicalVolume(doorSteel,mats->GetStainlessSteel() ,"door_Steel_log");
 
 
   G4AssemblyVolume *door = new G4AssemblyVolume();
@@ -464,9 +335,9 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   door->AddPlacedVolume(door_Lead_log,doorLeadPos,zeroRot);
   door->AddPlacedVolume(door_Concrete_log,doorConcretePos,zeroRot);
   door->AddPlacedVolume(door_Steel_log,doorSteelPos,zeroRot);
-//  G4ThreeVector posDoor(water_rad+bioShield_thick,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector posDoor(water_rad+bioShield_thick,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   // move door back for now
-  G4ThreeVector posDoor(water_rad+bioShield_thick + 3.*12.*in,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  //G4ThreeVector posDoor(water_rad+bioShield_thick + 3.*12.*in,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
 
 
 ///*
@@ -505,52 +376,52 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 
   // reactor poly shielding, completely filling the small part for now
   G4Box *poly_TC = new G4Box("poly_TC", TCPoly_thick/2.,thermalC_height_small/2.,thermalC_height_small/2.);
-  G4LogicalVolume *polyTC_log = new G4LogicalVolume(poly_TC,HDPE,"polyTC_log");
+  G4LogicalVolume *polyTC_log = new G4LogicalVolume(poly_TC,mats->GetBoratedPoly05(),"polyTC_log");
 
   // reactor Front lead shielding
   G4Box *lead_TC = new G4Box("lead_TC",TCLead_thick/2.,thermalC_height_big/2.,thermalC_height_big/2.);
-  G4LogicalVolume *leadTC_log = new G4LogicalVolume(lead_TC,shieldLead,"leadTC_log");
+  G4LogicalVolume *leadTC_log = new G4LogicalVolume(lead_TC,mats->GetShieldLead(),"leadTC_log");
 
 
   // icebox oversimplified for now, three concentric cans with a can thickness of space between each
   G4Tubs *icebox1_out = new G4Tubs("icebox1_out", 0., iceboxRadius, iceboxHeight/2.,0,360*deg);
   G4Tubs *icebox1_in = new G4Tubs("icebox1_in", 0., iceboxRadius - iceboxThick, iceboxHeight/2. - iceboxThick,0,360*deg);
   G4SubtractionSolid *icebox1 = new G4SubtractionSolid("icebox1",icebox1_out,icebox1_in);
-  G4LogicalVolume *icebox1_log = new G4LogicalVolume(icebox1,copper,"icebox1_log");
+  G4LogicalVolume *icebox1_log = new G4LogicalVolume(icebox1,mats->GetCopper(),"icebox1_log");
 
   G4Tubs *icebox2_out = new G4Tubs("icebox2_out", 0., iceboxRadius - 2*iceboxThick, iceboxHeight/2. - 2*iceboxThick,0,360*deg);
   G4Tubs *icebox2_in = new G4Tubs("icebox2_in", 0., iceboxRadius - 3*iceboxThick, iceboxHeight/2. - 3*iceboxThick,0,360*deg);
   G4SubtractionSolid *icebox2 = new G4SubtractionSolid("icebox2",icebox2_out,icebox2_in);
-  G4LogicalVolume *icebox2_log = new G4LogicalVolume(icebox2,copper,"icebox2_log");
+  G4LogicalVolume *icebox2_log = new G4LogicalVolume(icebox2,mats->GetCopper(),"icebox2_log");
 
   G4Tubs *icebox3_out = new G4Tubs("icebox3_out", 0., iceboxRadius - 4*iceboxThick, iceboxHeight/2. - 4*iceboxThick,0,360*deg);
   G4Tubs *icebox3_in = new G4Tubs("icebox3_in", 0., iceboxRadius - 5*iceboxThick, iceboxHeight/2. - 5*iceboxThick,0,360*deg);
   G4SubtractionSolid *icebox3 = new G4SubtractionSolid("icebox3",icebox3_out,icebox3_in);
-  G4LogicalVolume *icebox3_log = new G4LogicalVolume(icebox3,copper,"icebox3_log");
+  G4LogicalVolume *icebox3_log = new G4LogicalVolume(icebox3,mats->GetCopper(),"icebox3_log");
 
   // Let's put some detectors in the icebox, they can just float for now
   G4Tubs *det = new G4Tubs("det",0.,2*in,detThick/2.,0,360*deg);
-  G4LogicalVolume *det1_log = new G4LogicalVolume(det, det_Ge,"det1_log");
-  G4LogicalVolume *det2_log = new G4LogicalVolume(det, det_Ge,"det2_log");
-  G4LogicalVolume *det3_log = new G4LogicalVolume(det, det_Ge,"det3_log");
-  G4LogicalVolume *det4_log = new G4LogicalVolume(det, det_Ge,"det4_log");
-  G4LogicalVolume *det5_log = new G4LogicalVolume(det, det_Si,"det5_log");
-  G4LogicalVolume *det6_log = new G4LogicalVolume(det, det_Si,"det6_log");
-  G4LogicalVolume *det7_log = new G4LogicalVolume(det, det_Si,"det7_log");
-  G4LogicalVolume *det8_log = new G4LogicalVolume(det, det_Si,"det8_log");
+  G4LogicalVolume *det1_log = new G4LogicalVolume(det, mats->GetDetGe(),"det1_log");
+  G4LogicalVolume *det2_log = new G4LogicalVolume(det, mats->GetDetGe(),"det2_log");
+  G4LogicalVolume *det3_log = new G4LogicalVolume(det, mats->GetDetGe(),"det3_log");
+  G4LogicalVolume *det4_log = new G4LogicalVolume(det, mats->GetDetGe(),"det4_log");
+  G4LogicalVolume *det5_log = new G4LogicalVolume(det, mats->GetDetSi(),"det5_log");
+  G4LogicalVolume *det6_log = new G4LogicalVolume(det, mats->GetDetSi(),"det6_log");
+  G4LogicalVolume *det7_log = new G4LogicalVolume(det, mats->GetDetSi(),"det7_log");
+  G4LogicalVolume *det8_log = new G4LogicalVolume(det, mats->GetDetSi(),"det8_log");
   // should have slightly more than 3" for spacing of detectors
 
   // poly around the icebox
   G4Box *poly_IBshield_out = new G4Box("poly_IBshield_out",iceboxRadius+iceboxPoly_thick,iceboxRadius+iceboxPoly_thick,iceboxHeight/2. + iceboxPoly_thick);
   G4Box *poly_IBshield_in = new G4Box("poly_IBshield_in",iceboxRadius,iceboxRadius,iceboxHeight/2.);
   G4SubtractionSolid *poly_IBshield = new G4SubtractionSolid("poly_IBshield",poly_IBshield_out,poly_IBshield_in);
-  G4LogicalVolume *polyIBshield_log = new G4LogicalVolume(poly_IBshield,HDPE,"poly_IBshield_log");
+  G4LogicalVolume *polyIBshield_log = new G4LogicalVolume(poly_IBshield,mats->GetBoratedPoly05(),"poly_IBshield_log");
 
   // lead around the icebox
   G4Box *lead_IBshield_out = new G4Box("lead_IBshield_out",iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxHeight/2. +iceboxPoly_thick+ iceboxLead_thick);
   G4Box *lead_IBshield_in = new G4Box("lead_IBshield_in",iceboxRadius+iceboxPoly_thick,iceboxRadius+iceboxPoly_thick,iceboxHeight/2. + iceboxPoly_thick);
   G4SubtractionSolid *lead_IBshield = new G4SubtractionSolid("lead_IBshield",lead_IBshield_out,lead_IBshield_in);
-  G4LogicalVolume *leadIBshield_log = new G4LogicalVolume(lead_IBshield,shieldLead,"lead_IBshield_log");
+  G4LogicalVolume *leadIBshield_log = new G4LogicalVolume(lead_IBshield,mats->GetShieldLead(),"lead_IBshield_log");
 
   // poly around the IB lead shielding
   G4Box *poly_outershield_out = new G4Box("poly_outershield_out",iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2. + iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
@@ -560,22 +431,22 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector  poly_outer_back_place(iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_back_thick/2.,0,0);  
   G4Box *poly_outershield_back = new G4Box("poly_outershield_back",outerPoly_back_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2.+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
   G4UnionSolid *poly_outershield = new G4UnionSolid("poly_outershield",poly_outershield_shell,poly_outershield_back,0,poly_outer_back_place);
-  G4LogicalVolume *polyoutershield_log = new G4LogicalVolume(poly_outershield,HDPE,"poly_outershield_log");
+  G4LogicalVolume *polyoutershield_log = new G4LogicalVolume(poly_outershield,mats->GetBoratedPoly05(),"poly_outershield_log");
 
   //scintillator veto, just top and bottom, this means there will be some extra space on the sides
   G4Box *muVeto = new G4Box("muVeto",(thermalC_length_big-aluminumPlate_thick-TCLead_thick)/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,muVeto_thick/2.);
-  G4LogicalVolume *muVetoTop_log = new G4LogicalVolume(muVeto,NE213 ,"muVetoTop_log");
-  G4LogicalVolume *muVetoBottom_log = new G4LogicalVolume(muVeto,NE213 ,"muVetoBottom_log");
+  G4LogicalVolume *muVetoTop_log = new G4LogicalVolume(muVeto,mats->GetAcrylic() ,"muVetoTop_log");
+  G4LogicalVolume *muVetoBottom_log = new G4LogicalVolume(muVeto,mats->GetAcrylic() ,"muVetoBottom_log");
   //back scintillator
   G4Box *backScint = new G4Box("backScint",backScint_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2.+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
-  G4LogicalVolume *backScint_log = new G4LogicalVolume(backScint,NE213 ,"backScint_log");
+  G4LogicalVolume *backScint_log = new G4LogicalVolume(backScint,mats->GetAcrylic() ,"backScint_log");
 
 
   // Lead next to the liner on outside of thermal column
   G4Box *lead_outershield_in = new G4Box("lead_outershield_in",2*m,thermalC_height_big/2. -outerLead_thick,thermalC_height_big/2. -outerLead_thick);
   G4Box *lead_outershield_out = new G4Box("lead_outershield_out",(thermalC_length_big-aluminumPlate_thick-TCLead_thick)/2.,thermalC_height_big/2.,thermalC_height_big/2.);
   G4SubtractionSolid *lead_outershield = new G4SubtractionSolid("lead_outershield",lead_outershield_out,lead_outershield_in);
-  G4LogicalVolume *leadoutershield_log = new G4LogicalVolume(lead_outershield,shieldLead,"lead_outershield_log");
+  G4LogicalVolume *leadoutershield_log = new G4LogicalVolume(lead_outershield,mats->GetShieldLead(),"lead_outershield_log");
 
   // ok, let's connect everything into an assembly
   G4AssemblyVolume *shielding = new G4AssemblyVolume();
@@ -656,52 +527,52 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 
   // reactor poly shielding, completely filling the small part for now
   G4Box *poly_TC = new G4Box("poly_TC", TCPoly_thick/2.,thermalC_height_small/2.,thermalC_height_small/2.);
-  G4LogicalVolume *polyTC_log = new G4LogicalVolume(poly_TC,HDPE,"polyTC_log");
+  G4LogicalVolume *polyTC_log = new G4LogicalVolume(poly_TC,mats->GetBoratedPoly05(),"polyTC_log");
 
   // reactor Front lead shielding
   G4Box *lead_TC = new G4Box("lead_TC",TCLead_thick/2.,thermalC_height_small/2.,thermalC_height_small/2.);
-  G4LogicalVolume *leadTC_log = new G4LogicalVolume(lead_TC,shieldLead,"leadTC_log");
+  G4LogicalVolume *leadTC_log = new G4LogicalVolume(lead_TC,mats->GetShieldLead(),"leadTC_log");
 
 
   // icebox oversimplified for now, three concentric cans with a can thickness of space between each
   G4Tubs *icebox1_out = new G4Tubs("icebox1_out", 0., iceboxRadius, iceboxHeight/2.,0,360*deg);
   G4Tubs *icebox1_in = new G4Tubs("icebox1_in", 0., iceboxRadius - iceboxThick, iceboxHeight/2. - iceboxThick,0,360*deg);
   G4SubtractionSolid *icebox1 = new G4SubtractionSolid("icebox1",icebox1_out,icebox1_in);
-  G4LogicalVolume *icebox1_log = new G4LogicalVolume(icebox1,copper,"icebox1_log");
+  G4LogicalVolume *icebox1_log = new G4LogicalVolume(icebox1,mats->GetCopper(),"icebox1_log");
 
   G4Tubs *icebox2_out = new G4Tubs("icebox2_out", 0., iceboxRadius - 2*iceboxThick, iceboxHeight/2. - 2*iceboxThick,0,360*deg);
   G4Tubs *icebox2_in = new G4Tubs("icebox2_in", 0., iceboxRadius - 3*iceboxThick, iceboxHeight/2. - 3*iceboxThick,0,360*deg);
   G4SubtractionSolid *icebox2 = new G4SubtractionSolid("icebox2",icebox2_out,icebox2_in);
-  G4LogicalVolume *icebox2_log = new G4LogicalVolume(icebox2,copper,"icebox2_log");
+  G4LogicalVolume *icebox2_log = new G4LogicalVolume(icebox2,mats->GetCopper(),"icebox2_log");
 
   G4Tubs *icebox3_out = new G4Tubs("icebox3_out", 0., iceboxRadius - 4*iceboxThick, iceboxHeight/2. - 4*iceboxThick,0,360*deg);
   G4Tubs *icebox3_in = new G4Tubs("icebox3_in", 0., iceboxRadius - 5*iceboxThick, iceboxHeight/2. - 5*iceboxThick,0,360*deg);
   G4SubtractionSolid *icebox3 = new G4SubtractionSolid("icebox3",icebox3_out,icebox3_in);
-  G4LogicalVolume *icebox3_log = new G4LogicalVolume(icebox3,copper,"icebox3_log");
+  G4LogicalVolume *icebox3_log = new G4LogicalVolume(icebox3,mats->GetCopper(),"icebox3_log");
 
   // Let's put some detectors in the icebox, they can just float for now
   G4Tubs *det = new G4Tubs("det",0.,2*in,detThick/2.,0,360*deg);
-  G4LogicalVolume *det1_log = new G4LogicalVolume(det, det_Ge,"det1_log");
-  G4LogicalVolume *det2_log = new G4LogicalVolume(det, det_Ge,"det2_log");
-  G4LogicalVolume *det3_log = new G4LogicalVolume(det, det_Ge,"det3_log");
-  G4LogicalVolume *det4_log = new G4LogicalVolume(det, det_Ge,"det4_log");
-  G4LogicalVolume *det5_log = new G4LogicalVolume(det, det_Si,"det5_log");
-  G4LogicalVolume *det6_log = new G4LogicalVolume(det, det_Si,"det6_log");
-  G4LogicalVolume *det7_log = new G4LogicalVolume(det, det_Si,"det7_log");
-  G4LogicalVolume *det8_log = new G4LogicalVolume(det, det_Si,"det8_log");
+  G4LogicalVolume *det1_log = new G4LogicalVolume(det, mats->GetDetGe(),"det1_log");
+  G4LogicalVolume *det2_log = new G4LogicalVolume(det, mats->GetDetGe(),"det2_log");
+  G4LogicalVolume *det3_log = new G4LogicalVolume(det, mats->GetDetGe(),"det3_log");
+  G4LogicalVolume *det4_log = new G4LogicalVolume(det, mats->GetDetGe(),"det4_log");
+  G4LogicalVolume *det5_log = new G4LogicalVolume(det, mats->GetDetSi(),"det5_log");
+  G4LogicalVolume *det6_log = new G4LogicalVolume(det, mats->GetDetSi(),"det6_log");
+  G4LogicalVolume *det7_log = new G4LogicalVolume(det, mats->GetDetSi(),"det7_log");
+  G4LogicalVolume *det8_log = new G4LogicalVolume(det, mats->GetDetSi(),"det8_log");
   // should have slightly more than 3" for spacing of detectors
 
   // poly around the icebox
   G4Box *poly_IBshield_out = new G4Box("poly_IBshield_out",iceboxRadius+iceboxPoly_thick,iceboxRadius+iceboxPoly_thick,iceboxHeight/2. + iceboxPoly_thick);
   G4Box *poly_IBshield_in = new G4Box("poly_IBshield_in",iceboxRadius,iceboxRadius,iceboxHeight/2.);
   G4SubtractionSolid *poly_IBshield = new G4SubtractionSolid("poly_IBshield",poly_IBshield_out,poly_IBshield_in);
-  G4LogicalVolume *polyIBshield_log = new G4LogicalVolume(poly_IBshield,HDPE,"poly_IBshield_log");
+  G4LogicalVolume *polyIBshield_log = new G4LogicalVolume(poly_IBshield,mats->GetBoratedPoly05(),"poly_IBshield_log");
 
   // lead around the icebox
   G4Box *lead_IBshield_out = new G4Box("lead_IBshield_out",iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxHeight/2. +iceboxPoly_thick+ iceboxLead_thick);
   G4Box *lead_IBshield_in = new G4Box("lead_IBshield_in",iceboxRadius+iceboxPoly_thick,iceboxRadius+iceboxPoly_thick,iceboxHeight/2. + iceboxPoly_thick);
   G4SubtractionSolid *lead_IBshield = new G4SubtractionSolid("lead_IBshield",lead_IBshield_out,lead_IBshield_in);
-  G4LogicalVolume *leadIBshield_log = new G4LogicalVolume(lead_IBshield,shieldLead,"lead_IBshield_log");
+  G4LogicalVolume *leadIBshield_log = new G4LogicalVolume(lead_IBshield,mats->GetShieldLead(),"lead_IBshield_log");
 
   // poly around the IB lead shielding
   G4Box *poly_outershield_out = new G4Box("poly_outershield_out",iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2. + iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
@@ -711,22 +582,22 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector  poly_outer_back_place(iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_back_thick/2.,0,0);
   G4Box *poly_outershield_back = new G4Box("poly_outershield_back",outerPoly_back_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2.+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
   G4UnionSolid *poly_outershield = new G4UnionSolid("poly_outershield",poly_outershield_shell,poly_outershield_back,0,poly_outer_back_place);
-  G4LogicalVolume *polyoutershield_log = new G4LogicalVolume(poly_outershield,HDPE,"poly_outershield_log");
+  G4LogicalVolume *polyoutershield_log = new G4LogicalVolume(poly_outershield,mats->GetBoratedPoly05(),"poly_outershield_log");
 
   //scintillator veto, just top and bottom, this means there will be some extra space on the sides
   G4Box *muVeto = new G4Box("muVeto",iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_back_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,muVeto_thick/2.);
-  G4LogicalVolume *muVetoTop_log = new G4LogicalVolume(muVeto,NE213 ,"muVetoTop_log");
-  G4LogicalVolume *muVetoBottom_log = new G4LogicalVolume(muVeto,NE213 ,"muVetoBottom_log");
+  G4LogicalVolume *muVetoTop_log = new G4LogicalVolume(muVeto,mats->GetAcrylic() ,"muVetoTop_log");
+  G4LogicalVolume *muVetoBottom_log = new G4LogicalVolume(muVeto,mats->GetAcrylic() ,"muVetoBottom_log");
   //back scintillator
   G4Box *backScint = new G4Box("backScint",backScint_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2.+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
-  G4LogicalVolume *backScint_log = new G4LogicalVolume(backScint,NE213 ,"backScint_log");
+  G4LogicalVolume *backScint_log = new G4LogicalVolume(backScint,mats->GetAcrylic() ,"backScint_log");
 
 
   // Lead next to the liner on outside of thermal column
   G4Box *lead_outershield_in = new G4Box("lead_outershield_in",2*m,thermalC_height_big/2. -outerLead_thick,thermalC_height_big/2. -outerLead_thick);
   G4Box *lead_outershield_out = new G4Box("lead_outershield_out",(thermalC_length_big-aluminumPlate_thick)/2.,thermalC_height_big/2.,thermalC_height_big/2.);
   G4SubtractionSolid *lead_outershield = new G4SubtractionSolid("lead_outershield",lead_outershield_out,lead_outershield_in);
-  G4LogicalVolume *leadoutershield_log = new G4LogicalVolume(lead_outershield,shieldLead,"lead_outershield_log");
+  G4LogicalVolume *leadoutershield_log = new G4LogicalVolume(lead_outershield,mats->GetShieldLead(),"lead_outershield_log");
 
   // ok, let's connect everything into an assembly
   G4AssemblyVolume *shielding = new G4AssemblyVolume();
@@ -788,7 +659,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   RotDet->rotateZ(-pi/4.);
   RotDet->rotateX(0.);
   RotDet->rotateY(-pi/2.);
-  fLogicDet = new G4LogicalVolume(target, det_Ge,"Craig_log");
+  G4LogicalVolume *fLogicDet = new G4LogicalVolume(target, mats->GetDetGe(),"Craig_log");
 
   G4double tubeAthick = (1./16.)*in;
   G4double tubeAlen = 4.38*in;
@@ -840,16 +711,23 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4Tubs *liqN2_TubeC = new G4Tubs("liqN2_TubeC", 0., tubeCdia/2. - tubeCthick, tubeClen/2.,0,360*deg);
   G4Tubs *liqN2_TubeD = new G4Tubs("liqN2_TubeD", 0., tubeDdia/2. - tubeDthick, tubeDlen/2. - tubeDthick,0,360*deg);
 
+  // optional 2" lead shield
+  G4Box *detLeadShield_out = new G4Box("detLeadShield_out", 8.*in/2., 8.*in/2.,10.*in/2.);
+  G4Box *detLeadShield_in = new G4Box("detLeadShield_in", 4.*in/2., 4.*in/2.,8.*in/2.);
+  G4ThreeVector leadInPos(0.,0.,-1.*in);
+  G4SubtractionSolid *detLeadShield = new G4SubtractionSolid("detLeadShield",detLeadShield_out,detLeadShield_in,0,leadInPos);
+  G4ThreeVector detLead_Pos = tubeAPos + G4ThreeVector(0.,0.,0.5*in);
 
-  G4LogicalVolume *fLogicDetTubeA = new G4LogicalVolume(detTubeA, nistManager->FindOrBuildMaterial("G4_Al"),"detTubeA_log");
-  G4LogicalVolume *fLogicDetTubeB = new G4LogicalVolume(detTubeB, nistManager->FindOrBuildMaterial("G4_Al"),"detTubeB_log");
-  G4LogicalVolume *fLogicDetTubeC = new G4LogicalVolume(detTubeC, StainlessSteel,"detTubeC_log");
-  G4LogicalVolume *fLogicDetTubeD = new G4LogicalVolume(detTubeD, StainlessSteel,"detTubeD_log");
-  G4LogicalVolume *fLogicDetLiN2A = new G4LogicalVolume(liqN2_TubeA,liquidNitrogen,"liqN2_TubeA_log");
-  G4LogicalVolume *fLogicDetLiN2B = new G4LogicalVolume(liqN2_TubeB,liquidNitrogen,"liqN2_TubeB_log");
-  G4LogicalVolume *fLogicDetLiN2C = new G4LogicalVolume(liqN2_TubeC,liquidNitrogen,"liqN2_TubeC_log");
-  G4LogicalVolume *fLogicDetLiN2D = new G4LogicalVolume(liqN2_TubeD,liquidNitrogen,"liqN2_TubeD_log");
 
+  G4LogicalVolume *fLogicDetTubeA = new G4LogicalVolume(detTubeA, mats->GetAluminum(),"detTubeA_log");
+  G4LogicalVolume *fLogicDetTubeB = new G4LogicalVolume(detTubeB, mats->GetAluminum(),"detTubeB_log");
+  G4LogicalVolume *fLogicDetTubeC = new G4LogicalVolume(detTubeC, mats->GetStainlessSteel(),"detTubeC_log");
+  G4LogicalVolume *fLogicDetTubeD = new G4LogicalVolume(detTubeD, mats->GetStainlessSteel(),"detTubeD_log");
+  G4LogicalVolume *fLogicDetLiN2A = new G4LogicalVolume(liqN2_TubeA,mats->GetLiN2(),"liqN2_TubeA_log");
+  G4LogicalVolume *fLogicDetLiN2B = new G4LogicalVolume(liqN2_TubeB,mats->GetLiN2(),"liqN2_TubeB_log");
+  G4LogicalVolume *fLogicDetLiN2C = new G4LogicalVolume(liqN2_TubeC,mats->GetLiN2(),"liqN2_TubeC_log");
+  G4LogicalVolume *fLogicDetLiN2D = new G4LogicalVolume(liqN2_TubeD,mats->GetLiN2(),"liqN2_TubeD_log");
+  G4LogicalVolume *fLogicDetLead = new G4LogicalVolume(detLeadShield,mats->GetShieldLead(),"detLeadShield_log");
 
 
   fullDet->AddPlacedVolume(fLogicDetTubeA,tubeAPos,zeroRot);
@@ -861,9 +739,10 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   fullDet->AddPlacedVolume(fLogicDetLiN2C,tubeCPos,zeroRot);
   fullDet->AddPlacedVolume(fLogicDetLiN2D,tubeDPos,zeroRot);
   fullDet->AddPlacedVolume(fLogicDet,zeroPos,zeroRot);
+  fullDet->AddPlacedVolume(fLogicDetLead,detLead_Pos,zeroRot);
 
 
-  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick + 12.*3.*in,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);  // 3 ft outside thermal column
+  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick - 7.5*in - tubeDlen - tubeClen - tubeBlen - tubeAlen + 0.5*detHalfZ,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);  // 3 ft outside thermal column
 
 
   // collecting placements here to make it easy to turn stuff off
@@ -874,9 +753,10 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   new G4PVPlacement(0,bioShieldPlacement,bioShield_log,"bioShield_phys",universe_log,false,0,fCheckOverlaps);
   new G4PVPlacement(0,poolSSPlacement,poolSS_log,"poolSS_phys",universe_log,false,0,fCheckOverlaps);
   new G4PVPlacement(0,TC_SS_placement,TC_SS_log,"TC_SS_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,TC_Alext_placement,TC_Alext_log,"TC_Alext_phys",universe_log,false,0,fCheckOverlaps);
   new G4PVPlacement(0,TC_Al_placement,TC_Al_log,"TC_Al_phys",universe_log,false,0,fCheckOverlaps);
-  door->MakeImprint(universe_log,posDoor,zeroRot,0,fCheckOverlaps);
-//  fullDet->MakeImprint(universe_log,posDet,RotDet,0,fCheckOverlaps);
+  //door->MakeImprint(universe_log,posDoor,zeroRot,0,fCheckOverlaps);
+  //fullDet->MakeImprint(universe_log,posDet,RotDet,0,fCheckOverlaps);
   shielding->MakeImprint(universe_log,posShield,zeroRot,0,fCheckOverlaps);
 
 
@@ -959,6 +839,9 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 }
 
 
+G4VPhysicalVolume *GeometryConstruction::GetWorldVolume() {
+   return fUniverse_phys;
+}
 
 
 

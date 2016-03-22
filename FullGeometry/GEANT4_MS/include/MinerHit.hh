@@ -62,7 +62,7 @@ class MinerHit : public G4VHit
     void SetParticleEnergy (G4double e1){ fEnergy = e1; };
     void SetPreProcess (G4int pre)      { fPreProc = pre; };
     void SetPostProcess (G4int post)      { fPostProc = post; };
-
+    void SetWeight (G4double weight)     { fWeight = weight; };
 
     // Get methods
     G4int GetTrackID() const     { return fTrackID; };
@@ -74,7 +74,7 @@ class MinerHit : public G4VHit
     G4double GetParticleEnergy() const { return fEnergy; };
     G4int GetPreProcess() const  {return fPreProc; };
     G4int GetPostProcess() const  {return fPostProc; };
-
+    G4double GetWeight() const {return fWeight; };
 
   private:
 
@@ -87,6 +87,7 @@ class MinerHit : public G4VHit
       G4ThreeVector fPos;
       G4ThreeVector fMom;
       G4double      fEnergy;
+      G4double      fWeight;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

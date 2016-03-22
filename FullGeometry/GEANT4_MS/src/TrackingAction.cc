@@ -37,6 +37,7 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 #include "RootIO.hh"
+#include "G4TrackingManager.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
@@ -49,14 +50,28 @@ TrackingAction::TrackingAction()
 void TrackingAction::PreUserTrackingAction(const G4Track* track)
 {
 
-   if (track->GetParentID() == 0){ RootIO::GetInstance()->AddTrack(track); }
-  //if (track->GetDynamicParticle()->GetPDGcode() == 2112 || track->GetDynamicParticle()->GetPDGcode() == 22) { RootIO::GetInstance()->AddTrack(track); }
-  
+   if (track->GetParentID() == 0){
+       RootIO::GetInstance()->SetIncomingE(track->GetKineticEnergy());
+       RootIO::GetInstance()->AddTrack(track);
+   }
+
+   if (track->GetParentID() != 0){
+     if (  track->GetCreatorProcess()->GetProcessName() == "ImportanceProcess"){
+        RootIO::GetInstance()->AddTrack(track);
+     }
+   }
+
 }
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo....
 
+void TrackingAction::PostUserTrackingAction(const G4Track* track)
+{
+
+
+
+}
 
 
 

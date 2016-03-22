@@ -125,6 +125,12 @@ RootIO* RootIO::GetInstance()
   return instance;
 }
 
+void RootIO::SetIncomingE(G4double en)
+{
+
+  eInc = en;
+
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -141,6 +147,7 @@ void RootIO::AddHits(MinerHitsCollection * zipHits, G4int detID)
       hit->SetPid((*zipHits)[i]->GetPDGID());
       hit->SetDetID(detID);
       hit->SetTime((*zipHits)[i]->GetTime());
+      hit->SetWeight((*zipHits)[i]->GetWeight());
       hit->SetPreProcess((*zipHits)[i]->GetPreProcess());
       hit->SetPostProcess((*zipHits)[i]->GetPostProcess());
       hit->SetInc(0);
@@ -153,21 +160,16 @@ void RootIO::AddHits(MinerHitsCollection * zipHits, G4int detID)
 void RootIO::AddTrack(const G4Track*  trk)
 {
 
-  G4double ekin           = trk->GetKineticEnergy();
-  G4double weight         = trk->GetWeight();
+  //G4double ekin           = trk->GetKineticEnergy();
+  //G4double weight         = trk->GetWeight();
 
-  G4ThreeVector vertex    = trk->GetPosition();
+  
+
+  G4ThreeVector vertex = trk->GetVertexPosition ();
   G4double x = vertex.x(), y = vertex.y(), z = vertex.z();
 
   G4ThreeVector mom = trk->GetMomentum();
   G4double px = mom.x(), py = mom.y(), pz = mom.z();
-
-  if (trk->GetParentID() == 0) { eInc = trk->GetKineticEnergy(); }
-
-  //if (trk->GetParentID() == 0) { 
-  //  G4cout << trk->GetCreatorProcess()->GetProcessName() << G4endl;
-  //}
-
 
   BaseTrack* tr = new ((*sTracks)[trackC]) BaseTrack;
   tr->Setp4(px,py,pz,trk->GetTotalEnergy());
@@ -176,6 +178,7 @@ void RootIO::AddTrack(const G4Track*  trk)
   tr->SetTime(trk->GetGlobalTime());
   tr->SetInc(trk->GetParentID());
   trackC++;
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

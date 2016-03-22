@@ -12,6 +12,7 @@ private:
     int _pid;
     float _edep;
     float _ekin;
+    float _weight;
     int _detID;
     float _time;
     int _inc;
@@ -27,6 +28,7 @@ public:
     TVector3 pos() const;
     TVector3 p3() const;
     int pid() const;
+    float Weight() const;
     float Edep() const;
     float Ekin() const;
     int detID() const;
@@ -44,6 +46,7 @@ public:
     void SetDetID(int d);
     void SetTime(float t);
     void SetInc(int i);
+    void SetWeight(float w);
     void SetPreProcess(int p);
     void SetPostProcess(int p);
 

@@ -26,6 +26,10 @@ int BaseHit::pid() const {
    return _pid;
 }
 
+float BaseHit::Weight() const {
+   return _weight;
+}
+
 float BaseHit::Edep() const {
    return _edep;
 }
@@ -73,6 +77,11 @@ void BaseHit::Setp3(float px, float py, float pz) {
 void BaseHit::SetPid(int id){
    _pid = id;
 }
+
+void BaseHit::SetWeight(float w) {
+   _weight = w;
+}
+
 
 void BaseHit::SetDetID(int d) {
    _detID = d;

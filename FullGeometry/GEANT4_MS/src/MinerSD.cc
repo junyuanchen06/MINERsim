@@ -80,9 +80,6 @@ G4bool MinerSD::ProcessHits(G4Step* aStep,
   G4int postproc = 0;
   G4int preproc = 0;
 
-  if (aStep->GetTrack()->GetParentID() == 0){  
-     newHit->SetPreProcess(1);
-  } else { newHit->SetPreProcess(1); }
 
   newHit->SetMom(aStep->GetTrack()->GetMomentum());
   newHit->SetTrackID  (aStep->GetTrack()->GetTrackID());
@@ -91,7 +88,8 @@ G4bool MinerSD::ProcessHits(G4Step* aStep,
   newHit->SetEdep(aStep->GetTotalEnergyDeposit());
   newHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
   newHit->SetParticleEnergy(aStep->GetPreStepPoint()->GetKineticEnergy()); 
-  //newHit->SetPreProcess(preproc);
+  newHit->SetWeight(aStep->GetTrack()->GetWeight());  
+  newHit->SetPreProcess(preproc);
   newHit->SetPostProcess(postproc);
 
   fHitsCollection->insert( newHit );

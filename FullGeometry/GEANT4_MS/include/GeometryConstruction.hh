@@ -34,6 +34,8 @@
 
 class G4VPhysicalVolume;
 class G4Material;
+class G4VIStore;
+class G4VWeightWindowStore;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -46,14 +48,30 @@ class GeometryConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
 
+    G4VIStore* CreateImportanceStore();
+    // create an importance store, caller is responsible for deleting it
+
+    G4VWeightWindowStore *CreateWeightWindowStore();
+    // create an weight window  store, caller is responsible for 
+    // deleting it
+
+    void SetSensitive();
+
+    inline G4VIStore* GetGeomStore(){return aIstore;};
+
+
+    G4VPhysicalVolume* GetWorldVolume();
 
 
   private:
     G4VPhysicalVolume* fUniverse_phys;
 
-    G4LogicalVolume* fLogicVac1;
-    G4LogicalVolume* fLogicVac2;
-    G4LogicalVolume* fLogicDet;
+    std::vector< G4LogicalVolume * > fLogicalVolumeVector;
+    std::vector< G4VPhysicalVolume * > fPhysicalVolumeVector;
+
+
+    G4VIStore *aIstore;
+
 
 };
     
