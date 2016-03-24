@@ -32,6 +32,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #include "TrackingAction.hh"
+#include "TrackExtra.hh"
 
 #include "G4Track.hh"
 #include "G4SystemOfUnits.hh"
@@ -53,6 +54,9 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
    if (track->GetParentID() == 0){
        RootIO::GetInstance()->SetIncomingE(track->GetKineticEnergy());
        RootIO::GetInstance()->AddTrack(track);
+       G4Track *mutableTrack = fpTrackingManager->GetTrack();
+       TrackExtra *info = new TrackExtra(track);
+       mutableTrack->SetUserInformation(info);
    }
 
    if (track->GetParentID() != 0){
@@ -69,6 +73,67 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
 void TrackingAction::PostUserTrackingAction(const G4Track* track)
 {
 
+  G4Track *mutableTrack = fpTrackingManager->GetTrack();
+
+  if (track->GetParentID() == 0){
+
+     G4TrackVector* secondaries = fpTrackingManager->GimmeSecondaries();
+     if(secondaries)
+     {
+       TrackExtra* info = (TrackExtra*)(track->GetUserInformation());
+       size_t nSeco = secondaries->size();
+       if(nSeco>0)
+       {
+         for(size_t i=0;i<nSeco;i++)
+         { 
+           TrackExtra* infoNew = new TrackExtra(info);
+           (*secondaries)[i]->SetUserInformation(infoNew);
+         }
+       }
+     }
+  }
+
+
+
+  if (track->GetParentID() != 0){
+
+     if (  track->GetCreatorProcess()->GetProcessName() == "ImportanceProcess"){
+
+        TrackExtra *info = new TrackExtra(track);
+        mutableTrack->SetUserInformation(info);        
+        G4TrackVector* secondaries = fpTrackingManager->GimmeSecondaries();
+        if(secondaries)
+        {
+          size_t nSeco = secondaries->size();
+          if(nSeco>0)
+          {
+            for(size_t i=0;i<nSeco;i++)
+            {
+              TrackExtra* infoNew = new TrackExtra(info);
+              (*secondaries)[i]->SetUserInformation(infoNew);
+            }
+          }
+        }
+     }
+
+     else {
+        G4TrackVector* secondaries = fpTrackingManager->GimmeSecondaries();
+        if(secondaries)
+        { 
+          TrackExtra* info = (TrackExtra*)(track->GetUserInformation());
+          size_t nSeco = secondaries->size();
+          if(nSeco>0)
+          { 
+            for(size_t i=0;i<nSeco;i++)
+            { 
+              TrackExtra* infoNew = new TrackExtra(info);
+              (*secondaries)[i]->SetUserInformation(infoNew);
+            }
+          }
+        }
+     }
+
+  }
 
 
 }

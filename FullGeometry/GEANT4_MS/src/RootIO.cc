@@ -186,8 +186,10 @@ void RootIO::AddTrack(const G4Track*  trk)
 void RootIO::Write()
 {
 
-  event++;
-  theTree->Fill();
+  if (hitC > 0){
+    event++;
+    theTree->Fill();
+  }
   sHits->Clear();
   sTracks->Clear();
   hitC = 0;

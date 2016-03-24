@@ -31,7 +31,7 @@
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 #include "G4VProcess.hh"
-
+#include "TrackExtra.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -72,13 +72,17 @@ G4bool MinerSD::ProcessHits(G4Step* aStep,
   // energy deposit
   G4double edep = aStep->GetTotalEnergyDeposit();
 
-  //if (edep==0.) return false;
+
+  if (edep==0.) return false;
+
+  TrackExtra *info = (TrackExtra*)(aStep->GetTrack()->GetUserInformation());
+  //G4cout << "Original Track ID " << info->GetOriginalTrackID() << G4endl;
 
   MinerHit* newHit = new MinerHit();
 
 
   G4int postproc = 0;
-  G4int preproc = 0;
+  //G4int preproc = 0;
 
 
   newHit->SetMom(aStep->GetTrack()->GetMomentum());
@@ -89,7 +93,7 @@ G4bool MinerSD::ProcessHits(G4Step* aStep,
   newHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
   newHit->SetParticleEnergy(aStep->GetPreStepPoint()->GetKineticEnergy()); 
   newHit->SetWeight(aStep->GetTrack()->GetWeight());  
-  newHit->SetPreProcess(preproc);
+  newHit->SetPreProcess(info->GetOriginalTrackID());
   newHit->SetPostProcess(postproc);
 
   fHitsCollection->insert( newHit );

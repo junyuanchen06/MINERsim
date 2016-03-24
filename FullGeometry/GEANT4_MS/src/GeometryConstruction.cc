@@ -185,12 +185,12 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
                                          //  and also = the length of the extension that's aluminum instead of SS
 
 
-  //G4cout << water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small-SSPlate_thick-gb_depth << 0. << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
+  G4cout << water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small-SSPlate_thick-gb_depth << 0. << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
   //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out + 0.5*thermalC_height_small << G4endl;
   //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out - 0.5*thermalC_height_small << G4endl;
   //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0.5*thermalC_height_small  << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
 
-  G4cout << poolC_to_TC - 3.86*m << "  " << 0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
+  //G4cout << poolC_to_TC - 3.86*m << "  " << 0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
 
   // floor
   // fill the entire world volume x and y with floor
