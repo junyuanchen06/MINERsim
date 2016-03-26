@@ -78,6 +78,12 @@ void EventAction::EndOfEventAction(const G4Event* event)
   MinerHitsCollection*  det8Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det8_hits")));
 
 
+  MinerHitsCollection*  insideIBHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_insideIB_hits")));
+  MinerHitsCollection*  atNeutronDetHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atNeutronDet_hits")));
+  MinerHitsCollection*  atLeadHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atLead_hits")));
+  MinerHitsCollection*  atStartTCHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atStartTC_hits")));
+
+
   RootIO::GetInstance()->AddHits(craigHits,12);
   RootIO::GetInstance()->AddHits(muVetoTopHits,9);
   RootIO::GetInstance()->AddHits(muVetoBottomHits,10);
@@ -91,6 +97,10 @@ void EventAction::EndOfEventAction(const G4Event* event)
   RootIO::GetInstance()->AddHits(det7Hits,7);
   RootIO::GetInstance()->AddHits(det8Hits,8);
 
+  RootIO::GetInstance()->AddHits(insideIBHits,13);
+  RootIO::GetInstance()->AddHits(atNeutronDetHits,14);
+  RootIO::GetInstance()->AddHits(atLeadHits,15);
+  //RootIO::GetInstance()->AddHits(atStartTCHits,16);
 
   RootIO::GetInstance()->Write();
 

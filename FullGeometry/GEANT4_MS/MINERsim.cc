@@ -55,6 +55,7 @@
 // stuff for importance sampling
 #include "G4GeometryManager.hh"
 #include "ImportanceGeometryConstruction.hh"
+#include "MonitorGeometryConstruction.hh"
 #include "G4ImportanceBiasing.hh"
 #include "G4ParallelWorldPhysics.hh"
 #include "G4GeometrySampler.hh"
@@ -87,16 +88,16 @@ int main(int argc,char** argv) {
   ImportanceGeometryConstruction *pdet = new ImportanceGeometryConstruction("ParallelBiasingWorld");
   detector->RegisterParallelWorld(pdet);
 
-  G4GeometrySampler pgsN(pdet->GetWorldVolume(),"neutron");
-  G4GeometrySampler pgsG(pdet->GetWorldVolume(),"gamma");
-  pgsG.SetParallel(true);
-  pgsN.SetParallel(true);
+  MonitorGeometryConstruction *mondet = new MonitorGeometryConstruction("ParallelMonitoringWorld");
+  detector->RegisterParallelWorld(mondet);
 
+  G4GeometrySampler pgs(pdet->GetWorldVolume(),"gamma");
+  pgs.SetParallel(true);
 
   G4VModularPhysicsList *physicsList = new Shielding;
   physicsList->RegisterPhysics(new G4ParallelWorldPhysics("ParallelBiasingWorld"));
-  physicsList->RegisterPhysics(new G4ImportanceBiasing(&pgsG,"ParallelBiasingWorld"));
-  physicsList->RegisterPhysics(new G4ImportanceBiasing(&pgsN,"ParallelBiasingWorld"));
+  physicsList->RegisterPhysics(new G4ImportanceBiasing(&pgs,"ParallelBiasingWorld"));
+  physicsList->RegisterPhysics(new G4ParallelWorldPhysics("ParallelMonitoringWorld"));
 
   /*
   // add thermal neutron model
@@ -163,8 +164,7 @@ int main(int argc,char** argv) {
   // job termination
   //
   G4GeometryManager::GetInstance()->OpenGeometry();
-  pgsG.ClearSampling();
-  pgsN.ClearSampling();
+  pgs.ClearSampling();
   delete runManager;
   
   return 0;

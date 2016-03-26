@@ -73,7 +73,7 @@ G4bool MinerSD::ProcessHits(G4Step* aStep,
   G4double edep = aStep->GetTotalEnergyDeposit();
 
 
-  if (edep==0.) return false;
+  //if (edep==0.) return false;
 
   TrackExtra *info = (TrackExtra*)(aStep->GetTrack()->GetUserInformation());
   //G4cout << "Original Track ID " << info->GetOriginalTrackID() << G4endl;

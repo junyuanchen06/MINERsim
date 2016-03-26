@@ -785,46 +785,6 @@ void ImportanceGeometryConstruction::SetSensitive(){
 void ImportanceGeometryConstruction::ConstructSD()
 {
 
-  // to be implemented
-  /*
-  G4SDManager* SDman = G4SDManager::GetSDMpointer();
-
-  G4SDParticleFilter* neutronFilter = new G4SDParticleFilter("neutronFilter", "neutron");
-  G4SDParticleFilter* gammaFilter = new G4SDParticleFilter("gammaFilter", "gamma");
-
-
-  G4int i = 0;
-  for (std::vector<G4LogicalVolume *>::iterator it = fLogicalVolumeVector.begin();it != fLogicalVolumeVector.end(); it++){
-
-
-    G4MultiFunctionalDetector* NeutronDet =  new G4MultiFunctionalDetector((*it)->GetName()+"_neutron_tally");
-    SDman->AddNewDetector( NeutronDet );                 // Register SD to SDManager
-
-    G4MultiFunctionalDetector* GammaDet =  new G4MultiFunctionalDetector((*it)->GetName()+"_gamma_tally");
-    SDman->AddNewDetector( GammaDet );                 // Register SD to SDManager
-
-    NeutronDet->SetFilter(neutronFilter);
-    GammaDet->SetFilter(gammaFilter);
-
-
-    SetSensitiveDetector((*it)->GetName(), NeutronDet);
-    SetSensitiveDetector((*it)->GetName(), GammaDet);
-
-    G4String number = static_cast<std::ostringstream*>( &(std::ostringstream() << i) )->str();
-
-    G4PSPopulation*   scorer1 = new G4PSPopulation("Population_neutron_"+number);
-    G4PSPopulation*   scorer2 = new G4PSPopulation("Population_gamma_"+number);
-    G4PSTrackCounter* scorer3 =  new G4PSTrackCounter("TrackEnter_neutron_"+number,fCurrent_In);
-    G4PSTrackCounter* scorer4 =  new G4PSTrackCounter("TrackEnter_gamma+"+number,fCurrent_In);
-
-    NeutronDet->RegisterPrimitive(scorer1);
-    GammaDet->RegisterPrimitive(scorer2);
-    NeutronDet->RegisterPrimitive(scorer3);
-    GammaDet->RegisterPrimitive(scorer4);
-    i++;
-  }
-  */
-
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
