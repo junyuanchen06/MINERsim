@@ -1,4 +1,25 @@
+"""
+DISCLAIMER:
+
+numpy, scipy & matplotlib are required for running this macro. 
+If you do NOT have these packages or thier latest versions, please download them using the following commands:-
+
+pip install numpy
+pip install scipy
+pip install matplotlib
+
+Some python 2.7 or less do not have 'pip' as a default. To get pip, run following .py file
+https://bootstrap.pypa.io/get-pip.py
+"""
+
 import numpy as np
+import matplotlib.pyplot as plt
+import scipy
+
+try:
+    input = raw_input
+except NameError:
+    pass
 
 #Build Matrices from .txt files
 print("Building Matrices...")
@@ -356,11 +377,11 @@ print("Build the Shielding scheme you wish to analyse")
 typs=[]
 thicks=[]
 flag=True
-dict={'1':"Pb",'2':"HDC",'3':"Water",'4':"Poly",'5':"Gd","6":"Ge","7":"Si"}
+dictMat={'1':"Pb",'2':"HDC",'3':"Water",'4':"Poly",'5':"Gd","6":"Ge","7":"Si"}
 while(flag):
   typ=input("Add a Layer\n Press 1 for Pb \n Press 2 for HDC \n Press 3 for Water \n Press 4 for Polyethylene \n Press 5 for Gadolinium \n Press 6 for Germanium \n Press 7 for Silicon \nInput: ")
   thick=input("Input thickness in cm: ")
-  typs.append(dict[typ])
+  typs.append(dictMat[typ])
   thicks.append(thick)
   
   inp=input("Press 0 if done, Press Enter/Return to add another Layer\n")
@@ -403,3 +424,4 @@ plt.xlabel("Energy (keV)")
 plt.ylabel("Number of Entries")
 plt.legend([i_n,i_g,o_n,o_g], ["Input Neutron Spectrum","Input Gamma Spectrum","Output Neutron Spectrum","Output Gamma Spectrum"])
 #plt.yscale("log")
+plt.show()
