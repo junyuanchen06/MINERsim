@@ -68,6 +68,7 @@ target_link_libraries(MINERsim hit track ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 #
 set(MINERsim_SCRIPTS
     MINERsim.in
+     MCNP_gamma_pdf.gdat
   )
 
 foreach(_script ${MINERsim_SCRIPTS})
