@@ -106,17 +106,46 @@ void MonitorGeometryConstruction::Construct()
   G4LogicalVolume *atNeutronDet_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atNeutronDet_log");
   G4LogicalVolume *atLead_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atLead_log");
   G4LogicalVolume *atStartTC_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atStartTC_log");
+  G4LogicalVolume *atPoly1_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly1_log");
+  G4LogicalVolume *atPoly2_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly2_log");
+  G4LogicalVolume *atPoly3_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly3_log");
+  G4LogicalVolume *atPoly4_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly4_log");
+  G4LogicalVolume *atPoly5_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly5_log");
+  G4LogicalVolume *atPoly6_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly6_log");
+  G4LogicalVolume *atPoly7_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly7_log");
+  G4LogicalVolume *atPoly8_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly8_log");
+  G4LogicalVolume *atPoly9_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atPoly9_log");
+
 
   G4ThreeVector   posShield(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big + iceboxRadius+iceboxPoly_thick+iceboxLead_thick+TCLead_thick , 0, -(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   atNeutronDet_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick),0.,posShield.z());
   G4ThreeVector   atLead_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick,0.,posShield.z());
   G4ThreeVector   atStartTC_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - TCPoly_thick - SSPlate_thick,0.,posShield.z());
 
+  G4ThreeVector   atPoly1_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.9*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly2_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.8*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly3_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.7*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly4_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.6*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly5_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.5*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly6_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.4*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly7_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.3*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly8_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.2*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+  G4ThreeVector   atPoly9_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - 0.1*TCPoly_thick - SSPlate_thick,0.,posShield.z());
+
 
   new G4PVPlacement(0,posShield,insideIB_log,"insideIB_phys",worldLogical,false,0,false);
   new G4PVPlacement(0,atNeutronDet_place,atNeutronDet_log,"atNeutronDet_phys",worldLogical,false,0,false);
   new G4PVPlacement(0,atLead_place,atLead_log,"atLead_phys",worldLogical,false,0,false);
   new G4PVPlacement(0,atStartTC_place,atStartTC_log,"atStartTC_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly1_place,atPoly1_log,"atPoly1_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly2_place,atPoly2_log,"atPoly2_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly3_place,atPoly3_log,"atPoly3_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly4_place,atPoly4_log,"atPoly4_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly5_place,atPoly5_log,"atPoly5_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly6_place,atPoly6_log,"atPoly6_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly7_place,atPoly7_log,"atPoly7_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly8_place,atPoly8_log,"atPoly8_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atPoly9_place,atPoly9_log,"atPoly9_phys",worldLogical,false,0,false);
 
 
 
@@ -162,6 +191,43 @@ void MonitorGeometryConstruction::ConstructSD()
   MinerSD* atStartTC_Det = new MinerSD("/MINERsim/atStartTC_Det","MS_atStartTC_hits");
   SDman->AddNewDetector(atStartTC_Det);
   SetSensitiveDetector("atStartTC_log",atStartTC_Det, true);
+
+  MinerSD* atPoly1_Det = new MinerSD("/MINERsim/atPoly1_Det","MS_atPoly1_hits");
+  SDman->AddNewDetector(atPoly1_Det);
+  SetSensitiveDetector("atPoly1_log",atPoly1_Det, true);
+
+  MinerSD* atPoly2_Det = new MinerSD("/MINERsim/atPoly2_Det","MS_atPoly2_hits");
+  SDman->AddNewDetector(atPoly2_Det);
+  SetSensitiveDetector("atPoly2_log",atPoly2_Det, true);
+
+  MinerSD* atPoly3_Det = new MinerSD("/MINERsim/atPoly3_Det","MS_atPoly3_hits");
+  SDman->AddNewDetector(atPoly3_Det);
+  SetSensitiveDetector("atPoly3_log",atPoly3_Det, true);
+
+  MinerSD* atPoly4_Det = new MinerSD("/MINERsim/atPoly4_Det","MS_atPoly4_hits");
+  SDman->AddNewDetector(atPoly4_Det);
+  SetSensitiveDetector("atPoly4_log",atPoly4_Det, true);
+
+  MinerSD* atPoly5_Det = new MinerSD("/MINERsim/atPoly5_Det","MS_atPoly5_hits");
+  SDman->AddNewDetector(atPoly5_Det);
+  SetSensitiveDetector("atPoly5_log",atPoly5_Det, true);
+
+  MinerSD* atPoly6_Det = new MinerSD("/MINERsim/atPoly6_Det","MS_atPoly6_hits");
+  SDman->AddNewDetector(atPoly6_Det);
+  SetSensitiveDetector("atPoly6_log",atPoly6_Det, true);
+
+  MinerSD* atPoly7_Det = new MinerSD("/MINERsim/atPoly7_Det","MS_atPoly7_hits");
+  SDman->AddNewDetector(atPoly7_Det);
+  SetSensitiveDetector("atPoly7_log",atPoly7_Det, true);
+
+  MinerSD* atPoly8_Det = new MinerSD("/MINERsim/atPoly8_Det","MS_atPoly8_hits");
+  SDman->AddNewDetector(atPoly8_Det);
+  SetSensitiveDetector("atPoly8_log",atPoly8_Det, true);
+
+  MinerSD* atPoly9_Det = new MinerSD("/MINERsim/atPoly9_Det","MS_atPoly9_hits");
+  SDman->AddNewDetector(atPoly9_Det);
+  SetSensitiveDetector("atPoly9_log",atPoly9_Det, true);
+
 
 
 }

@@ -39,6 +39,7 @@
 #include "MinerHit.hh"
 #include "G4Track.hh"
 #include "RootIOMessenger.hh"
+#include "HistManager.hh"
 
 class RootIO 
 {
@@ -52,6 +53,7 @@ public:
   void SetIncomingE(G4double en);
   void AddHits(MinerHitsCollection * zipHits, G4int detID);
   void AddTrack(const G4Track* trk);
+  void FillMonitoring(MinerHitsCollection * zipHits, G4int detID);
   void Setup();
   void SetFileName(G4String name);
   G4String GetFileName();
@@ -63,6 +65,7 @@ protected:
 private:
 
    RootIOMessenger *fMessenger;
+   HistManager *hists;
   // stuff for root
    G4String fileName;
    TTree *theTree;

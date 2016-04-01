@@ -59,11 +59,15 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
        mutableTrack->SetUserInformation(info);
    }
 
+
+   // These are tracks created by the importance sampling
+   /*
    if (track->GetParentID() != 0){
      if (  track->GetCreatorProcess()->GetProcessName() == "ImportanceProcess"){
         RootIO::GetInstance()->AddTrack(track);
      }
    }
+   */
 
 }
 

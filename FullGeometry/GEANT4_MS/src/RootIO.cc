@@ -47,7 +47,6 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4Threading.hh"
-#include <sstream>
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -96,6 +95,8 @@ void RootIO::Setup()
   trackC = 0;
   event = 1;
   eInc = 0.;
+
+  hists = new HistManager(theFile);
 
 }
 
@@ -181,15 +182,31 @@ void RootIO::AddTrack(const G4Track*  trk)
 
 }
 
+void RootIO::FillMonitoring(MinerHitsCollection * zipHits, G4int detID)
+{
+
+    for (G4int i = 0; i < zipHits->entries(); i++){
+      G4ThreeVector vec = (*zipHits)[i]->GetPos();
+      G4ThreeVector mom = (*zipHits)[i]->GetMom();
+
+      G4String detNumber = static_cast<std::ostringstream*>( &(std::ostringstream() << detID) )->str();
+      G4String pidNumber = static_cast<std::ostringstream*>( &(std::ostringstream() <<(*zipHits)[i]->GetPDGID()) )->str();
+
+      hists->fill1DHist((*zipHits)[i]->GetParticleEnergy(),"Det"+detNumber+"_Ekin_PID"+pidNumber,"",500,0,10,(*zipHits)[i]->GetWeight(),"Det"+detNumber+"_Monitoring");
+      hists->fill2DHist(vec.y(),vec.z(),"Det"+detNumber+"_pos_PID"+pidNumber,"",120,-600,600,120,-1900,-700,(*zipHits)[i]->GetWeight(),"Det"+detNumber+"_Monitoring");
+    }
+
+}
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RootIO::Write()
 {
 
   event++;
-  if (hitC > 0){
+  //if (hitC > 0){
     theTree->Fill();
-  }
+  //}
   sHits->Clear();
   sTracks->Clear();
   hitC = 0;

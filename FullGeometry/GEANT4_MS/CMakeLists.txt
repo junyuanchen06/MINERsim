@@ -54,6 +54,15 @@ root_generate_dictionary(
 add_library(track SHARED BaseTrackDict.cxx)
 set(sources ${sources} BaseTrackDict.cxx)  # append dictionary to sources
 
+root_generate_dictionary(
+  HistManagerDict            # path to dictionary to generate
+  HistManager.hh  # list of includes
+  LINKDEF       # list of classes to process
+  HistManagerLinkDef.hh                    # ROOT linkDef file
+)
+add_library(HistManager SHARED HistManagerDict.cxx)
+set(sources ${sources} HistManagerDict.cxx)  # append dictionary to sources
+
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
@@ -68,7 +77,8 @@ target_link_libraries(MINERsim hit track ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 #
 set(MINERsim_SCRIPTS
     MINERsim.in
-     MCNP_gamma_pdf.gdat
+    MCNP_gamma_pdf.gdat
+    Watt_neutron_pdf.gdat
   )
 
 foreach(_script ${MINERsim_SCRIPTS})
