@@ -900,7 +900,7 @@ G4VIStore* ImportanceGeometryConstruction::CreateImportanceStore()
   istore->AddImportanceGeometryCell(std::pow(2,20), GetGeometryCell(81).GetPhysicalVolume());
 
   // finally, the region behind the TC
-  istore->AddImportanceGeometryCell(std::pow(2,8), GetGeometryCell(82).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,20), GetGeometryCell(82).GetPhysicalVolume());
 
   return istore;
 
