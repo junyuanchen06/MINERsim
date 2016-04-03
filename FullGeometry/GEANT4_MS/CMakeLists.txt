@@ -1,16 +1,9 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
-project(MINERsim CXX C) # Always specify the project type.
-# Older cmakes require C for the THREADS library, I think it
-# got fixed at some point. Just being safe
+project(MINERsim CXX) # Always specify the project type.
 
 set(CMAKE_CXX_STANDARD 11) # Works in recent cmakes
-
-
-# Root or Geant may do this, just making sure. Provides the Threads::Threads target
-# set(THREADS_PREFER_PTHREAD_FLAG ON)
-# find_package(Threads REQUIRED)
 
 
 #----------------------------------------------------------------------------
@@ -26,7 +19,7 @@ else()
 endif()
 
 set(CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
-find_package(ROOT 6.0 REQUIRED) #  COMPONENTS HistFactory HistManager)
+find_package(ROOT 6.0 REQUIRED)
 
 
 #----------------------------------------------------------------------------
@@ -42,6 +35,9 @@ find_package(ROOT 6.0 REQUIRED) #  COMPONENTS HistFactory HistManager)
 
 # Note that build targets hold ALL the information about build, but 
 # only need to be added once, in target_link_libraries
+
+# Hopefully the findGeant, etc will add a Geant::Geant and Root::Root target,
+# replacing this part
 
 add_library(geant_lib INTERFACE)
 target_include_directories(geant_lib INTERFACE ${Geant4_INCLUDE_DIRS})
@@ -104,7 +100,7 @@ add_executable(MINERsim MINERsim.cc)
 target_link_libraries(MINERsim PUBLIC main_lib hit track HistManager)
 # Note: linking to a target is special, it pulls in header dirs, etc. for you.
 # Public is a little silly here, since it's an executable
-# Also the main library is inherited form HistManger, hit, and track, 
+# Also the main library is inherited from HistManger, hit, and track, 
 # but being clear and reduntant doesn't hurt, since it really does need it
 # even without the libs
 # Of course, you could also argue that I should include root_lib and geant_lib everywhere...
