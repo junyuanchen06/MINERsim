@@ -47,6 +47,11 @@
 #include "G4PhysicalConstants.hh"
 #include "G4Threading.hh"
 
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
+#include "Cintex/Cintex.h"
+#endif
+
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 static RootIO* instance = 0;

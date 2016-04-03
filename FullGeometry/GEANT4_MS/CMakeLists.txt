@@ -19,7 +19,8 @@ else()
 endif()
 
 set(CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
-find_package(ROOT 6.0 REQUIRED)
+find_package(ROOT REQUIRED)
+
 
 
 #----------------------------------------------------------------------------
@@ -39,18 +40,19 @@ find_package(ROOT 6.0 REQUIRED)
 # Hopefully the findGeant, etc will add a Geant::Geant and Root::Root target,
 # replacing this part
 
+separate_arguments(ROOT_DEFINITIONS)
+
 add_library(geant_lib INTERFACE)
 target_include_directories(geant_lib INTERFACE ${Geant4_INCLUDE_DIRS})
-target_compile_definitions(geant_lib INTERFACE ${Geant4_DEFINITIONS}
-                          -DG4USE_STD11) # Needed because of definition bug in 10.2
+target_compile_options(geant_lib INTERFACE ${Geant4_DEFINITIONS})
+target_compile_definitions(geant_lib INTERFACE G4USE_STD11) # Needed because of definition bug in 10.2
 target_link_libraries(geant_lib INTERFACE ${Geant4_LIBRARIES})
                                                       
 
 add_library(root_lib INTERFACE)
 target_include_directories(root_lib INTERFACE ${ROOT_INCLUDE_DIRS})
-target_compile_definitions(root_lib INTERFACE ${ROOT_DEFINITIONS})
+target_compile_options(root_lib INTERFACE ${ROOT_DEFINITIONS})
 target_link_libraries(root_lib INTERFACE ${ROOT_LIBRARIES})
-
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
