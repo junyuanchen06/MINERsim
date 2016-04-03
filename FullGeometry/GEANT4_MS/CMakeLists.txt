@@ -1,7 +1,17 @@
 #----------------------------------------------------------------------------
 # Setup the project
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(MINERsim)
+cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
+project(MINERsim CXX C) # Always specify the project type.
+# Older cmakes require C for the THREADS library, I think it
+# got fixed at some point. Just being safe
+
+set(CMAKE_CXX_STANDARD 11) # Works in recent cmakes
+
+
+# Root or Geant may do this, just making sure. Provides the Threads::Threads target
+# set(THREADS_PREFER_PTHREAD_FLAG ON)
+# find_package(Threads REQUIRED)
+
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -16,14 +26,34 @@ else()
 endif()
 
 set(CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
-find_package(ROOT REQUIRED)
+find_package(ROOT 6.0 REQUIRED) #  COMPONENTS HistFactory HistManager)
 
 
 #----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 #
-include(${Geant4_USE_FILE})
 
+
+# Use modern (CMAKE 3.2-3.4 or so build targets instead of archaic system
+# This is quickly becoming the preferred way to do things in CMake 3.5
+# This replaces, and is far more flexible than:
+#include(${Geant4_USE_FILE})
+#include(${ROOT_USE_FILE})
+
+# Note that build targets hold ALL the information about build, but 
+# only need to be added once, in target_link_libraries
+
+add_library(geant_lib INTERFACE)
+target_include_directories(geant_lib INTERFACE ${Geant4_INCLUDE_DIRS})
+target_compile_definitions(geant_lib INTERFACE ${Geant4_DEFINITIONS}
+                          -DG4USE_STD11) # Needed because of definition bug in 10.2
+target_link_libraries(geant_lib INTERFACE ${Geant4_LIBRARIES})
+                                                      
+
+add_library(root_lib INTERFACE)
+target_include_directories(root_lib INTERFACE ${ROOT_INCLUDE_DIRS})
+target_compile_definitions(root_lib INTERFACE ${ROOT_DEFINITIONS})
+target_link_libraries(root_lib INTERFACE ${ROOT_LIBRARIES})
 
 
 #----------------------------------------------------------------------------
@@ -35,6 +65,9 @@ include_directories(${PROJECT_SOURCE_DIR}/include
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
+add_library(main_lib ${sources} ${headers})
+target_include_directories(main_lib PUBLIC include)
+target_link_libraries(main_lib root_lib geant_lib)
 
 root_generate_dictionary(
   BaseHitDict            # path to dictionary to generate
@@ -43,7 +76,7 @@ root_generate_dictionary(
   BaseHitLinkDef.hh                    # ROOT linkDef file
 )
 add_library(hit SHARED BaseHitDict.cxx)
-set(sources ${sources} BaseHitDict.cxx)  # append dictionary to sources
+target_link_libraries(hit PUBLIC main_lib)
 
 root_generate_dictionary(
   BaseTrackDict            # path to dictionary to generate
@@ -52,7 +85,7 @@ root_generate_dictionary(
   BaseTrackLinkDef.hh                    # ROOT linkDef file
 )
 add_library(track SHARED BaseTrackDict.cxx)
-set(sources ${sources} BaseTrackDict.cxx)  # append dictionary to sources
+target_link_libraries(track PUBLIC main_lib)
 
 root_generate_dictionary(
   HistManagerDict            # path to dictionary to generate
@@ -61,14 +94,20 @@ root_generate_dictionary(
   HistManagerLinkDef.hh                    # ROOT linkDef file
 )
 add_library(HistManager SHARED HistManagerDict.cxx)
-set(sources ${sources} HistManagerDict.cxx)  # append dictionary to sources
+target_link_libraries(HistManager PUBLIC main_lib)
 
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(MINERsim MINERsim.cc ${sources} ${headers})
-target_link_libraries(MINERsim hit track ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
+add_executable(MINERsim MINERsim.cc)
+target_link_libraries(MINERsim PUBLIC main_lib hit track HistManager)
+# Note: linking to a target is special, it pulls in header dirs, etc. for you.
+# Public is a little silly here, since it's an executable
+# Also the main library is inherited form HistManger, hit, and track, 
+# but being clear and reduntant doesn't hurt, since it really does need it
+# even without the libs
+# Of course, you could also argue that I should include root_lib and geant_lib everywhere...
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

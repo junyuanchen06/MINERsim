@@ -1,5 +1,4 @@
 #include "HistManager.hh"
-#include "Cintex/Cintex.h"
 
 
   HistManager::HistManager(TFile* myFile){
