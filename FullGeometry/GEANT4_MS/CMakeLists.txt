@@ -4,11 +4,11 @@ cmake_minimum_required(VERSION 3.4 FATAL_ERROR)
 project(MINERsim CXX) # Always specify the project type.
 
 set(CMAKE_CXX_STANDARD 11) # Works in recent cmakes
-
+set(CMAKE_POSITION_INDEPENDENT_CODE ON) # Requires CMake 2.8.9+
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
-# You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
+# You can sWhy all the casting to pointers? The pointers are temporary and cause errors with rvalue checkinget WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
 # to build a batch mode only executable
 #
 option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
