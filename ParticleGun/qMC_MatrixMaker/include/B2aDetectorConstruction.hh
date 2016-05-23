@@ -66,6 +66,7 @@ class B2aDetectorConstruction : public G4VUserDetectorConstruction
     G4Material *boron;
     G4Material *water;
     G4Material *HDPE;
+    G4Material *boratedpoly05;
 
 
   private:
