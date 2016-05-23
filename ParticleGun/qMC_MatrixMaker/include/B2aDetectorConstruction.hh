@@ -38,6 +38,7 @@
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4Material;
+
 class G4UserLimits;
 class G4GlobalMagFieldMessenger;
 
@@ -61,6 +62,11 @@ class B2aDetectorConstruction : public G4VUserDetectorConstruction
     void SetChamberMaterial(G4String );
     void SetMaxStep (G4double );
     void SetCheckOverlaps(G4bool );
+
+    G4Material *boron;
+    G4Material *water;
+    G4Material *HDPE;
+
 
   private:
     // methods
