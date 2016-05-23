@@ -32,6 +32,8 @@
 #include "B2aDetectorMessenger.hh"
 #include "B2TrackerSD.hh"
 
+#include "G4Isotope.hh"
+#include "G4Element.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
 
@@ -100,11 +102,35 @@ void B2aDetectorConstruction::DefineMaterials()
   nistManager->FindOrBuildMaterial("G4_Galactic");
   
 // ***Define material here as 'fTargetMaterial'***  
-// Lead defined using NIST Manager
-  fTargetMaterial  = nistManager->FindOrBuildMaterial("G4_Pb");
 
-  // Xenon gas defined using NIST Manager
-  fChamberMaterial = nistManager->FindOrBuildMaterial("G4_Xe");
+   boron   = nistManager->FindOrBuildMaterial("G4_B");
+  copper   = nistManager->FindOrBuildMaterial("G4_Cu");
+  aluminum = nistManager->FindOrBuildMaterial("G4_Al");
+
+  graphiteMat = nistManager->FindOrBuildMaterial("G4_GRAPHITE");
+
+  water = nistManager->FindOrBuildMaterial("G4_WATER");
+
+  det_Ge = nistManager->FindOrBuildMaterial("G4_Ge");
+  det_Si = nistManager->FindOrBuildMaterial("G4_Si");
+
+  shieldLead = nistManager->FindOrBuildMaterial("G4_Pb");
+  HDPE = nistManager->FindOrBuildMaterial("G4_POLYETHYLENE");
+  //http://www.shieldwerx.com
+  // Adjust boron concentration below	
+  // 5% borated polyethylene = SWX203
+  boratedpoly05 = new G4Material("BoratedPoly05",1.06*g/cm3, 2);
+  boratedpoly05->AddMaterial(boron,0.05);
+  boratedpoly05->AddMaterial(HDPE,0.95);
+
+
+  fTargetMaterial  = boratedpoly05;
+
+ 
+
+
+ // Vaccum defined using NIST Manager
+  fChamberMaterial = nistManager->FindOrBuildMaterial("G4_Galactic");
 
   // Print materials
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;
