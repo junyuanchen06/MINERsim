@@ -104,18 +104,8 @@ void B2aDetectorConstruction::DefineMaterials()
 // ***Define material here as 'fTargetMaterial'***  
 
    boron   = nistManager->FindOrBuildMaterial("G4_B");
-  copper   = nistManager->FindOrBuildMaterial("G4_Cu");
-  aluminum = nistManager->FindOrBuildMaterial("G4_Al");
-
-  graphiteMat = nistManager->FindOrBuildMaterial("G4_GRAPHITE");
-
-  water = nistManager->FindOrBuildMaterial("G4_WATER");
-
-  det_Ge = nistManager->FindOrBuildMaterial("G4_Ge");
-  det_Si = nistManager->FindOrBuildMaterial("G4_Si");
-
-  shieldLead = nistManager->FindOrBuildMaterial("G4_Pb");
-  HDPE = nistManager->FindOrBuildMaterial("G4_POLYETHYLENE");
+   water = nistManager->FindOrBuildMaterial("G4_WATER");
+   HDPE = nistManager->FindOrBuildMaterial("G4_POLYETHYLENE");
   //http://www.shieldwerx.com
   // Adjust boron concentration below	
   // 5% borated polyethylene = SWX203
