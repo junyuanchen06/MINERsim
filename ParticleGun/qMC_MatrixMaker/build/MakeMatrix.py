@@ -31,7 +31,7 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=np.histogram(eOut,bins=np.arange(10,20001,10))[0]/NperE
+    prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
 fileMat=open("g"+code+"g.txt","w")
@@ -72,7 +72,7 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=np.histogram(eOut,bins=np.arange(10,20001,10))[0]/NperE
+    prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
 fileMat=open("g"+code+"n.txt","w")
@@ -114,7 +114,7 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=np.histogram(eOut,bins=np.arange(10,20001,10))[0]/NperE
+    prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
 fileMat=open("n"+code+"g.txt","w")
@@ -155,7 +155,7 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=np.histogram(eOut,bins=np.arange(10,20001,10))[0]/NperE
+    prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
 fileMat=open("n"+code+"n.txt","w")
