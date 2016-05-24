@@ -34,7 +34,7 @@ for energy in data:
     prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
-fileMat=open("Results_g"+code+"g.txt","w")
+fileMat=open("./matrices/Results_g"+code+"g.txt","w")
 
 for i in Matrix:
     for j in i:
@@ -75,7 +75,7 @@ for energy in data:
     prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
-fileMat=open("Results_g"+code+"n.txt","w")
+fileMat=open("./matrices/Results_g"+code+"n.txt","w")
 
 for i in Matrix:
     for j in i:
@@ -117,7 +117,7 @@ for energy in data:
     prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
-fileMat=open("Results_n"+code+"g.txt","w")
+fileMat=open("./matrices/Results_n"+code+"g.txt","w")
 
 for i in Matrix:
     for j in i:
@@ -158,7 +158,7 @@ for energy in data:
     prob=np.histogram(eOut,bins=np.arange(0,20001,10))[0]/NperE
     Matrix.append(prob)
 
-fileMat=open("Results_n"+code+"n.txt","w")
+fileMat=open("./matrices/Results_n"+code+"n.txt","w")
 
 for i in Matrix:
     for j in i:
