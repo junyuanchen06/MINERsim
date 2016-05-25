@@ -31,7 +31,8 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=(sum(eOut)/NperE)*np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    pro=np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    prob=(sum(pro)/NperE)*pro
     Matrix.append(prob)
 
 fileMat=open("./matrices/Results_g"+code+"g.txt","w")
@@ -72,7 +73,8 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=(sum(eOut)/NperE)*np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    pro=np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    prob=(sum(pro)/NperE)*pro
     Matrix.append(prob)
 
 fileMat=open("./matrices/Results_g"+code+"n.txt","w")
@@ -114,7 +116,8 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=(sum(eOut)/NperE)*np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    pro=np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    prob=(sum(pro)/NperE)*pro
     Matrix.append(prob)
 
 fileMat=open("./matrices/Results_n"+code+"g.txt","w")
@@ -155,7 +158,8 @@ for energy in data:
         eOut+=event
     
     eOut=np.array(eOut)
-    prob=(sum(eOut)/NperE)*np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    pro=np.histogram(eOut, bins=np.arange(0,20001,5), density=True)[0]
+    prob=(sum(pro)/NperE)*pro
     Matrix.append(prob)
 
 fileMat=open("./matrices/Results_n"+code+"n.txt","w")
