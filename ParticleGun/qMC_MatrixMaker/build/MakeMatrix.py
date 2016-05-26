@@ -1,7 +1,7 @@
 import numpy as np
 
 code=input("Input Code name for material:")
-
+bins=np.arange(5,20001,5)
 #---------------------
 #gXg
 
