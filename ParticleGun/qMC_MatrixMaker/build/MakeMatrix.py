@@ -36,7 +36,7 @@ for energy in data:
     else:
         s_norm=sum(np.histogram(eOut, bins)[0])
         
-    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / s_norm
+    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / (s_norm*5)
     #print(out_spect)    
     Matrix.append(prob)
 
@@ -83,7 +83,7 @@ for energy in data:
     else:
         s_norm=sum(np.histogram(eOut, bins)[0])
         
-    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / s_norm
+    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / (s_norm*5)
     #print(out_spect)    
     Matrix.append(prob)
 
@@ -131,7 +131,7 @@ for energy in data:
     else:
         s_norm=sum(np.histogram(eOut, bins)[0])
         
-    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / s_norm
+    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / (s_norm*5)
     #print(out_spect)    
     Matrix.append(prob)
 
@@ -178,7 +178,7 @@ for energy in data:
     else:
         s_norm=sum(np.histogram(eOut, bins)[0])
         
-    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / s_norm
+    prob=(eOut.size/NperE) * np.histogram(eOut, bins)[0] / (s_norm*5)
     #print(out_spect)    
     Matrix.append(prob)
 
