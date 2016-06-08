@@ -41,14 +41,12 @@ for energy in data:
     #print(out_spect)    
     Matrix.append(prob)
 
-fileMat=open("./matrices/Results_g"+code+"g.txt","w")
+M_gg=Matrix
 
-for i in Matrix:
-    for j in i:
-        fileMat.write(str(j)+"\t")        
-    fileMat.write("\n")
 
-fileMat.close()
+#fileMat=open("./matrices/Results_g"+code+"g.txt","w")
+
+
 
 #---------------------
 #gXn
@@ -89,14 +87,7 @@ for energy in data:
     #print(out_spect)    
     Matrix.append(prob)
 
-fileMat=open("./matrices/Results_g"+code+"n.txt","w")
-
-for i in Matrix:
-    for j in i:
-        fileMat.write(str(j)+"\t")        
-    fileMat.write("\n")
-
-fileMat.close()
+M_gn=Matrix
 
 
 #---------------------
@@ -138,15 +129,7 @@ for energy in data:
     #print(out_spect)    
     Matrix.append(prob)
 
-fileMat=open("./matrices/Results_n"+code+"g.txt","w")
-
-for i in Matrix:
-    for j in i:
-        fileMat.write(str(j)+"\t")        
-    fileMat.write("\n")
-
-fileMat.close()
-
+M_ng=Matrix
 #---------------------
 #nXn
 
@@ -186,6 +169,16 @@ for energy in data:
     #print(out_spect)    
     Matrix.append(prob)
 
+
+M_nn=Matrix
+
+#----
+
+
+M_mat=np.array([[M_nn,M_ng],[M_gn,M_gg]])
+np.save("./matrices/"+code+"_matrix",M_mat)
+
+"""
 fileMat=open("./matrices/Results_n"+code+"n.txt","w")
 
 for i in Matrix:
@@ -194,4 +187,4 @@ for i in Matrix:
     fileMat.write("\n")
 
 fileMat.close()
-
+"""
