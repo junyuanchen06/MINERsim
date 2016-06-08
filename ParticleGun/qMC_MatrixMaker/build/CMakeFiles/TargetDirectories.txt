@@ -1,2 +1,0 @@
-/home1/03980/shivaks/B2x2/build/CMakeFiles/scripts.dir
-/home1/03980/shivaks/B2x2/build/CMakeFiles/exampleB2a.dir
