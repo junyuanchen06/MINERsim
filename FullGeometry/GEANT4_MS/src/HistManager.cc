@@ -1,5 +1,7 @@
 #include "HistManager.hh"
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
 #include "Cintex/Cintex.h"
+#endif
 
 
   HistManager::HistManager(TFile* myFile){

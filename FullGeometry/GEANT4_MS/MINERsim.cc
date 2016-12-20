@@ -68,17 +68,7 @@
 int main(int argc,char** argv) {
 
 
-  // Construct the default run manager
-#ifdef G4MULTITHREADED
-  //G4MTRunManager * runManager = new G4MTRunManager;
-  //G4int nThreads = G4Threading::G4GetNumberOfCores();
-  //if (argc==3) nThreads = G4UIcommand::ConvertToInt(argv[2]);   
-  //runManager->SetNumberOfThreads(nThreads);
-  // turning this off temp. for testing
   G4RunManager * runManager = new G4RunManager;
-#else
-  G4RunManager * runManager = new G4RunManager;
-#endif
 
   // set mandatory initialization classes
   MINERMaterials::Instance();
@@ -94,10 +84,15 @@ int main(int argc,char** argv) {
   G4GeometrySampler pgs(pdet->GetWorldVolume(),"gamma");
   pgs.SetParallel(true);
 
+  G4GeometrySampler pgs2(pdet->GetWorldVolume(),"neutron");
+  pgs2.SetParallel(true);
+
   G4VModularPhysicsList *physicsList = new Shielding;
   physicsList->RegisterPhysics(new G4ParallelWorldPhysics("ParallelBiasingWorld"));
   physicsList->RegisterPhysics(new G4ImportanceBiasing(&pgs,"ParallelBiasingWorld"));
+  physicsList->RegisterPhysics(new G4ImportanceBiasing(&pgs2,"ParallelBiasingWorld"));
   physicsList->RegisterPhysics(new G4ParallelWorldPhysics("ParallelMonitoringWorld"));
+
 
   /*
   // add thermal neutron model
@@ -119,7 +114,6 @@ int main(int argc,char** argv) {
   pmanager->AddDiscreteProcess(theNeutronElasticProcess);
   */
 
-
   runManager->SetUserInitialization(physicsList);
   runManager->SetUserInitialization(new ActionInitialization);
   RootIO::GetInstance();
@@ -127,6 +121,9 @@ int main(int argc,char** argv) {
   runManager->Initialize();
 
   pdet->CreateImportanceStore();
+
+  pgs2.PrepareImportanceSampling(G4IStore::GetInstance(pdet->GetName()),0);
+  pgs2.Configure();
 
 
 #ifdef G4VIS_USE
@@ -165,6 +162,7 @@ int main(int argc,char** argv) {
   //
   G4GeometryManager::GetInstance()->OpenGeometry();
   pgs.ClearSampling();
+  pgs2.ClearSampling();
   delete runManager;
   
   return 0;

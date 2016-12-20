@@ -38,7 +38,6 @@
 #include "BaseHit.hh"
 #include "BaseTrack.hh"
 //
-#include "Cintex/Cintex.h"
 #include "G4SDManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4EventManager.hh"
@@ -47,6 +46,11 @@
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
 #include "G4Threading.hh"
+
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,0,0)
+#include "Cintex/Cintex.h"
+#endif
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -189,8 +193,15 @@ void RootIO::FillMonitoring(MinerHitsCollection * zipHits, G4int detID)
       G4ThreeVector vec = (*zipHits)[i]->GetPos();
       G4ThreeVector mom = (*zipHits)[i]->GetMom();
 
-      G4String detNumber = static_cast<std::ostringstream*>( &(std::ostringstream() << detID) )->str();
-      G4String pidNumber = static_cast<std::ostringstream*>( &(std::ostringstream() <<(*zipHits)[i]->GetPDGID()) )->str();
+      // Recomendation: use std::to_string() if you can require C++11 (which Geant 10.2 does)
+      std::ostringstream detNumber_ss;
+      std::ostringstream pidNumber_ss;
+
+      detNumber_ss << detID;
+      pidNumber_ss << (*zipHits)[i]->GetPDGID();
+
+      G4String detNumber = detNumber_ss.str();
+      G4String pidNumber = pidNumber_ss.str();
 
       hists->fill1DHist((*zipHits)[i]->GetParticleEnergy(),"Det"+detNumber+"_Ekin_PID"+pidNumber,"",500,0,10,(*zipHits)[i]->GetWeight(),"Det"+detNumber+"_Monitoring");
       hists->fill2DHist(vec.y(),vec.z(),"Det"+detNumber+"_pos_PID"+pidNumber,"",120,-600,600,120,-1900,-700,(*zipHits)[i]->GetWeight(),"Det"+detNumber+"_Monitoring");
