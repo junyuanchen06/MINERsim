@@ -65,6 +65,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   G4SDManager* fSDM = G4SDManager::GetSDMpointer();
   G4HCofThisEvent* HCofEvent = event->GetHCofThisEvent();
   MinerHitsCollection*  craigHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_Craig_hits")));
+  /*
   MinerHitsCollection*  muVetoTopHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_muVetoTop_hits")));
   MinerHitsCollection*  muVetoBottomHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_muVetoBottom_hits")));
   MinerHitsCollection*  backScintHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_backScint_hits")));
@@ -76,7 +77,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   MinerHitsCollection*  det6Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det6_hits")));
   MinerHitsCollection*  det7Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det7_hits")));
   MinerHitsCollection*  det8Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det8_hits")));
-
+  */
 
   MinerHitsCollection*  insideIBHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_insideIB_hits")));
   MinerHitsCollection*  atNeutronDetHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atNeutronDet_hits")));
@@ -93,6 +94,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   MinerHitsCollection*  atPoly9Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atPoly9_hits")));
 
   RootIO::GetInstance()->AddHits(craigHits,12);
+  /*
   RootIO::GetInstance()->AddHits(muVetoTopHits,9);
   RootIO::GetInstance()->AddHits(muVetoBottomHits,10);
   RootIO::GetInstance()->AddHits(backScintHits,11);
@@ -106,7 +108,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   RootIO::GetInstance()->AddHits(det8Hits,8);
   RootIO::GetInstance()->AddHits(atNeutronDetHits,24);
   RootIO::GetInstance()->AddHits(insideIBHits,25);
-
+  */
 
 
   RootIO::GetInstance()->FillMonitoring(atStartTCHits,13);

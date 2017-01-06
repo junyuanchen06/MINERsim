@@ -215,9 +215,9 @@ void RootIO::Write()
 {
 
   event++;
-  //if (hitC > 0){
+  if (hitC > 0){
     theTree->Fill();
-  //}
+  }
   sHits->Clear();
   sTracks->Clear();
   hitC = 0;

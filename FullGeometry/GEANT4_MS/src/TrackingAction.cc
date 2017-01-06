@@ -76,7 +76,6 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
 
 void TrackingAction::PostUserTrackingAction(const G4Track* track)
 {
-
   G4Track *mutableTrack = fpTrackingManager->GetTrack();
 
   if (track->GetParentID() == 0){
@@ -138,7 +137,6 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
      }
 
   }
-
 
 }
 

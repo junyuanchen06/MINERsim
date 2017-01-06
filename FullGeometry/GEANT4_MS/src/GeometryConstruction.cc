@@ -86,6 +86,7 @@ void GeometryConstruction::ConstructSDandField()
   SDman->AddNewDetector(aCraigSD);
   SetSensitiveDetector("Craig_log", aCraigSD, true);
 
+  /*
   MinerSD* muVetoTopSD = new MinerSD("/MINERsim/muVetoTop","MS_muVetoTop_hits");
   SDman->AddNewDetector(muVetoTopSD);
   SetSensitiveDetector("muVetoTop_log",muVetoTopSD, true);
@@ -129,7 +130,7 @@ void GeometryConstruction::ConstructSDandField()
   MinerSD* det8SD = new MinerSD("/MINERsim/det8","MS_det8_hits");
   SDman->AddNewDetector(det8SD);
   SetSensitiveDetector("det8_log",det8SD, true);
-
+  */
 }
 
 
@@ -170,7 +171,9 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4double floor_thick_out = 0.5*m; // reasonable?
   G4double floor_thick_pool = (floor_thick_out-(floor_to_TC_pool-floor_to_TC_out)); // this includes SS plating which is why you'll see it subtracted out below
   G4double thermalC_height_big = 1.24*m; // larger part of thermal column, square face side
-  G4double thermalC_height_small = 1.0*m; // smaller part of thermal column, square face side
+//  G4double thermalC_height_small = 1.0*m; // smaller part of thermal column, square face side
+  G4double thermalC_height_small = 39.5*in; // smaller part of thermal column, square face side
+  G4double thermalC_width_small = 41*in; // smaller part of thermal column, square face side
   G4double thermalC_length_big = 49.6875*in;
   G4double thermalC_length_small = (19.625+8.875+25.8125)*in;
   G4double bioShield_flat_width = thermalC_height_big + 1*m; // this is the width of the "flat" part of the bio shield where the thermal column is ESTIMATE
@@ -217,7 +220,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4Box *pool_rec = new G4Box("pool_rec",worldX/4.,water_rad,(worldZ/2.) - floor_thick_pool/2.);
   G4Tubs *pool_tubs = new G4Tubs("pool_tubs",0.,water_rad,(worldZ/2.) - floor_thick_pool/2.,-pi/2.,pi);
   G4UnionSolid *poolI = new G4UnionSolid("poolI",pool_tubs,pool_rec,0,poolFloorTransX);
-  G4Box *TC_pool_cutout = new G4Box("TC_pool_cutout",(thermalC_length_small)/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  G4Box *TC_pool_cutout = new G4Box("TC_pool_cutout",(thermalC_length_small)/2.,(thermalC_width_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
   G4ThreeVector TC_in_poolPlacement(water_rad+bioShield_thick-thermalC_length_big-(thermalC_length_small/2.), 0, -((worldZ/2.) - floor_thick_pool/2.) + floor_to_TC_pool); // move to bottom of floor then up to proper height
   G4ThreeVector GB_in_poolPlacement(water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small-gb_depth/2., 0, -((worldZ/2.) - floor_thick_pool/2.) + floor_to_TC_pool);
   G4SubtractionSolid *poolI2 = new G4SubtractionSolid("poolI2",poolI,TC_pool_cutout,0,TC_in_poolPlacement);
@@ -239,7 +242,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector bioShield2Trans(-worldX/4.,-1*(water_rad+((bioShield_thick-SSPlate_thick)/2.)+SSPlate_thick),0.);
   G4UnionSolid *bioShieldI1 = new G4UnionSolid("bioShieldI1",bioShield_tubs,bioShield_rec,0,bioShield1Trans);
   G4UnionSolid *bioShieldI2 = new G4UnionSolid("bioShieldI2",bioShieldI1,bioShield_rec,0,bioShield2Trans);
-  G4Box *TC_BS_cutout1 = new G4Box("TC_BS_cutout1",(thermalC_length_small)/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  G4Box *TC_BS_cutout1 = new G4Box("TC_BS_cutout1",(thermalC_length_small)/2.,(thermalC_width_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
   G4Box *TC_BS_cutout2 = new G4Box("TC_BS_cutout2",(thermalC_length_big+aluminumPlate_thick)/2.,(thermalC_height_big)/2. + aluminumPlate_thick,(thermalC_height_big)/2. + aluminumPlate_thick);
   //there's still some HDC left because of the curvature of the wall so cut that out as well
   G4Box *TC_BS_cutout3 = new G4Box("TC_BS_cutout3",(thermalC_length_big+aluminumPlate_thick)/2.,(thermalC_height_big)/2. + aluminumPlate_thick,(thermalC_height_big)/2. +  aluminumPlate_thick);
@@ -283,13 +286,13 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   // SS only in the small box part
   // there's some SS that goes into the HDC that I'm not including yet
   // Fixed March 9: TC extension is actually aluminum
-  G4Box *TC_SS_box = new G4Box("TC_SS_box", (thermalC_length_small-TC_water_length)/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
-  G4Box *TC_SS_cutout = new G4Box("TC_SS_cutout", thermalC_length_small/2.,thermalC_height_small/2.,thermalC_height_small/2.);
+  G4Box *TC_SS_box = new G4Box("TC_SS_box", (thermalC_length_small-TC_water_length)/2.,(thermalC_width_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  G4Box *TC_SS_cutout = new G4Box("TC_SS_cutout", thermalC_length_small/2.,thermalC_width_small/2.,thermalC_height_small/2.);
   G4ThreeVector TC_SS_placement(water_rad+bioShield_thick-thermalC_length_big- (thermalC_length_small-TC_water_length)/2.,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4SubtractionSolid *TC_SS = new G4SubtractionSolid("TC_SS",TC_SS_box,TC_SS_cutout);
 
-  G4Box *TC_Al_extI = new G4Box("TC_Al_extI", TC_water_length/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
-  G4Box *TC_Al_cut = new G4Box("TC_Al_cut", TC_water_length/2.,(thermalC_height_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  G4Box *TC_Al_extI = new G4Box("TC_Al_extI", TC_water_length/2.,(thermalC_width_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
+  G4Box *TC_Al_cut = new G4Box("TC_Al_cut", TC_water_length/2.,(thermalC_width_small)/2. + SSPlate_thick,(thermalC_height_small)/2. + SSPlate_thick);
   G4ThreeVector TC_Alext_cutout_Trans(SSPlate_thick,0.,0.);
   G4SubtractionSolid *TC_Al_ext = new G4SubtractionSolid("TC_Al_ext",TC_Al_extI,TC_Al_cut,0,TC_Alext_cutout_Trans);
   G4ThreeVector TC_Alext_placement(water_rad+bioShield_thick-thermalC_length_big - (thermalC_length_small-TC_water_length) - (TC_water_length/2.),0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
@@ -340,7 +343,241 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   //G4ThreeVector posDoor(water_rad+bioShield_thick + 3.*12.*in,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
 
 
-///*
+  //G4AssemblyVolume *waterBrick = new G4AssemblyVolume();
+  // Define a water brick (does not yet include side divets, corners, top groove, lid)
+  G4double brick_x = 22.86*cm;
+  G4double brick_y = 45.72*cm;
+  G4double brick_z = 15.24*cm;
+  G4double brick_thickness = 0.238*cm;
+
+  G4Box *Outer = new G4Box("Outer", brick_x/2, brick_y/2, brick_z/2);
+  G4Box * Inner = new G4Box("Inner", (brick_x-2*brick_thickness)/2, (brick_y-2*brick_thickness)/2,(brick_z-2*brick_thickness)/2);
+  G4SubtractionSolid *hollowBox = new G4SubtractionSolid("Hollow Box",Outer, Inner);
+
+  G4Box * inner_water = new G4Box("Inner Water",  (brick_x-2*brick_thickness)/2, (brick_y-2*brick_thickness)/2,(brick_z-2*brick_thickness)/2);
+  G4Tubs * hole_out = new G4Tubs("hole_out", 0, 2*cm + brick_thickness, brick_z/2, 0, 360);
+  G4Tubs * poly_hole = new G4Tubs("poly_hole", 2*cm, 2*cm + brick_thickness, brick_z/2, 0, 360);
+
+
+  G4ThreeVector zTrans(0,8*cm,0*cm);
+  G4ThreeVector NzTrans(0,-8*cm,0*cm);
+
+  G4SubtractionSolid *Shell = new G4SubtractionSolid("Shell", hollowBox, hole_out,0, zTrans);
+  G4SubtractionSolid *Shell2 = new G4SubtractionSolid("Shell2", Shell, hole_out,0, NzTrans);
+  G4UnionSolid *Shell3 = new G4UnionSolid("Shell3",Shell2,poly_hole,0,zTrans);
+  G4UnionSolid *Shell4 = new G4UnionSolid("Shell4",Shell3,poly_hole,0,NzTrans);
+
+
+  G4SubtractionSolid *filling = new G4SubtractionSolid("Filling", inner_water,  hole_out,0, zTrans);
+  G4SubtractionSolid *filling2 = new G4SubtractionSolid("Filling2", filling,  hole_out,0, NzTrans);
+
+  G4LogicalVolume * logic_shell = new G4LogicalVolume(Shell4, mats->GetHDPoly(), "Shell");
+  G4LogicalVolume * logic_filling = new G4LogicalVolume(filling2, mats->GetWater(), "Filling");
+  //waterBrick->AddPlacedVolume(logic_shell,zeroPos,zeroRot);
+  //waterBrick->AddPlacedVolume(logic_filling,zeroPos,zeroRot);
+
+
+  // ************************************************** //
+  // ************************************************** //
+  // ***********   WaterBrick Setup V1  *************** //
+  // ************************************************** //
+  // ************************************************** //
+
+  G4double wgGap = 0.0*cm; // potential gap between all bricks
+  G4AssemblyVolume *WBsubstruct1 = new G4AssemblyVolume();
+  G4ThreeVector   brick1_place(0.5*(brick_x + wgGap),0.,0.);
+  G4ThreeVector   brick2_place(-0.5*(brick_x + wgGap),0.,0.);
+  G4ThreeVector   brick3_place(0.,0.5*(brick_y + wgGap) + 0.5*(brick_x + wgGap),0.);
+  G4ThreeVector   brick4_place(0.,-1*(0.5*(brick_y + wgGap) + 0.5*(brick_x + wgGap)),0.);
+  G4RotationMatrix* RotBrick = new G4RotationMatrix;
+  RotBrick->rotateZ(pi/2.);
+  RotBrick->rotateX(0.);
+  RotBrick->rotateY(0.);
+  WBsubstruct1->AddPlacedVolume(logic_shell,brick1_place,zeroRot); 
+  WBsubstruct1->AddPlacedVolume(logic_shell,brick2_place,zeroRot);
+  WBsubstruct1->AddPlacedVolume(logic_shell,brick3_place,RotBrick);
+  WBsubstruct1->AddPlacedVolume(logic_shell,brick4_place,RotBrick);
+  WBsubstruct1->AddPlacedVolume(logic_filling,brick1_place,zeroRot);
+  WBsubstruct1->AddPlacedVolume(logic_filling,brick2_place,zeroRot);
+  WBsubstruct1->AddPlacedVolume(logic_filling,brick3_place,RotBrick);
+  WBsubstruct1->AddPlacedVolume(logic_filling,brick4_place,RotBrick);
+
+  G4AssemblyVolume *WBsubstruct2 = new G4AssemblyVolume();
+  G4ThreeVector   brick5_place(0.5*(brick_x + wgGap),0.5*(brick_y + wgGap),0.);
+  G4ThreeVector   brick6_place(-0.5*(brick_x + wgGap),-1*(0.5*(brick_y + wgGap)),0.);
+  G4ThreeVector   brick7_place(0.5*(brick_x + wgGap),0.5*(brick_y + wgGap),0.);
+  G4ThreeVector   brick8_place(-0.5*(brick_x + wgGap),-1*(0.5*(brick_y + wgGap)),0.);
+  WBsubstruct2->AddPlacedVolume(logic_shell,brick5_place,zeroRot);
+  WBsubstruct2->AddPlacedVolume(logic_shell,brick6_place,zeroRot);
+  WBsubstruct2->AddPlacedVolume(logic_shell,brick7_place,zeroRot);
+  WBsubstruct2->AddPlacedVolume(logic_shell,brick8_place,zeroRot);
+  WBsubstruct2->AddPlacedVolume(logic_filling,brick5_place,zeroRot);
+  WBsubstruct2->AddPlacedVolume(logic_filling,brick6_place,zeroRot);
+  WBsubstruct2->AddPlacedVolume(logic_filling,brick7_place,zeroRot);
+  WBsubstruct2->AddPlacedVolume(logic_filling,brick8_place,zeroRot);
+
+  // Lead Wall
+  G4double leadWall_x = 2.*in;
+  G4double leadWall_y = thermalC_width_small;
+  G4double leadWall_z = thermalC_height_small; 
+
+  G4Box *leadWall = new G4Box("leadWall", leadWall_x/2, leadWall_y/2, leadWall_z/2);
+  G4LogicalVolume * leadWall_log = new G4LogicalVolume(leadWall, mats->GetShieldLead(), "leadWall_log");
+
+
+  // poly sheets
+  G4double polySheet1_y = 1.0*in;
+  G4double polySheet1_z = 38.25*in;
+  G4double polySheet1_x = 18.0*in;
+
+  G4double polySheet2_y = 36.0*in;
+  G4double polySheet2_z = 1.0*in;
+  G4double polySheet2_x = 18.0*in;
+
+  G4double polySheet3_y = 40.5*in;
+  G4double polySheet3_z = 1.0*in;
+  G4double polySheet3_x = 18.0*in;
+
+  G4Box *poly1 = new G4Box("poly1", polySheet1_x/2, polySheet1_y/2, polySheet1_z/2);
+  G4Box *poly2 = new G4Box("poly2", polySheet2_x/2, polySheet2_y/2, polySheet2_z/2);
+  G4Box *poly3 = new G4Box("poly3", polySheet3_x/2, polySheet3_y/2, polySheet3_z/2);
+
+  // neoprene/rubber sheets
+  G4double rubberSheet1_y = 1.0*in;
+  G4double rubberSheet1_z = 38.25*in;
+  G4double rubberSheet1_x = 18.0*in;
+
+  G4double rubberSheet2_y = 36.0*in;
+  G4double rubberSheet2_z = 0.5*in;
+  G4double rubberSheet2_x = 18.0*in;
+
+  G4double rubberSheet4_y = 2.0*in;
+  G4double rubberSheet4_z = 0.25*in;
+  G4double rubberSheet4_x = 18.0*in;
+
+  G4double rubberSheet5_y = 0.5*in;
+  G4double rubberSheet5_z = 1.0*in;
+  G4double rubberSheet5_x = 18.0*in;
+
+  G4Box *rubber1 = new G4Box("rubber1", rubberSheet1_x/2, rubberSheet1_y/2, rubberSheet1_z/2);
+  G4Box *rubber2 = new G4Box("rubber2", rubberSheet2_x/2, rubberSheet2_y/2, rubberSheet2_z/2);
+  G4Box *rubber4 = new G4Box("rubber4", rubberSheet4_x/2, rubberSheet4_y/2, rubberSheet4_z/2);
+  G4Box *rubber5 = new G4Box("rubber5", rubberSheet5_x/2, rubberSheet5_y/2, rubberSheet5_z/2);
+
+
+  // Layer 1 logical volumes
+  G4LogicalVolume * poly_left_1_layer1 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_left_1_layer1");
+  G4LogicalVolume * poly_left_2_layer1 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_left_2_layer1");
+  G4LogicalVolume * poly_right_1_layer1 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_right_1_layer1");
+  G4LogicalVolume * poly_right_2_layer1 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_right_2_layer1");
+  G4LogicalVolume * poly_top_1_layer1 = new G4LogicalVolume(poly2, mats->GetHDPoly(), "poly_top_1_layer1");
+  G4LogicalVolume * poly_top_2_layer1 = new G4LogicalVolume(poly2, mats->GetHDPoly(), "poly_top_2_layer1");
+  G4LogicalVolume * poly_top_3_layer1 = new G4LogicalVolume(poly3, mats->GetHDPoly(), "poly_top_3_layer1");
+
+  G4LogicalVolume * rub_left_1_layer1 = new G4LogicalVolume(rubber1, mats->GetNeopreneBlend(), "rubber_left_1_layer1");
+  G4LogicalVolume * rub_right_1_layer1 = new G4LogicalVolume(rubber5, mats->GetNeopreneBlend(), "rubber_right_1_layer1");
+  G4LogicalVolume * rub_top_1_layer1 = new G4LogicalVolume(rubber4, mats->GetNeopreneBlend(), "rubber_top_1_layer1");
+  G4LogicalVolume * rub_top_2_layer1 = new G4LogicalVolume(rubber4, mats->GetNeopreneBlend(), "rubber_top_2_layer1");
+  G4LogicalVolume * rub_top_3_layer1 = new G4LogicalVolume(rubber2, mats->GetNeopreneBlend(), "rubber_top_3_layer1");
+
+
+  // Layer 2 logical volumes
+  G4LogicalVolume * poly_left_1_layer2 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_left_1_layer2");
+  G4LogicalVolume * poly_left_2_layer2 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_left_2_layer2");
+  G4LogicalVolume * poly_right_1_layer2 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_right_1_layer2");
+  G4LogicalVolume * poly_right_2_layer2 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_right_2_layer2");
+  G4LogicalVolume * poly_bottom_1_layer2 = new G4LogicalVolume(poly2, mats->GetHDPoly(), "poly_bottom_1_layer2");
+  G4LogicalVolume * poly_top_1_layer2 = new G4LogicalVolume(poly2, mats->GetHDPoly(), "poly_top_1_layer2");
+  G4LogicalVolume * poly_top_2_layer2 = new G4LogicalVolume(poly3, mats->GetHDPoly(), "poly_top_2_layer2");
+  
+  G4LogicalVolume * rub_right_1_layer2 = new G4LogicalVolume(rubber1, mats->GetNeopreneBlend(), "rubber_right_1_layer2");
+  G4LogicalVolume * rub_left_1_layer2 = new G4LogicalVolume(rubber5, mats->GetNeopreneBlend(), "rubber_left_1_layer2");
+  G4LogicalVolume * rub_top_1_layer2 = new G4LogicalVolume(rubber4, mats->GetNeopreneBlend(), "rubber_top_1_layer2");
+  G4LogicalVolume * rub_top_2_layer2 = new G4LogicalVolume(rubber4, mats->GetNeopreneBlend(), "rubber_top_2_layer2");
+  G4LogicalVolume * rub_top_3_layer2 = new G4LogicalVolume(rubber2, mats->GetNeopreneBlend(), "rubber_top_3_layer2");
+
+  // Layer 3 logical volumes
+  G4LogicalVolume * poly_left_1_layer3 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_left_1_layer3");
+  G4LogicalVolume * poly_left_2_layer3 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_left_2_layer3");
+  G4LogicalVolume * poly_right_1_layer3 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_right_1_layer3");
+  G4LogicalVolume * poly_right_2_layer3 = new G4LogicalVolume(poly1, mats->GetHDPoly(), "poly_right_2_layer3");
+  G4LogicalVolume * poly_bottom_1_layer3 = new G4LogicalVolume(poly2, mats->GetHDPoly(), "poly_bottom_1_layer3");
+  G4LogicalVolume * poly_bottom_2_layer3 = new G4LogicalVolume(poly2, mats->GetHDPoly(), "poly_bottom_2_layer3");
+  G4LogicalVolume * poly_top_1_layer3 = new G4LogicalVolume(poly3, mats->GetHDPoly(), "poly_top_1_layer3");
+
+  G4LogicalVolume * rub_left_1_layer3 = new G4LogicalVolume(rubber1, mats->GetNeopreneBlend(), "rubber_left_1_layer3");
+  G4LogicalVolume * rub_right_1_layer3 = new G4LogicalVolume(rubber5, mats->GetNeopreneBlend(), "rubber_right_1_layer3");
+  G4LogicalVolume * rub_top_1_layer3 = new G4LogicalVolume(rubber4, mats->GetNeopreneBlend(), "rubber_top_1_layer3");
+  G4LogicalVolume * rub_top_2_layer3 = new G4LogicalVolume(rubber4, mats->GetNeopreneBlend(), "rubber_top_2_layer3");
+  G4LogicalVolume * rub_top_3_layer3 = new G4LogicalVolume(rubber2, mats->GetNeopreneBlend(), "rubber_top_3_layer3");  
+
+  // placements for everything relative to (0,0,0)
+  G4ThreeVector   posLayer1(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 9.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayer2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 27.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayer3(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 47.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayerLead(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 37.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+
+  // Layer 1 positions
+  G4ThreeVector   posBrick1_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in - 2.5*brick_z );
+  G4ThreeVector   posBrick2_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in - 1.5*brick_z );
+  G4ThreeVector   posBrick3_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in - 0.5*brick_z );
+  G4ThreeVector   posBrick4_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in + 0.5*brick_z );
+  G4ThreeVector   posBrick5_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in + 1.5*brick_z );
+  G4ThreeVector   posBrick6_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in + 2.5*brick_z );
+  G4ThreeVector   posPL1_1(posLayer1.x(), 0.5*in - 2.5*in - 18.*in,posLayer1.z() + -0.625*in );
+  G4ThreeVector   posPL2_1(posLayer1.x(), 0.5*in - 1.5*in - 18.*in,posLayer1.z() + -0.625*in );
+  G4ThreeVector   posPR1_1(posLayer1.x(), 0.5*in + 0.5*in + 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPR2_1(posLayer1.x(), 0.5*in + 1.5*in + 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPT1_1(posLayer1.x(), 0.5*in,posLayer1.z() + 19.75*in - 2.5*in);
+  G4ThreeVector   posPT2_1(posLayer1.x(), 0.5*in,posLayer1.z() + 19.75*in - 1.5*in);
+  G4ThreeVector   posPT3_1(posLayer1.x(), -0.25*in,posLayer1.z() + 19.75*in - 0.5*in);
+  G4ThreeVector   posRL1_1(posLayer1.x(), 0.5*in - 18.0*in - 0.5*in,posLayer1.z() + -0.625*in );
+  G4ThreeVector   posRR1_1(posLayer1.x(), 20.5*in - 0.25*in,posLayer1.z() + 19.75*in - 0.5*in);
+  G4ThreeVector   posRT1_1(posLayer1.x(), 20.5*in - 1.0*in ,posLayer1.z() + 19.75*in - 1.125*in);
+  G4ThreeVector   posRT2_1(posLayer1.x(), -20.5*in + 1.0*in ,posLayer1.z() + 19.75*in - 1.125*in);
+  G4ThreeVector   posRT3_1(posLayer1.x(), 0.5*in,posLayer1.z() + 19.75*in - 3.25*in);
+
+  // Layer 2 positions
+  G4ThreeVector   posBrick1_2(posLayer2.x(),-0.5*in ,posLayer1.z() + -0.75*in - 2.5*brick_z );
+  G4ThreeVector   posBrick2_2(posLayer2.x(),-0.5*in ,posLayer1.z() + -0.75*in - 1.5*brick_z );
+  G4ThreeVector   posBrick3_2(posLayer2.x(),-0.5*in ,posLayer1.z() + -0.75*in - 0.5*brick_z );
+  G4ThreeVector   posBrick4_2(posLayer2.x(),-0.5*in ,posLayer1.z() + -0.75*in + 0.5*brick_z );
+  G4ThreeVector   posBrick5_2(posLayer2.x(),-0.5*in ,posLayer1.z() + -0.75*in + 1.5*brick_z );
+  G4ThreeVector   posBrick6_2(posLayer2.x(),-0.5*in ,posLayer1.z() + -0.75*in + 2.5*brick_z );
+  G4ThreeVector   posPL1_2(posLayer2.x(), -0.5*in - 1.5*in - 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPL2_2(posLayer2.x(), -0.5*in - 0.5*in - 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPR1_2(posLayer2.x(), -0.5*in + 1.5*in + 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPR2_2(posLayer2.x(), -0.5*in + 2.5*in + 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPB1_2(posLayer2.x(), -0.5*in,posLayer1.z() + -19.75*in + 0.5*in);
+  G4ThreeVector   posPT1_2(posLayer2.x(), -0.5*in,posLayer1.z() + 19.75*in - 1.5*in);
+  G4ThreeVector   posPT2_2(posLayer2.x(), 0.25*in,posLayer1.z() + 19.75*in - 0.5*in);
+  G4ThreeVector   posRL1_2(posLayer2.x(), -20.5*in + 0.25*in,posLayer1.z() + 19.75*in - 0.5*in);
+  G4ThreeVector   posRR1_2(posLayer2.x(), -0.5*in + 18.0*in + 0.5*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posRT1_2(posLayer2.x(), 20.5*in - 1.0*in ,posLayer1.z() + 19.75*in - 1.125*in);
+  G4ThreeVector   posRT2_2(posLayer2.x(), 20.5*in - 1.0*in ,posLayer1.z() + 19.75*in - 1.125*in);
+  G4ThreeVector   posRT3_2(posLayer2.x(), -0.5*in,posLayer1.z() + 19.75*in - 2.25*in);
+
+  // Layer 3 positions
+  G4ThreeVector   posBrick1_3(posLayer3.x(),0.5*in ,posLayer1.z() + .25*in - 2.5*brick_z );
+  G4ThreeVector   posBrick2_3(posLayer3.x(),0.5*in ,posLayer1.z() + .25*in - 1.5*brick_z );
+  G4ThreeVector   posBrick3_3(posLayer3.x(),0.5*in ,posLayer1.z() + .25*in - 0.5*brick_z );
+  G4ThreeVector   posBrick4_3(posLayer3.x(),0.5*in ,posLayer1.z() + .25*in + 0.5*brick_z );
+  G4ThreeVector   posBrick5_3(posLayer3.x(),0.5*in ,posLayer1.z() + .25*in + 1.5*brick_z );
+  G4ThreeVector   posBrick6_3(posLayer3.x(),0.5*in ,posLayer1.z() + .25*in + 2.5*brick_z );
+  G4ThreeVector   posPL1_3(posLayer3.x(), 0.5*in - 2.5*in - 18.*in,posLayer1.z() + -0.625*in );
+  G4ThreeVector   posPL2_3(posLayer3.x(), 0.5*in - 1.5*in - 18.*in,posLayer1.z() + -0.625*in );
+  G4ThreeVector   posPR1_3(posLayer3.x(), 0.5*in + 0.5*in + 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPR2_3(posLayer3.x(), 0.5*in + 1.5*in + 18.*in,posLayer1.z() + -0.625*in);
+  G4ThreeVector   posPB1_3(posLayer3.x(), 0.5*in,posLayer1.z() + -19.75*in + 1.5*in);
+  G4ThreeVector   posPB2_3(posLayer3.x(), 0.5*in,posLayer1.z() + -19.75*in + 0.5*in);
+  G4ThreeVector   posPT1_3(posLayer3.x(), -0.25*in,posLayer1.z() + 19.75*in - 0.5*in);
+  G4ThreeVector   posRL1_3(posLayer3.x(), 0.5*in - 18.0*in - 0.5*in,posLayer1.z() + -0.625*in );
+  G4ThreeVector   posRR1_3(posLayer3.x(), 20.5*in - 0.25*in,posLayer1.z() + 19.75*in - 0.5*in);
+  G4ThreeVector   posRT1_3(posLayer3.x(), 20.5*in - 1.0*in ,posLayer1.z() + 19.75*in - 1.125*in);
+  G4ThreeVector   posRT2_3(posLayer3.x(), -20.5*in + 1.0*in ,posLayer1.z() + 19.75*in - 1.125*in);
+  G4ThreeVector   posRT3_3(posLayer3.x(), 0.5*in,posLayer1.z() + 19.75*in - 1.25*in);
+
+/*
 
   // ************************************************** //
   // ************************************************** //
@@ -375,7 +612,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 
 
   // reactor poly shielding, completely filling the small part for now
-  G4Box *poly_TC = new G4Box("poly_TC", TCPoly_thick/2.,thermalC_height_small/2.,thermalC_height_small/2.);
+  G4Box *poly_TC = new G4Box("poly_TC", TCPoly_thick/2.,thermalC_width_small/2.,thermalC_height_small/2.);
   G4LogicalVolume *polyTC_log = new G4LogicalVolume(poly_TC,mats->GetBoratedPoly05(),"polyTC_log");
 
   // reactor Front lead shielding
@@ -472,157 +709,6 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector   leadOut_place((thermalC_length_big-aluminumPlate_thick-TCLead_thick)/2. - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick ),0.,0.); 
   G4ThreeVector   muVetoTop_place(leadOut_place.x(),0,(iceboxHeight/2. +iceboxPoly_thick+ iceboxLead_thick + outerPoly_thick+muVeto_thick/2.));
   G4ThreeVector   muVetoBot_place(leadOut_place.x(),0,-1*(iceboxHeight/2. +iceboxPoly_thick+ iceboxLead_thick + outerPoly_thick+muVeto_thick/2.));
-  G4ThreeVector   backScint_place(iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_back_thick+backScint_thick/2.,0,0);
-  // Detector assemble!
-  shielding->AddPlacedVolume(icebox1_log,can1_place,zeroRot);
-  shielding->AddPlacedVolume(icebox2_log,can2_place,zeroRot);
-  shielding->AddPlacedVolume(icebox3_log,can3_place,zeroRot);
-  shielding->AddPlacedVolume(polyTC_log,polyTC_place,zeroRot);
-  shielding->AddPlacedVolume(leadTC_log,leadTC_place,zeroRot);
-  shielding->AddPlacedVolume(det1_log,det1_place,zeroRot);
-  shielding->AddPlacedVolume(det2_log,det2_place,zeroRot);
-  shielding->AddPlacedVolume(det3_log,det3_place,zeroRot);
-  shielding->AddPlacedVolume(det4_log,det4_place,zeroRot);
-  shielding->AddPlacedVolume(det5_log,det5_place,zeroRot);
-  shielding->AddPlacedVolume(det6_log,det6_place,zeroRot);
-  shielding->AddPlacedVolume(det7_log,det7_place,zeroRot);
-  shielding->AddPlacedVolume(det8_log,det8_place,zeroRot);
-  shielding->AddPlacedVolume(polyIBshield_log,polyIB_place,zeroRot);
-  shielding->AddPlacedVolume(leadIBshield_log,leadIB_place,zeroRot);
-  shielding->AddPlacedVolume(polyoutershield_log,polyOut_place,zeroRot);
-  shielding->AddPlacedVolume(leadoutershield_log,leadOut_place,zeroRot);
-  shielding->AddPlacedVolume(muVetoTop_log,muVetoTop_place,zeroRot);
-  shielding->AddPlacedVolume(muVetoBottom_log,muVetoBot_place,zeroRot);
-  shielding->AddPlacedVolume(backScint_log,backScint_place,zeroRot);
-
-//*/
-
-/*
-  // ************************************************** //
-  // ************************************************** //
-  // ***********    Shielding setup #2  *************** //
-  // ************************************************** //
-  // ************************************************** //
-
-  // TC all but 8" poly
-  // 8" lead barrier after
-  // 2" poly surounding icebox
-  // 2" lead after that
-  // 5" poly top/bottom, 6" back
-  // 2" muon veto top and bottom, 8" nova-like detector back
-  G4double iceboxThick = 3./8.*in;  // ???
-  G4double iceboxRadius = 6*in;
-  G4double iceboxHeight = 18*in;
-  G4double iceboxLead_thick = 2*in;
-  G4double iceboxPoly_thick = 2*in;
-  G4double muVeto_thick = 2*in;
-  G4double backScint_thick = 8*in;
-  G4double outerLead_thick = 2*in;
-  G4double outerPoly_thick = 5*in - SSPlate_thick;
-  G4double outerPoly_back_thick = 5*in;
-  G4double TCLead_thick = 8*in;
-  G4double TCPoly_thick = thermalC_length_small-largeOverburden_length - SSPlate_thick - 0.5*TCLead_thick;
-  G4double detThick = 1.33*in;
-  G4double detSpace = 0.4*in;
-
-  // reactor poly shielding, completely filling the small part for now
-  G4Box *poly_TC = new G4Box("poly_TC", TCPoly_thick/2.,thermalC_height_small/2.,thermalC_height_small/2.);
-  G4LogicalVolume *polyTC_log = new G4LogicalVolume(poly_TC,mats->GetBoratedPoly05(),"polyTC_log");
-
-  // reactor Front lead shielding
-  G4Box *lead_TC = new G4Box("lead_TC",TCLead_thick/2.,thermalC_height_small/2.,thermalC_height_small/2.);
-  G4LogicalVolume *leadTC_log = new G4LogicalVolume(lead_TC,mats->GetShieldLead(),"leadTC_log");
-
-
-  // icebox oversimplified for now, three concentric cans with a can thickness of space between each
-  G4Tubs *icebox1_out = new G4Tubs("icebox1_out", 0., iceboxRadius, iceboxHeight/2.,0,360*deg);
-  G4Tubs *icebox1_in = new G4Tubs("icebox1_in", 0., iceboxRadius - iceboxThick, iceboxHeight/2. - iceboxThick,0,360*deg);
-  G4SubtractionSolid *icebox1 = new G4SubtractionSolid("icebox1",icebox1_out,icebox1_in);
-  G4LogicalVolume *icebox1_log = new G4LogicalVolume(icebox1,mats->GetCopper(),"icebox1_log");
-
-  G4Tubs *icebox2_out = new G4Tubs("icebox2_out", 0., iceboxRadius - 2*iceboxThick, iceboxHeight/2. - 2*iceboxThick,0,360*deg);
-  G4Tubs *icebox2_in = new G4Tubs("icebox2_in", 0., iceboxRadius - 3*iceboxThick, iceboxHeight/2. - 3*iceboxThick,0,360*deg);
-  G4SubtractionSolid *icebox2 = new G4SubtractionSolid("icebox2",icebox2_out,icebox2_in);
-  G4LogicalVolume *icebox2_log = new G4LogicalVolume(icebox2,mats->GetCopper(),"icebox2_log");
-
-  G4Tubs *icebox3_out = new G4Tubs("icebox3_out", 0., iceboxRadius - 4*iceboxThick, iceboxHeight/2. - 4*iceboxThick,0,360*deg);
-  G4Tubs *icebox3_in = new G4Tubs("icebox3_in", 0., iceboxRadius - 5*iceboxThick, iceboxHeight/2. - 5*iceboxThick,0,360*deg);
-  G4SubtractionSolid *icebox3 = new G4SubtractionSolid("icebox3",icebox3_out,icebox3_in);
-  G4LogicalVolume *icebox3_log = new G4LogicalVolume(icebox3,mats->GetCopper(),"icebox3_log");
-
-  // Let's put some detectors in the icebox, they can just float for now
-  G4Tubs *det = new G4Tubs("det",0.,2*in,detThick/2.,0,360*deg);
-  G4LogicalVolume *det1_log = new G4LogicalVolume(det, mats->GetDetGe(),"det1_log");
-  G4LogicalVolume *det2_log = new G4LogicalVolume(det, mats->GetDetGe(),"det2_log");
-  G4LogicalVolume *det3_log = new G4LogicalVolume(det, mats->GetDetGe(),"det3_log");
-  G4LogicalVolume *det4_log = new G4LogicalVolume(det, mats->GetDetGe(),"det4_log");
-  G4LogicalVolume *det5_log = new G4LogicalVolume(det, mats->GetDetSi(),"det5_log");
-  G4LogicalVolume *det6_log = new G4LogicalVolume(det, mats->GetDetSi(),"det6_log");
-  G4LogicalVolume *det7_log = new G4LogicalVolume(det, mats->GetDetSi(),"det7_log");
-  G4LogicalVolume *det8_log = new G4LogicalVolume(det, mats->GetDetSi(),"det8_log");
-  // should have slightly more than 3" for spacing of detectors
-
-  // poly around the icebox
-  G4Box *poly_IBshield_out = new G4Box("poly_IBshield_out",iceboxRadius+iceboxPoly_thick,iceboxRadius+iceboxPoly_thick,iceboxHeight/2. + iceboxPoly_thick);
-  G4Box *poly_IBshield_in = new G4Box("poly_IBshield_in",iceboxRadius,iceboxRadius,iceboxHeight/2.);
-  G4SubtractionSolid *poly_IBshield = new G4SubtractionSolid("poly_IBshield",poly_IBshield_out,poly_IBshield_in);
-  G4LogicalVolume *polyIBshield_log = new G4LogicalVolume(poly_IBshield,mats->GetBoratedPoly05(),"poly_IBshield_log");
-
-  // lead around the icebox
-  G4Box *lead_IBshield_out = new G4Box("lead_IBshield_out",iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxHeight/2. +iceboxPoly_thick+ iceboxLead_thick);
-  G4Box *lead_IBshield_in = new G4Box("lead_IBshield_in",iceboxRadius+iceboxPoly_thick,iceboxRadius+iceboxPoly_thick,iceboxHeight/2. + iceboxPoly_thick);
-  G4SubtractionSolid *lead_IBshield = new G4SubtractionSolid("lead_IBshield",lead_IBshield_out,lead_IBshield_in);
-  G4LogicalVolume *leadIBshield_log = new G4LogicalVolume(lead_IBshield,mats->GetShieldLead(),"lead_IBshield_log");
-
-  // poly around the IB lead shielding
-  G4Box *poly_outershield_out = new G4Box("poly_outershield_out",iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2. + iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
-  //current design has only 4" on doorside and no extra on backside
-  G4Box *poly_outershield_in = new G4Box("poly_outershield_in",iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxRadius+iceboxPoly_thick+iceboxLead_thick,iceboxHeight/2.+iceboxPoly_thick+iceboxLead_thick);
-  G4SubtractionSolid *poly_outershield_shell = new G4SubtractionSolid("poly_outershield_shell",poly_outershield_out,poly_outershield_in);
-  G4ThreeVector  poly_outer_back_place(iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_back_thick/2.,0,0);
-  G4Box *poly_outershield_back = new G4Box("poly_outershield_back",outerPoly_back_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2.+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
-  G4UnionSolid *poly_outershield = new G4UnionSolid("poly_outershield",poly_outershield_shell,poly_outershield_back,0,poly_outer_back_place);
-  G4LogicalVolume *polyoutershield_log = new G4LogicalVolume(poly_outershield,mats->GetBoratedPoly05(),"poly_outershield_log");
-
-  //scintillator veto, just top and bottom, this means there will be some extra space on the sides
-  G4Box *muVeto = new G4Box("muVeto",iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_back_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,muVeto_thick/2.);
-  G4LogicalVolume *muVetoTop_log = new G4LogicalVolume(muVeto,mats->GetAcrylic() ,"muVetoTop_log");
-  G4LogicalVolume *muVetoBottom_log = new G4LogicalVolume(muVeto,mats->GetAcrylic() ,"muVetoBottom_log");
-  //back scintillator
-  G4Box *backScint = new G4Box("backScint",backScint_thick/2.,iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick,iceboxHeight/2.+iceboxPoly_thick+iceboxLead_thick+outerPoly_thick);
-  G4LogicalVolume *backScint_log = new G4LogicalVolume(backScint,mats->GetAcrylic() ,"backScint_log");
-
-
-  // Lead next to the liner on outside of thermal column
-  G4Box *lead_outershield_in = new G4Box("lead_outershield_in",2*m,thermalC_height_big/2. -outerLead_thick,thermalC_height_big/2. -outerLead_thick);
-  G4Box *lead_outershield_out = new G4Box("lead_outershield_out",(thermalC_length_big-aluminumPlate_thick)/2.,thermalC_height_big/2.,thermalC_height_big/2.);
-  G4SubtractionSolid *lead_outershield = new G4SubtractionSolid("lead_outershield",lead_outershield_out,lead_outershield_in);
-  G4LogicalVolume *leadoutershield_log = new G4LogicalVolume(lead_outershield,mats->GetShieldLead(),"lead_outershield_log");
-
-  // ok, let's connect everything into an assembly
-  G4AssemblyVolume *shielding = new G4AssemblyVolume();
-
-  G4ThreeVector   posShield(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - (thermalC_length_big - TCPoly_thick - .5*TCLead_thick) + iceboxRadius+iceboxPoly_thick+iceboxLead_thick, 0, -(worldZ/2.)+floor_thick_out+floor_to_TC_out);
-
-  G4ThreeVector   polyTC_place(-1*(TCPoly_thick/2.  + SSPlate_thick+ TCLead_thick + iceboxRadius+iceboxPoly_thick+iceboxLead_thick) ,0.,0.);
-  G4ThreeVector   leadTC_place(-1*(0.5*TCLead_thick +  iceboxRadius+iceboxPoly_thick+iceboxLead_thick),0.,0.);
-  G4ThreeVector   det1_place(0.,0.,(detThick/2. + detSpace/2. +  3.*detThick + 3.*detSpace));
-  G4ThreeVector   det2_place(0.,0.,(detThick/2. + detSpace/2. +  2.*detThick + 2.*detSpace));
-  G4ThreeVector   det3_place(0.,0.,(detThick/2. + detSpace/2. +  1.*detThick + 1.*detSpace));
-  G4ThreeVector   det4_place(0.,0.,(detThick/2. + detSpace/2. +  0.*detThick + 0.*detSpace));
-  G4ThreeVector   det5_place(0.,0.,-1 * (detThick/2. + detSpace/2. +  0.*detThick + 0.*detSpace));
-  G4ThreeVector   det6_place(0.,0.,-1 * (detThick/2. + detSpace/2. +  1.*detThick + 1.*detSpace));
-  G4ThreeVector   det7_place(0.,0.,-1 * (detThick/2. + detSpace/2. +  2.*detThick + 2.*detSpace));
-  G4ThreeVector   det8_place(0.,0.,-1 * (detThick/2. + detSpace/2. +  3.*detThick + 3.*detSpace));
-  G4ThreeVector   can1_place(0.,0.,0.);
-  G4ThreeVector   can2_place(0.,0.,0.);
-  G4ThreeVector   can3_place(0.,0.,0.);
-  G4ThreeVector   polyIB_place(0.,0.,0.);
-  G4ThreeVector   leadIB_place(0.,0.,0.);
-  G4ThreeVector   polyOut_place(0.,0.,0.);
-  G4ThreeVector   leadOut_place(largeOverburden_length +(thermalC_length_big-aluminumPlate_thick-TCLead_thick)/2. - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick ),0.,0.);
-  G4ThreeVector   muVetoTop_place(outerPoly_back_thick/2.,0,(iceboxHeight/2. +iceboxPoly_thick+ iceboxLead_thick + outerPoly_thick+muVeto_thick/2.));
-  G4ThreeVector   muVetoBot_place(outerPoly_back_thick/2.,0,-1*(iceboxHeight/2. +iceboxPoly_thick+ iceboxLead_thick + outerPoly_thick+muVeto_thick/2.));
   G4ThreeVector   backScint_place(iceboxRadius+iceboxPoly_thick+iceboxLead_thick+outerPoly_back_thick+backScint_thick/2.,0,0);
   // Detector assemble!
   shielding->AddPlacedVolume(icebox1_log,can1_place,zeroRot);
@@ -755,11 +841,73 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   new G4PVPlacement(0,TC_SS_placement,TC_SS_log,"TC_SS_phys",universe_log,false,0,fCheckOverlaps);
   new G4PVPlacement(0,TC_Alext_placement,TC_Alext_log,"TC_Alext_phys",universe_log,false,0,fCheckOverlaps);
   new G4PVPlacement(0,TC_Al_placement,TC_Al_log,"TC_Al_phys",universe_log,false,0,fCheckOverlaps);
-  //door->MakeImprint(universe_log,posDoor,zeroRot,0,fCheckOverlaps);
-  //fullDet->MakeImprint(universe_log,posDet,RotDet,0,fCheckOverlaps);
-  shielding->MakeImprint(universe_log,posShield,zeroRot,0,fCheckOverlaps);
+  door->MakeImprint(universe_log,posDoor,zeroRot,0,fCheckOverlaps);
+  fullDet->MakeImprint(universe_log,posDet,RotDet,0,fCheckOverlaps);
+  //shielding->MakeImprint(universe_log,posShield,zeroRot,0,fCheckOverlaps);
+
+  // Lead Wall Place
+  new G4PVPlacement(0,posLayerLead,leadWall_log,"leadWall_phys",universe_log,false,0,fCheckOverlaps);
+
+  // Shield Layer 1 Place
+  WBsubstruct1->MakeImprint(universe_log,posBrick1_1,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick2_1,zeroRot,0,fCheckOverlaps);
+  WBsubstruct1->MakeImprint(universe_log,posBrick3_1,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick4_1,zeroRot,0,fCheckOverlaps);
+  WBsubstruct1->MakeImprint(universe_log,posBrick5_1,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick6_1,zeroRot,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPL1_1,poly_left_1_layer1,"poly_left_1_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPL2_1,poly_left_2_layer1,"poly_left_2_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPR1_1,poly_right_1_layer1,"poly_right_1_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPR2_1,poly_right_2_layer1,"poly_right_2_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPT1_1,poly_top_1_layer1,"poly_top_1_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPT2_1,poly_top_2_layer1,"poly_top_2_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPT3_1,poly_top_3_layer1,"poly_top_3_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRL1_1,rub_left_1_layer1,"rub_left_1_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRR1_1,rub_right_1_layer1,"rub_right_1_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT1_1,rub_top_1_layer1,"rub_top_1_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT2_1,rub_top_2_layer1,"rub_top_2_layer1_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT3_1,rub_top_3_layer1,"rub_top_3_layer1_phys",universe_log,false,0,fCheckOverlaps);
+
+  // Shield Layer 2 Place
+  WBsubstruct2->MakeImprint(universe_log,posBrick1_2,zeroRot,0,fCheckOverlaps);
+  WBsubstruct1->MakeImprint(universe_log,posBrick2_2,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick3_2,zeroRot,0,fCheckOverlaps);
+  WBsubstruct1->MakeImprint(universe_log,posBrick4_2,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick5_2,zeroRot,0,fCheckOverlaps);
+  WBsubstruct1->MakeImprint(universe_log,posBrick6_2,zeroRot,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPL1_2,poly_left_1_layer2,"poly_left_1_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPL2_2,poly_left_2_layer2,"poly_left_2_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPR1_2,poly_right_1_layer2,"poly_right_1_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPR2_2,poly_right_2_layer2,"poly_right_2_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPB1_2,poly_bottom_1_layer2,"poly_bottom_1_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPT1_2,poly_top_1_layer2,"poly_top_1_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPT2_2,poly_top_2_layer2,"poly_top_2_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRL1_2,rub_left_1_layer2,"rub_right_1_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRR1_2,rub_right_1_layer2,"rub_left_1_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT1_2,rub_top_1_layer2,"rub_top_1_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT2_2,rub_top_2_layer2,"rub_top_2_layer2_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT3_2,rub_top_3_layer2,"rub_top_3_layer2_phys",universe_log,false,0,fCheckOverlaps);
 
 
+  // Shield Layer 3 Place
+  WBsubstruct1->MakeImprint(universe_log,posBrick1_3,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick2_3,zeroRot,0,fCheckOverlaps);
+  WBsubstruct1->MakeImprint(universe_log,posBrick3_3,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick4_3,zeroRot,0,fCheckOverlaps);
+  WBsubstruct1->MakeImprint(universe_log,posBrick5_3,zeroRot,0,fCheckOverlaps);
+  WBsubstruct2->MakeImprint(universe_log,posBrick6_3,zeroRot,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPL1_3,poly_left_1_layer3,"poly_left_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPL2_3,poly_left_2_layer3,"poly_left_2_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPR1_3,poly_right_1_layer3,"poly_right_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPR2_3,poly_right_2_layer3,"poly_right_2_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPB1_3,poly_bottom_1_layer3,"poly_bottom_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPB2_3,poly_bottom_2_layer3,"poly_bottom_2_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posPT1_3,poly_top_1_layer3,"poly_top_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRL1_3,rub_left_1_layer3,"rub_left_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRR1_3,rub_right_1_layer3,"rub_right_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT1_3,rub_top_1_layer3,"rub_top_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT2_3,rub_top_2_layer3,"rub_top_2_layer3_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posRT3_3,rub_top_3_layer3,"rub_top_3_layer3_phys",universe_log,false,0,fCheckOverlaps);
 
 
 
@@ -779,6 +927,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4VisAttributes* aVisAttDet = new G4VisAttributes(G4Colour(145./255.,151./255.,171./255.));
   G4VisAttributes* aVisAttCu = new G4VisAttributes(G4Colour(252./255.,187./255.,34./255.));
   G4VisAttributes* aVisAttScint = new G4VisAttributes(G4Colour(245./255.,241./255.,12./255.));
+  G4VisAttributes* aVisAttWhite = new G4VisAttributes(G4Colour::White());
 
   //aVisAttAlTubes->SetForceWireframe(true);
   aVisAttWater->SetForceWireframe(true);
@@ -813,28 +962,75 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   fLogicDetLiN2D->SetVisAttributes(aVisAttLiqN2);
   fLogicDet->SetVisAttributes(aVisAttWater);
 
+  logic_shell->SetVisAttributes(aVisAttWhite);
+  logic_shell->SetVisAttributes(aVisAttWater);
 
-  icebox1_log->SetVisAttributes(aVisAttCu);
-  icebox2_log->SetVisAttributes(aVisAttCu);
-  icebox3_log->SetVisAttributes(aVisAttCu);
-  polyTC_log->SetVisAttributes(aVisAttPoly);
-  leadTC_log->SetVisAttributes(aVisAttLead);
-  det1_log->SetVisAttributes(aVisAttDet);
-  det2_log->SetVisAttributes(aVisAttDet);
-  det3_log->SetVisAttributes(aVisAttDet);
-  det4_log->SetVisAttributes(aVisAttDet);
-  det5_log->SetVisAttributes(aVisAttDet);
-  det6_log->SetVisAttributes(aVisAttDet);
-  det7_log->SetVisAttributes(aVisAttDet);
-  det8_log->SetVisAttributes(aVisAttDet);
-  polyIBshield_log->SetVisAttributes(aVisAttPoly);
-  leadIBshield_log->SetVisAttributes(aVisAttLead);
-  polyoutershield_log->SetVisAttributes(aVisAttPoly);
-  leadoutershield_log->SetVisAttributes(aVisAttLead);
-  muVetoTop_log->SetVisAttributes(aVisAttScint);
-  muVetoBottom_log->SetVisAttributes(aVisAttScint);
-  backScint_log->SetVisAttributes(aVisAttScint);
 
+  poly_left_1_layer1->SetVisAttributes(aVisAttWhite);
+  poly_left_2_layer1->SetVisAttributes(aVisAttWhite);
+  poly_right_1_layer1->SetVisAttributes(aVisAttWhite);
+  poly_right_2_layer1->SetVisAttributes(aVisAttWhite);
+  poly_top_1_layer1->SetVisAttributes(aVisAttWhite);
+  poly_top_2_layer1->SetVisAttributes(aVisAttWhite);
+  poly_top_3_layer1->SetVisAttributes(aVisAttWhite);
+
+  rub_left_1_layer1->SetVisAttributes(aVisAttGraphite);
+  rub_right_1_layer1->SetVisAttributes(aVisAttGraphite);
+  rub_top_1_layer1->SetVisAttributes(aVisAttGraphite);
+  rub_top_2_layer1->SetVisAttributes(aVisAttGraphite);
+  rub_top_3_layer1->SetVisAttributes(aVisAttGraphite);
+
+
+  poly_left_1_layer2->SetVisAttributes(aVisAttWhite);
+  poly_left_2_layer2->SetVisAttributes(aVisAttWhite);
+  poly_right_1_layer2->SetVisAttributes(aVisAttWhite);
+  poly_right_2_layer2->SetVisAttributes(aVisAttWhite);
+  poly_bottom_1_layer2->SetVisAttributes(aVisAttWhite);
+  poly_top_1_layer2->SetVisAttributes(aVisAttWhite);
+  poly_top_2_layer2->SetVisAttributes(aVisAttWhite);
+ 
+  rub_right_1_layer2->SetVisAttributes(aVisAttGraphite);
+  rub_left_1_layer2->SetVisAttributes(aVisAttGraphite);
+  rub_top_1_layer2->SetVisAttributes(aVisAttGraphite);
+  rub_top_2_layer2->SetVisAttributes(aVisAttGraphite);
+  rub_top_3_layer2->SetVisAttributes(aVisAttGraphite);
+
+  poly_left_1_layer3->SetVisAttributes(aVisAttWhite);
+  poly_left_2_layer3->SetVisAttributes(aVisAttWhite);
+  poly_right_1_layer3->SetVisAttributes(aVisAttWhite);
+  poly_right_2_layer3->SetVisAttributes(aVisAttWhite);
+  poly_bottom_1_layer3->SetVisAttributes(aVisAttWhite);
+  poly_bottom_2_layer3->SetVisAttributes(aVisAttWhite);
+  poly_top_1_layer3->SetVisAttributes(aVisAttWhite);
+
+  rub_left_1_layer3->SetVisAttributes(aVisAttGraphite);
+  rub_right_1_layer3->SetVisAttributes(aVisAttGraphite);
+  rub_top_1_layer3->SetVisAttributes(aVisAttGraphite);
+  rub_top_2_layer3->SetVisAttributes(aVisAttGraphite);
+  rub_top_3_layer3->SetVisAttributes(aVisAttGraphite);
+
+
+  //icebox1_log->SetVisAttributes(aVisAttCu);
+  //icebox2_log->SetVisAttributes(aVisAttCu);
+  //icebox3_log->SetVisAttributes(aVisAttCu);
+  //polyTC_log->SetVisAttributes(aVisAttPoly);
+  //leadTC_log->SetVisAttributes(aVisAttLead);
+  //det1_log->SetVisAttributes(aVisAttDet);
+  //det2_log->SetVisAttributes(aVisAttDet);
+  //det3_log->SetVisAttributes(aVisAttDet);
+  //det4_log->SetVisAttributes(aVisAttDet);
+  //det5_log->SetVisAttributes(aVisAttDet);
+  //det6_log->SetVisAttributes(aVisAttDet);
+  //det7_log->SetVisAttributes(aVisAttDet);
+  //det8_log->SetVisAttributes(aVisAttDet);
+  //polyIBshield_log->SetVisAttributes(aVisAttPoly);
+  //leadIBshield_log->SetVisAttributes(aVisAttLead);
+  //polyoutershield_log->SetVisAttributes(aVisAttPoly);
+  //leadoutershield_log->SetVisAttributes(aVisAttLead);
+  //muVetoTop_log->SetVisAttributes(aVisAttScint);
+  //muVetoBottom_log->SetVisAttributes(aVisAttScint);
+  //backScint_log->SetVisAttributes(aVisAttScint);
+  
   return fUniverse_phys;
 }
 

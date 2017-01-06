@@ -35,7 +35,7 @@ public:
   G4Material* GetMineralOil() const { return minOil; }
   G4Material* GetLiHe() const { return liqHe; }
   G4Material* GetAcrylic() const { return Acry; }
-
+  G4Material* GetNeopreneBlend() const { return NeopreneBlend;}
 
 private:
   MINERMaterials();
@@ -68,6 +68,7 @@ private:
   G4Material *minOil;
   G4Material *liqHe;
   G4Material *Acry;
+  G4Material *NeopreneBlend;
 };
 
 #endif /* MINERMaterals_hh */

@@ -73,6 +73,13 @@ MINERMaterials::MINERMaterials()
   Boraflex->AddMaterial(boron,0.276);
   Boraflex->AddMaterial(HDPE,0.724);
 
+  // Neoprene Blend
+  // need to measure the density of this stuff
+  NeopreneBlend = new G4Material("NeopreneBlend", 1.1*g/cm3, 2);
+  NeopreneBlend->AddMaterial(nistManager->FindOrBuildMaterial("G4_RUBBER_NEOPRENE") , 0.666);
+  NeopreneBlend->AddMaterial(nistManager->FindOrBuildMaterial("G4_RUBBER_NATURAL") , 0.334);
+
+
   // HD Concrete in NSC
   G4Element* H1 = new G4Element("H1","H1", 1, 1.0078*g/mole);
   G4Element* O16 = new G4Element("O16","O16", 8, 15.9949*g/mole);
