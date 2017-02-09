@@ -39,6 +39,7 @@ MINERMaterials::MINERMaterials()
   liquidNitrogen = new G4Material("LiquidNitrogen",7.,14.01*g/mole,0.808*g/cm3, kStateLiquid,77.*kelvin);
   air  = nistManager->FindOrBuildMaterial("G4_AIR");
 
+  tin = nistManager->FindOrBuildMaterial("G4_Sn");
 
   //G4_POLYETHYLENE  (C_2H_4)_N-Polyethylene  0.94 g/cm3,  
   //             1     0.143711

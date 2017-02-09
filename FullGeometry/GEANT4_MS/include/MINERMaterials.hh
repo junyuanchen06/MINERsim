@@ -36,6 +36,7 @@ public:
   G4Material* GetLiHe() const { return liqHe; }
   G4Material* GetAcrylic() const { return Acry; }
   G4Material* GetNeopreneBlend() const { return NeopreneBlend;}
+  G4Material* GetTin() const { return tin; }
 
 private:
   MINERMaterials();
@@ -69,6 +70,8 @@ private:
   G4Material *liqHe;
   G4Material *Acry;
   G4Material *NeopreneBlend;
+  G4Material *tin;
+
 };
 
 #endif /* MINERMaterals_hh */
