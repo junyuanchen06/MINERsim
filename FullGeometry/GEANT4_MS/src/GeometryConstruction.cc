@@ -521,9 +521,9 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   // placements for everything relative to (0,0,0)
   G4ThreeVector   posLayer1(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 9.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   posLayer2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 27.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
-  G4ThreeVector   posLayer3(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 47.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayer3(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 49.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   posLayerLead(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 37.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
-  G4ThreeVector   posLayerLead2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 49.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayerLead2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 57.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
 
   // Layer 1 positions
   G4ThreeVector   posBrick1_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in - 2.5*brick_z );
