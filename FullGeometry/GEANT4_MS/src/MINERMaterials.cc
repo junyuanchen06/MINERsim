@@ -41,6 +41,8 @@ MINERMaterials::MINERMaterials()
 
   tin = nistManager->FindOrBuildMaterial("G4_Sn");
 
+  cadmium = nistManager->FindOrBuildMaterial("G4_Cd");
+
   //G4_POLYETHYLENE  (C_2H_4)_N-Polyethylene  0.94 g/cm3,  
   //             1     0.143711
   //             6     0.856289

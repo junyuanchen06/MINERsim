@@ -417,12 +417,19 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   WBsubstruct2->AddPlacedVolume(logic_filling,brick8_place,zeroRot);
 
   // Lead Wall
-  G4double leadWall_x = 2.*in;
+  G4double leadWall_x = 4.*in;
   G4double leadWall_y = thermalC_width_small;
   G4double leadWall_z = thermalC_height_small; 
 
   G4Box *leadWall = new G4Box("leadWall", leadWall_x/2, leadWall_y/2, leadWall_z/2);
   G4LogicalVolume * leadWall_log = new G4LogicalVolume(leadWall, mats->GetShieldLead(), "leadWall_log");
+
+  G4double leadWall2_x = 4.*in;
+  G4double leadWall2_y = thermalC_height_big;
+  G4double leadWall2_z = thermalC_height_big;
+
+  G4Box *leadWall2 = new G4Box("leadWall2", leadWall2_x/2, leadWall2_y/2, leadWall2_z/2);
+  G4LogicalVolume * leadWall2_log = new G4LogicalVolume(leadWall2, mats->GetShieldLead(), "leadWall2_log");
 
 
   // poly sheets
@@ -516,6 +523,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector   posLayer2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 27.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   posLayer3(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 47.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   posLayerLead(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 37.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayerLead2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 49.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
 
   // Layer 1 positions
   G4ThreeVector   posBrick1_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in - 2.5*brick_z );
@@ -831,7 +839,8 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4LogicalVolume *fLogicDetLiN2D = new G4LogicalVolume(liqN2_TubeD,mats->GetLiN2(),"liqN2_TubeD_log");
   //G4LogicalVolume *fLogicDetLead = new G4LogicalVolume(detLeadShield,mats->GetShieldLead(),"detLeadShield_log");
   G4LogicalVolume *fLogicDetCSCu = new G4LogicalVolume(CopperCanberra,mats->GetCopper(),"CopperCanberra_log");
-  G4LogicalVolume *fLogicDetCSTin = new G4LogicalVolume(TinCanberra,mats->GetTin(),"TinCanberra_log");
+//  G4LogicalVolume *fLogicDetCSTin = new G4LogicalVolume(TinCanberra,mats->GetTin(),"TinCanberra_log");
+  G4LogicalVolume *fLogicDetCSTin = new G4LogicalVolume(TinCanberra,mats->GetCadmium(),"TinCanberra_log");  
   G4LogicalVolume *fLogicDetCSPb = new G4LogicalVolume(LeadCanberra,mats->GetShieldLead(),"LeadCanberra_log");
   G4LogicalVolume *fLogicDetCSSteel = new G4LogicalVolume(SteelCanberra,mats->GetStainlessSteel(),"SteelCanberra_log");
 
@@ -869,7 +878,8 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   //shielding->MakeImprint(universe_log,posShield,zeroRot,0,fCheckOverlaps);
 
   // Lead Wall Place
-  //new G4PVPlacement(0,posLayerLead,leadWall_log,"leadWall_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posLayerLead,leadWall_log,"leadWall_phys",universe_log,false,0,fCheckOverlaps);
+  new G4PVPlacement(0,posLayerLead2,leadWall2_log,"leadWall2_phys",universe_log,false,0,fCheckOverlaps);
 
   // Shield Layer 1 Place
   WBsubstruct1->MakeImprint(universe_log,posBrick1_1,zeroRot,0,fCheckOverlaps);
@@ -913,7 +923,6 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 
 
   // Shield Layer 3 Place
-  /*
   WBsubstruct1->MakeImprint(universe_log,posBrick1_3,zeroRot,0,fCheckOverlaps);
   WBsubstruct2->MakeImprint(universe_log,posBrick2_3,zeroRot,0,fCheckOverlaps);
   WBsubstruct1->MakeImprint(universe_log,posBrick3_3,zeroRot,0,fCheckOverlaps);
@@ -932,7 +941,6 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   new G4PVPlacement(0,posRT1_3,rub_top_1_layer3,"rub_top_1_layer3_phys",universe_log,false,0,fCheckOverlaps);
   new G4PVPlacement(0,posRT2_3,rub_top_2_layer3,"rub_top_2_layer3_phys",universe_log,false,0,fCheckOverlaps);
   new G4PVPlacement(0,posRT3_3,rub_top_3_layer3,"rub_top_3_layer3_phys",universe_log,false,0,fCheckOverlaps);
-  */
 
 
 //--------- Visualization attributes -------------------------------

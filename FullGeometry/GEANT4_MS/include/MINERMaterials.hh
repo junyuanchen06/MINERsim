@@ -37,6 +37,8 @@ public:
   G4Material* GetAcrylic() const { return Acry; }
   G4Material* GetNeopreneBlend() const { return NeopreneBlend;}
   G4Material* GetTin() const { return tin; }
+  G4Material* GetCadmium() const { return cadmium; }
+
 
 private:
   MINERMaterials();
@@ -71,6 +73,7 @@ private:
   G4Material *Acry;
   G4Material *NeopreneBlend;
   G4Material *tin;
+  G4Material *cadmium;
 
 };
 
