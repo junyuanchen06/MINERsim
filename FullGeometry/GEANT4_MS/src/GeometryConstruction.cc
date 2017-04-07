@@ -175,7 +175,10 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4double thermalC_height_small = 39.5*in; // smaller part of thermal column, square face side
   G4double thermalC_width_small = 41*in; // smaller part of thermal column, square face side
   G4double thermalC_length_big = 49.6875*in;
-  G4double thermalC_length_small = (19.625+8.875+25.8125)*in;
+
+//  G4double thermalC_length_small = (19.625+8.875+25.8125)*in;
+  G4double thermalC_length_small = (19.625+8.875+25.8125+1.)*in;
+
   G4double bioShield_flat_width = thermalC_height_big + 1*m; // this is the width of the "flat" part of the bio shield where the thermal column is ESTIMATE
   G4double aluminumPlate_thick = 0.5*in; // THIS IS A GUESS
   G4double SSPlate_thick = 0.5*in; // THIS IS A GUESS
@@ -522,8 +525,8 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4ThreeVector   posLayer1(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 9.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   posLayer2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 27.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   posLayer3(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 49.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
-  G4ThreeVector   posLayerLead(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 37.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
-  G4ThreeVector   posLayerLead2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 57.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayerLead(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 38.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
+  G4ThreeVector   posLayerLead2(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big - thermalC_length_small + 60.*in,0,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);
 
   // Layer 1 positions
   G4ThreeVector   posBrick1_1(posLayer1.x(),0.5*in ,posLayer1.z() + -1.75*in - 2.5*brick_z );
@@ -860,8 +863,8 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   fullDet->AddPlacedVolume(fLogicDetCSSteel,ShieldCanberra_Pos,zeroRot);
 
 //  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick - 7.5*in - tubeDlen - tubeClen - tubeBlen - tubeAlen + 0.5*detHalfZ,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out);  // 3 ft outside thermal column
-  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick - 6.*in - tubeDlen - tubeClen - tubeBlen - tubeAlen + 0.5*detHalfZ + (1./16.)*in,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out-thermalC_height_big/2.+12.*in);
-
+//  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick - 6.*in - tubeDlen - tubeClen - tubeBlen - tubeAlen + 0.5*detHalfZ + (1./16.)*in,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out-thermalC_height_big/2.+12.*in);
+  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick - 1.*in - tubeDlen - tubeClen - tubeBlen - tubeAlen + 0.5*detHalfZ + (1./16.)*in,0.,-(worldZ/2.)+floor_thick_out+floor_to_TC_out-thermalC_height_big/2.+22.*in);
 
   // collecting placements here to make it easy to turn stuff off
   fUniverse_phys = new G4PVPlacement(0,G4ThreeVector(),"universe_P",universe_log,0,false,0);
