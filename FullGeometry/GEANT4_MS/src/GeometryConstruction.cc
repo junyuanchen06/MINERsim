@@ -191,7 +191,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
                                          //  and also = the length of the extension that's aluminum instead of SS
 
 
-  G4cout << water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small-SSPlate_thick-gb_depth << 0. << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
+  G4cout << water_rad+bioShield_thick-thermalC_length_big-thermalC_length_small-SSPlate_thick << 0. << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
   //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out + 0.5*thermalC_height_small << G4endl;
   //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0. << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out - 0.5*thermalC_height_small << G4endl;
   //G4cout << water_rad+bioShield_thick-thermalC_length_big-((8.875+25.8125)*in)/2. << "  " <<  0.5*thermalC_height_small  << "  " << -(worldZ/2.)+floor_thick_out+floor_to_TC_out << G4endl;
@@ -390,13 +390,15 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   G4AssemblyVolume *WBsubstruct1 = new G4AssemblyVolume();
   G4ThreeVector   brick1_place(0.5*(brick_x + wgGap),0.,0.);
   G4ThreeVector   brick2_place(-0.5*(brick_x + wgGap),0.,0.);
-  G4ThreeVector   brick3_place(0.,0.5*(brick_y + wgGap) + 0.5*(brick_x + wgGap),0.);
-  G4ThreeVector   brick4_place(0.,-1*(0.5*(brick_y + wgGap) + 0.5*(brick_x + wgGap)),0.);
+  G4ThreeVector   brick3_place(0.,(0.5*brick_y + 0.5*brick_x + 0.5*wgGap),0.);
+  G4ThreeVector   brick4_place(0.,-1*(0.5*brick_y + 0.5*brick_x + 0.5*wgGap),0.);
+//  G4ThreeVector   brick3_place(0.,0.5*(brick_y + wgGap) + 0.5*(brick_x + wgGap),0.);
+//  G4ThreeVector   brick4_place(0.,-1*(0.5*(brick_y + wgGap) + 0.5*(brick_x + wgGap)),0.);
   G4RotationMatrix* RotBrick = new G4RotationMatrix;
   RotBrick->rotateZ(pi/2.);
   RotBrick->rotateX(0.);
   RotBrick->rotateY(0.);
-  WBsubstruct1->AddPlacedVolume(logic_shell,brick1_place,zeroRot); 
+  WBsubstruct1->AddPlacedVolume(logic_shell,brick1_place,zeroRot);
   WBsubstruct1->AddPlacedVolume(logic_shell,brick2_place,zeroRot);
   WBsubstruct1->AddPlacedVolume(logic_shell,brick3_place,RotBrick);
   WBsubstruct1->AddPlacedVolume(logic_shell,brick4_place,RotBrick);
@@ -407,8 +409,8 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 
   G4AssemblyVolume *WBsubstruct2 = new G4AssemblyVolume();
   G4ThreeVector   brick5_place(0.5*(brick_x + wgGap),0.5*(brick_y + wgGap),0.);
-  G4ThreeVector   brick6_place(-0.5*(brick_x + wgGap),-1*(0.5*(brick_y + wgGap)),0.);
-  G4ThreeVector   brick7_place(0.5*(brick_x + wgGap),0.5*(brick_y + wgGap),0.);
+  G4ThreeVector   brick6_place(-0.5*(brick_x + wgGap),(0.5*(brick_y + wgGap)),0.);
+  G4ThreeVector   brick7_place(0.5*(brick_x + wgGap),-0.5*(brick_y + wgGap),0.);
   G4ThreeVector   brick8_place(-0.5*(brick_x + wgGap),-1*(0.5*(brick_y + wgGap)),0.);
   WBsubstruct2->AddPlacedVolume(logic_shell,brick5_place,zeroRot);
   WBsubstruct2->AddPlacedVolume(logic_shell,brick6_place,zeroRot);
@@ -418,6 +420,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   WBsubstruct2->AddPlacedVolume(logic_filling,brick6_place,zeroRot);
   WBsubstruct2->AddPlacedVolume(logic_filling,brick7_place,zeroRot);
   WBsubstruct2->AddPlacedVolume(logic_filling,brick8_place,zeroRot);
+
 
   // Lead Wall
   G4double leadWall_x = 4.*in;
