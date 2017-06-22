@@ -174,7 +174,11 @@ void RootIO::AddTrack(const G4Track*  trk)
   G4double x = vertex.x(), y = vertex.y(), z = vertex.z();
 
   G4ThreeVector mom = trk->GetMomentum();
-  G4double px = mom.x(), py = mom.y(), pz = mom.z();
+  G4double px = mom.x(), py = mom.y(), pz = mom.z(), pt = mom.mag();
+
+  hists->fill1DHist(px/pt,"Primary_px","",100,-1.1,1.1,1.,"");
+  hists->fill1DHist(py/pt,"Primary_py","",100,-1.1,1.1,1.,"");
+  hists->fill1DHist(pz/pt,"Primary_pz","",100,-1.1,1.1,1.,"");
 
   BaseTrack* tr = new ((*sTracks)[trackC]) BaseTrack;
   tr->Setp4(px,py,pz,trk->GetTotalEnergy());
@@ -209,6 +213,16 @@ void RootIO::FillMonitoring(MinerHitsCollection * zipHits, G4int detID)
 
 }
 
+
+void RootIO::FillNeutronStuff(G4double energy, G4double x, G4double y, G4double z, G4double weight)
+{
+
+      hists->fill1DHist(x,"Neutron_x","Neutron_x",4000,-1000,3000,weight,"");
+      hists->fill1DHist(x,"Neutron_E","Neutron_E",500,0,10,1.,"");
+      hists->fill2DHist(y,z,"Neutron_yz","",120,-600,600,120,-1900,-700,weight,"");
+      hists->fill2DHist(x,z,"Neutron_xz","",120,-600,600,400,-1000,3000,weight,"");
+
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RootIO::Write()

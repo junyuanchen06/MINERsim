@@ -31,6 +31,10 @@
 #define GeometryConstruction1_h 1
 
 #include "G4VUserDetectorConstruction.hh"
+#include "G4AssemblyVolume.hh"
+#include "MINERMaterials.hh"
+#include "G4VisAttributes.hh"
+
 
 class G4VPhysicalVolume;
 class G4Material;
@@ -61,6 +65,7 @@ class GeometryConstruction : public G4VUserDetectorConstruction
 
 
     G4VPhysicalVolume* GetWorldVolume();
+    G4AssemblyVolume* ConstructBEGe(std::string name);
 
 
   private:
@@ -69,6 +74,27 @@ class GeometryConstruction : public G4VUserDetectorConstruction
     std::vector< G4LogicalVolume * > fLogicalVolumeVector;
     std::vector< G4VPhysicalVolume * > fPhysicalVolumeVector;
 
+    const MINERMaterials * mats = MINERMaterials::GetInstance();
+    G4double in = 2.54*CLHEP::cm;
+    G4bool fCheckOverlaps = true;
+    G4RotationMatrix *zeroRot = new G4RotationMatrix;
+    G4ThreeVector zeroPos;
+
+
+    G4VisAttributes* aVisAttWater = new G4VisAttributes(G4Colour(0.0,0,1.0));
+    G4VisAttributes* aVisAttGraphite = new G4VisAttributes(G4Colour(.2,0.2,.2));
+    G4VisAttributes* aVisAttLead = new G4VisAttributes(G4Colour(.1,0.1,.1));
+    G4VisAttributes* aVisAttPoly = new G4VisAttributes(G4Colour(31./255.,191./255.,127./255.));
+    G4VisAttributes* aVisAttAlTubes = new G4VisAttributes(G4Colour(.5,.5,.5));
+    G4VisAttributes* aVisAttStainless = new G4VisAttributes(G4Colour(.5,.5,.5));
+    G4VisAttributes* aVisAttHDConcrete = new G4VisAttributes(G4Colour(0.3,0.3,.3));
+    G4VisAttributes* aVisAttBioShield = new G4VisAttributes(G4Colour(0.55,0.55,.55));
+    G4VisAttributes* aVisAttSSLiner = new G4VisAttributes(G4Colour(0.4,0.4,.4));
+    G4VisAttributes* aVisAttLiqN2 = new G4VisAttributes(G4Colour(0.0,0.0,.8));
+    G4VisAttributes* aVisAttDet = new G4VisAttributes(G4Colour(145./255.,151./255.,171./255.));
+    G4VisAttributes* aVisAttCu = new G4VisAttributes(G4Colour(252./255.,187./255.,34./255.));
+    G4VisAttributes* aVisAttScint = new G4VisAttributes(G4Colour(245./255.,241./255.,12./255.));
+    G4VisAttributes* aVisAttWhite = new G4VisAttributes(G4Colour::White());
 
     G4VIStore *aIstore;
 

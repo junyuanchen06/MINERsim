@@ -71,6 +71,21 @@ MINERMaterials::MINERMaterials()
   boratedpoly30->AddMaterial(HDPE,0.70);
 
 
+  // boric acid
+  G4Element* B = nistManager->FindOrBuildElement("B");
+  G4Element* O = nistManager->FindOrBuildElement("O");
+  G4Element* H = nistManager->FindOrBuildElement("H");
+  BoricAcid = new G4Material("BoricAcid", 1.44*g/cm3, 3);
+  BoricAcid->AddElement(B, 0.1428);
+  BoricAcid->AddElement(O, 0.4286);
+  BoricAcid->AddElement(H, 0.4286);
+
+  // borated paraffin
+  paraffin = nistManager->FindOrBuildMaterial("G4_PARAFFIN");
+  boratedWax = new G4Material("BoratedWax",1.19*g/cm3, 2);
+  boratedWax->AddMaterial(BoricAcid,0.1);
+  boratedWax->AddMaterial(paraffin,0.9);
+
   // stand in for boraflex
   Boraflex = new G4Material("Boraflex",1.64*g/cm3, 2);
   Boraflex->AddMaterial(boron,0.276);
@@ -81,6 +96,9 @@ MINERMaterials::MINERMaterials()
   NeopreneBlend = new G4Material("NeopreneBlend", 1.1*g/cm3, 2);
   NeopreneBlend->AddMaterial(nistManager->FindOrBuildMaterial("G4_RUBBER_NEOPRENE") , 0.666);
   NeopreneBlend->AddMaterial(nistManager->FindOrBuildMaterial("G4_RUBBER_NATURAL") , 0.334);
+
+
+
 
 
   // HD Concrete in NSC

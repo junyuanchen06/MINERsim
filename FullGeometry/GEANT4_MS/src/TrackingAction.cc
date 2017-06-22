@@ -54,9 +54,9 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
    if (track->GetParentID() == 0){
        RootIO::GetInstance()->SetIncomingE(track->GetKineticEnergy());
        RootIO::GetInstance()->AddTrack(track);
-       G4Track *mutableTrack = fpTrackingManager->GetTrack();
-       TrackExtra *info = new TrackExtra(track);
-       mutableTrack->SetUserInformation(info);
+       //G4Track *mutableTrack = fpTrackingManager->GetTrack();
+       //TrackExtra *info = new TrackExtra(track);
+       //mutableTrack->SetUserInformation(info);
    }
 
 
@@ -76,6 +76,7 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track)
 
 void TrackingAction::PostUserTrackingAction(const G4Track* track)
 {
+  /*
   G4Track *mutableTrack = fpTrackingManager->GetTrack();
 
   if (track->GetParentID() == 0){
@@ -137,6 +138,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track* track)
      }
 
   }
+  */
 
 }
 

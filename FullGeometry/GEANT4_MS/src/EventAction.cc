@@ -65,19 +65,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   G4SDManager* fSDM = G4SDManager::GetSDMpointer();
   G4HCofThisEvent* HCofEvent = event->GetHCofThisEvent();
   MinerHitsCollection*  craigHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_Craig_hits")));
-  /*
-  MinerHitsCollection*  muVetoTopHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_muVetoTop_hits")));
-  MinerHitsCollection*  muVetoBottomHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_muVetoBottom_hits")));
-  MinerHitsCollection*  backScintHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_backScint_hits")));
-  MinerHitsCollection*  det1Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det1_hits")));
-  MinerHitsCollection*  det2Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det2_hits")));
-  MinerHitsCollection*  det3Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det3_hits")));
-  MinerHitsCollection*  det4Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det4_hits")));
-  MinerHitsCollection*  det5Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det5_hits")));
-  MinerHitsCollection*  det6Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det6_hits")));
-  MinerHitsCollection*  det7Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det7_hits")));
-  MinerHitsCollection*  det8Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_det8_hits")));
-  */
+  MinerHitsCollection*  craigHits2 = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_Craig_hits2")));
 
   MinerHitsCollection*  insideIBHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_insideIB_hits")));
   MinerHitsCollection*  atNeutronDetHits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atNeutronDet_hits")));
@@ -93,22 +81,8 @@ void EventAction::EndOfEventAction(const G4Event* event)
   MinerHitsCollection*  atPoly8Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atPoly8_hits")));
   MinerHitsCollection*  atPoly9Hits = (MinerHitsCollection*)(HCofEvent->GetHC(fSDM->GetCollectionID("MS_atPoly9_hits")));
 
-  RootIO::GetInstance()->AddHits(craigHits,12);
-  /*
-  RootIO::GetInstance()->AddHits(muVetoTopHits,9);
-  RootIO::GetInstance()->AddHits(muVetoBottomHits,10);
-  RootIO::GetInstance()->AddHits(backScintHits,11);
-  RootIO::GetInstance()->AddHits(det1Hits,1);
-  RootIO::GetInstance()->AddHits(det2Hits,2);
-  RootIO::GetInstance()->AddHits(det3Hits,3);
-  RootIO::GetInstance()->AddHits(det4Hits,4);
-  RootIO::GetInstance()->AddHits(det5Hits,5);
-  RootIO::GetInstance()->AddHits(det6Hits,6);
-  RootIO::GetInstance()->AddHits(det7Hits,7);
-  RootIO::GetInstance()->AddHits(det8Hits,8);
-  RootIO::GetInstance()->AddHits(atNeutronDetHits,24);
-  RootIO::GetInstance()->AddHits(insideIBHits,25);
-  */
+  RootIO::GetInstance()->AddHits(craigHits,1);
+  RootIO::GetInstance()->AddHits(craigHits2,2);
 
 
   RootIO::GetInstance()->FillMonitoring(atStartTCHits,13);
@@ -124,6 +98,23 @@ void EventAction::EndOfEventAction(const G4Event* event)
   RootIO::GetInstance()->FillMonitoring(atLeadHits,23);
   RootIO::GetInstance()->FillMonitoring(atNeutronDetHits,24);
   RootIO::GetInstance()->FillMonitoring(insideIBHits,25);
+
+  if (craigHits->entries() > 0){
+    RootIO::GetInstance()->FillMonitoring(atStartTCHits,26);
+    RootIO::GetInstance()->FillMonitoring(atPoly1Hits,27);
+    RootIO::GetInstance()->FillMonitoring(atPoly2Hits,28);
+    RootIO::GetInstance()->FillMonitoring(atPoly3Hits,29);
+    RootIO::GetInstance()->FillMonitoring(atPoly4Hits,30);
+    RootIO::GetInstance()->FillMonitoring(atPoly5Hits,31);
+    RootIO::GetInstance()->FillMonitoring(atPoly6Hits,32);
+    RootIO::GetInstance()->FillMonitoring(atPoly7Hits,33);
+    RootIO::GetInstance()->FillMonitoring(atPoly8Hits,34);
+    RootIO::GetInstance()->FillMonitoring(atPoly9Hits,35);
+    RootIO::GetInstance()->FillMonitoring(atLeadHits,36);
+    RootIO::GetInstance()->FillMonitoring(atNeutronDetHits,37);
+  }
+
+
 
   RootIO::GetInstance()->Write();
 

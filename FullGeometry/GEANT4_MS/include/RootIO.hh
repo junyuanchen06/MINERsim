@@ -54,6 +54,7 @@ public:
   void AddHits(MinerHitsCollection * zipHits, G4int detID);
   void AddTrack(const G4Track* trk);
   void FillMonitoring(MinerHitsCollection * zipHits, G4int detID);
+  void FillNeutronStuff(G4double energy, G4double x, G4double y, G4double z, G4double weight);
   void Setup();
   void SetFileName(G4String name);
   G4String GetFileName();

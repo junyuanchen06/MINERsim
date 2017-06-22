@@ -93,7 +93,7 @@ G4bool MinerSD::ProcessHits(G4Step* aStep,
   newHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
   newHit->SetParticleEnergy(aStep->GetPreStepPoint()->GetKineticEnergy()); 
   newHit->SetWeight(aStep->GetTrack()->GetWeight());  
-  newHit->SetPreProcess(info->GetOriginalTrackID());
+  newHit->SetPreProcess(postproc);
   newHit->SetPostProcess(postproc);
 
   fHitsCollection->insert( newHit );

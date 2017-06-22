@@ -38,6 +38,9 @@ public:
   G4Material* GetNeopreneBlend() const { return NeopreneBlend;}
   G4Material* GetTin() const { return tin; }
   G4Material* GetCadmium() const { return cadmium; }
+  G4Material* GetParaffin() const { return paraffin; }
+  G4Material* GetBParaffin() const { return boratedWax; }
+  G4Material* GetBoricAcid() const { return BoricAcid; }
 
 
 private:
@@ -74,7 +77,9 @@ private:
   G4Material *NeopreneBlend;
   G4Material *tin;
   G4Material *cadmium;
-
+  G4Material *paraffin;
+  G4Material *boratedWax;
+  G4Material *BoricAcid;
 };
 
 #endif /* MINERMaterals_hh */
