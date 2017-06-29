@@ -63,6 +63,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
+file(GLOB cry_sources $ENV{CRYHOME}/src/*.cc)
+set(CRY_LIBRARIES $ENV{CRYHOME}/lib/libCRY.a)
+include_directories($ENV{CRYHOME}/src)
+
+
 add_library(main_lib ${sources} ${headers})
 target_include_directories(main_lib PUBLIC include)
 target_link_libraries(main_lib root_lib geant_lib)
