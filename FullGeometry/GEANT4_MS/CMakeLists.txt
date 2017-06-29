@@ -57,16 +57,12 @@ target_link_libraries(root_lib INTERFACE ${ROOT_LIBRARIES})
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
-include_directories(${PROJECT_SOURCE_DIR}/include 
+include_directories(${PROJECT_SOURCE_DIR}/include
                     ${Geant4_INCLUDE_DIR}
-                    ${ROOT_INCLUDE_DIR})
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
+                    ${ROOT_INCLUDE_DIR}
+                    $ENV{CRYHOME}/src)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc $ENV{CRYHOME}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
-
-file(GLOB cry_sources $ENV{CRYHOME}/src/*.cc)
-set(CRY_LIBRARIES $ENV{CRYHOME}/lib/libCRY.a)
-include_directories($ENV{CRYHOME}/src)
-
 
 add_library(main_lib ${sources} ${headers})
 target_include_directories(main_lib PUBLIC include)
