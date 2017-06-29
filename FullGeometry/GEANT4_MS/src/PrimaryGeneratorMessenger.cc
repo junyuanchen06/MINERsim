@@ -1,10 +1,9 @@
 #include <G4UIcmdWithABool.hh>
 #include "PrimaryGeneratorMessenger.hh"
-
 #include "PrimaryGeneratorAction.hh"
-#include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithoutParameter.hh"
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -25,7 +24,7 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* gun
   cryUpdateCmd->AvailableForStates(G4State_Idle);
 
   cryUseCmd = new G4UIcmdWithABool("/cry/useCry", this);
-  cryUseCmd->SetGuidance("Enable/Disable CRY, 1 for using CRY, 0 for using general particle source");
+  cryUseCmd->SetGuidance("Enable/Disable CRY, 1 for using CRY, 0 for using general particle source.");
 
   messengerInput = new std::string;
 }
@@ -53,7 +52,7 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
     *messengerInput = "";
   }
 
-  if(command == cryUseCmd) {
+  if (command == cryUseCmd) {
     primaryGeneratorAction->setUseCry(cryUseCmd->GetNewBoolValue(newValue));
   }
 }

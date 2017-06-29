@@ -52,20 +52,20 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
     PrimaryGeneratorAction();
-   ~PrimaryGeneratorAction();
+    ~PrimaryGeneratorAction();
 
     virtual void GeneratePrimaries(G4Event*);
     void updateCry(std::string *messengerInput);
     void setUseCry(G4bool use);
 
   private:
-    G4GeneralParticleSource* fParticleGun;
+    G4GeneralParticleSource* generalParticleSource;
     std::vector<CRYParticle*> *cryParticles;
     G4ParticleTable* particleTable;
     G4ParticleGun* particleGun;
     CRYGenerator* cryGenerator;
     G4bool useCry;
-    PrimaryGeneratorMessenger* gunMessenger;
+    PrimaryGeneratorMessenger* primaryGeneratorMessenger;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -34,29 +34,26 @@
 #include "G4Event.hh"
 #include "G4GeneralParticleSource.hh"
 #include "G4ParticleTable.hh"
-#include "G4ParticleDefinition.hh"
-#include "globals.hh"
 #include "G4SystemOfUnits.hh"
-//#include "radsource.h"
-//#include "cpp_api.h"
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
-    : G4VUserPrimaryGeneratorAction(), fParticleGun(0), useCry(false)
+    : G4VUserPrimaryGeneratorAction(), generalParticleSource(0), useCry(false)
 {
-  fParticleGun = new G4GeneralParticleSource();
+  generalParticleSource = new G4GeneralParticleSource();
   particleGun = new G4ParticleGun();
   particleTable = G4ParticleTable::GetParticleTable();
   cryParticles = new std::vector<CRYParticle*>;
-  gunMessenger = new PrimaryGeneratorMessenger(this);
+  primaryGeneratorMessenger = new PrimaryGeneratorMessenger(this);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
-  delete fParticleGun;
+  delete generalParticleSource;
   delete particleGun;
 }
 
@@ -99,7 +96,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     }
   }
   else {
-    fParticleGun->GeneratePrimaryVertex(anEvent);
+    generalParticleSource->GeneratePrimaryVertex(anEvent);
   }
 }
 
