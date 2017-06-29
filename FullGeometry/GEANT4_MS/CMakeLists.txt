@@ -18,7 +18,7 @@ else()
   find_package(Geant4 REQUIRED)
 endif()
 
-set(CMAKE_MODULE_PATH $ENV{ROOTSYS}/etc/cmake)
+list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS}/share/root/cmake)
 find_package(ROOT REQUIRED)
 
 
@@ -32,7 +32,7 @@ find_package(ROOT REQUIRED)
 # This is quickly becoming the preferred way to do things in CMake 3.5
 # This replaces, and is far more flexible than:
 #include(${Geant4_USE_FILE})
-#include(${ROOT_USE_FILE})
+include(${ROOT_USE_FILE})
 
 # Note that build targets hold ALL the information about build, but 
 # only need to be added once, in target_link_libraries
@@ -69,27 +69,27 @@ target_link_libraries(main_lib root_lib geant_lib)
 
 root_generate_dictionary(
   BaseHitDict            # path to dictionary to generate
-  BaseHit.hh  # list of includes
+  include/BaseHit.hh  # list of includes
   LINKDEF       # list of classes to process
-  BaseHitLinkDef.hh                    # ROOT linkDef file
+  include/BaseHitLinkDef.hh                    # ROOT linkDef file
 )
 add_library(hit SHARED BaseHitDict.cxx)
 target_link_libraries(hit PUBLIC main_lib)
 
 root_generate_dictionary(
   BaseTrackDict            # path to dictionary to generate
-  BaseTrack.hh  # list of includes
+  include/BaseTrack.hh  # list of includes
   LINKDEF       # list of classes to process
-  BaseTrackLinkDef.hh                    # ROOT linkDef file
+  include/BaseTrackLinkDef.hh                    # ROOT linkDef file
 )
 add_library(track SHARED BaseTrackDict.cxx)
 target_link_libraries(track PUBLIC main_lib)
 
 root_generate_dictionary(
   HistManagerDict            # path to dictionary to generate
-  HistManager.hh  # list of includes
+  include/HistManager.hh  # list of includes
   LINKDEF       # list of classes to process
-  HistManagerLinkDef.hh                    # ROOT linkDef file
+  include/HistManagerLinkDef.hh                    # ROOT linkDef file
 )
 add_library(HistManager SHARED HistManagerDict.cxx)
 target_link_libraries(HistManager PUBLIC main_lib)
