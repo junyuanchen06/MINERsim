@@ -116,6 +116,12 @@ set(MINERsim_SCRIPTS
     MINERsim.in
     MCNP_gamma_pdf.gdat
     Watt_neutron_pdf.gdat
+    vis.mac
+    gui.mac
+    X.png
+    Y.png
+    Z.png
+    run.png
   )
 
 foreach(_script ${MINERsim_SCRIPTS})
