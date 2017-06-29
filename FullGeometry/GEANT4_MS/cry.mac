@@ -1,18 +1,18 @@
 /cry/useCry 1
 
-/cry/input returnNeutrons 0
-/cry/input returnProtons 0
-/cry/input returnGammas 0
-/cry/input returnElectrons 0
-/cry/input returnPions 0
+/cry/input returnNeutrons 1
+/cry/input returnProtons 1
+/cry/input returnGammas 1
+/cry/input returnElectrons 1
+/cry/input returnPions 1
 /cry/input returnMuons 1
 
-/cry/input date 5-1-2013
+/cry/input date 6-29-2017
 /cry/input latitude 47.578
 /cry/input altitude 0
-/cry/input subboxLength 200
+/cry/input subboxLength 5
 
 /cry/input nParticlesMin 1
-/cry/input nParticlesMax 2
+/cry/input nParticlesMax 10
 
 /cry/update

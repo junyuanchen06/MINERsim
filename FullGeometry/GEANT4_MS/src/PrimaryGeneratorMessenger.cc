@@ -1,3 +1,4 @@
+#include <G4UIcmdWithABool.hh>
 #include "PrimaryGeneratorMessenger.hh"
 
 #include "PrimaryGeneratorAction.hh"
@@ -7,63 +8,54 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
-                                          PrimaryGeneratorAction* Gun)
-  :Action(Gun)
+PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* gun)
+    : primaryGeneratorAction(gun)
 {
-  CRYDir = new G4UIdirectory("/CRY/");
-  CRYDir->SetGuidance("CRY initialization");
+  cryDir = new G4UIdirectory("/cry/");
+  cryDir->SetGuidance("CRY initialization");
 
-  FileCmd = new G4UIcmdWithAString("/CRY/file",this);
-  FileCmd->SetGuidance("This reads the CRY definition from a file");
-  FileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+  cryInputCmd = new G4UIcmdWithAString("/cry/input", this);
+  cryInputCmd->SetGuidance("CRY input lines");
+  cryInputCmd->AvailableForStates(G4State_PreInit, G4State_Idle);
 
-  InputCmd = new G4UIcmdWithAString("/CRY/input",this);
-  InputCmd->SetGuidance("CRY input lines");
-  InputCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+  cryUpdateCmd = new G4UIcmdWithoutParameter("/cry/update", this);
+  cryUpdateCmd->SetGuidance("Update CRY definition.");
+  cryUpdateCmd->SetGuidance("This command MUST be applied before \"beamOn\".");
+  cryUpdateCmd->SetGuidance("if you changed the CRY definition.");
+  cryUpdateCmd->AvailableForStates(G4State_Idle);
 
-  UpdateCmd = new G4UIcmdWithoutParameter("/CRY/update",this);
-  UpdateCmd->SetGuidance("Update CRY definition.");
-  UpdateCmd->SetGuidance("This command MUST be applied before \"beamOn\" ");
-  UpdateCmd->SetGuidance("if you changed the CRY definition.");
-  UpdateCmd->AvailableForStates(G4State_Idle);
+  cryUseCmd = new G4UIcmdWithABool("/cry/useCry", this);
+  cryUseCmd->SetGuidance("Enable/Disable CRY, 1 for using CRY, 0 for using general particle source");
 
-  MessInput = new std::string;
-
+  messengerInput = new std::string;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
 {
-  delete CRYDir;
-  delete InputCmd;
-  delete UpdateCmd;
-  delete FileCmd;
+  delete cryDir;
+  delete cryInputCmd;
+  delete cryUpdateCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PrimaryGeneratorMessenger::SetNewValue(
-                                        G4UIcommand* command, G4String newValue)
+void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
 {
-  if( command == InputCmd )
-   {
-     Action->InputCRY();
-     (*MessInput).append(newValue);
-     (*MessInput).append(" ");
-   }
+  if (command == cryInputCmd) {
+    (*messengerInput).append(newValue);
+    (*messengerInput).append(" ");
+  }
 
-  if( command == UpdateCmd )
-   {
-     Action->UpdateCRY(MessInput);
-     *MessInput = "";
-   }
+  if (command == cryUpdateCmd) {
+    primaryGeneratorAction->updateCry(messengerInput);
+    *messengerInput = "";
+  }
 
-  if( command == FileCmd )
-   { Action->CRYFromFile(newValue); }
-
+  if(command == cryUseCmd) {
+    primaryGeneratorAction->setUseCry(cryUseCmd->GetNewBoolValue(newValue));
+  }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-

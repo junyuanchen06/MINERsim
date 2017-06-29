@@ -32,7 +32,16 @@
 #ifndef PrimaryGeneratorAction_h
 #define PrimaryGeneratorAction_h 1
 
+#include <string>
+#include <G4String.hh>
+#include <CRYGenerator.h>
+#include "CRYSetup.h"
+#include "CRYGenerator.h"
+#include "CRYParticle.h"
+#include "CRYUtils.h"
+#include <G4ParticleGun.hh>
 #include "G4VUserPrimaryGeneratorAction.hh"
+#include "PrimaryGeneratorMessenger.hh"
 
 class G4GeneralParticleSource;
 class G4Event;
@@ -46,9 +55,17 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
    ~PrimaryGeneratorAction();
 
     virtual void GeneratePrimaries(G4Event*);
+    void updateCry(std::string *messengerInput);
+    void setUseCry(G4bool use);
 
   private:
     G4GeneralParticleSource* fParticleGun;
+    std::vector<CRYParticle*> *cryParticles;
+    G4ParticleTable* particleTable;
+    G4ParticleGun* particleGun;
+    CRYGenerator* cryGenerator;
+    G4bool useCry;
+    PrimaryGeneratorMessenger* gunMessenger;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

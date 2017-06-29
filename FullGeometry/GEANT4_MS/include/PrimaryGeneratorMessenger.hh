@@ -8,6 +8,7 @@ class PrimaryGeneratorAction;
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithoutParameter;
+class G4UIcmdWithABool;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -15,17 +16,17 @@ class PrimaryGeneratorMessenger: public G4UImessenger
 {
   public:
     PrimaryGeneratorMessenger(PrimaryGeneratorAction*);
-   ~PrimaryGeneratorMessenger();
+    ~PrimaryGeneratorMessenger();
 
     void SetNewValue(G4UIcommand*, G4String);
 
   private:
-    PrimaryGeneratorAction*      Action;
-    G4UIdirectory*               CRYDir;
-    G4UIcmdWithAString*          FileCmd;
-    G4UIcmdWithAString*          InputCmd;
-    G4UIcmdWithoutParameter*     UpdateCmd;
-    std::string* MessInput;
+    PrimaryGeneratorAction* primaryGeneratorAction;
+    G4UIdirectory* cryDir;
+    G4UIcmdWithAString* cryInputCmd;
+    G4UIcmdWithoutParameter* cryUpdateCmd;
+    G4UIcmdWithABool* cryUseCmd;
+    std::string* messengerInput;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

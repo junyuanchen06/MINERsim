@@ -117,6 +117,8 @@ set(MINERsim_SCRIPTS
     MINERsim.in
     MCNP_gamma_pdf.gdat
     Watt_neutron_pdf.gdat
+    gps.mac
+    cry.mac
     vis.mac
     gui.mac
     X.png
