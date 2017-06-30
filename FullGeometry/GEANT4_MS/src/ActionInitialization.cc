@@ -57,8 +57,10 @@ void ActionInitialization::BuildForMaster() const
 
 void ActionInitialization::Build() const
 {
-  SetUserAction(new RunAction);
-  SetUserAction(new PrimaryGeneratorAction);
+  RunAction* runAction = new RunAction();
+
+  SetUserAction(runAction);
+  SetUserAction(new PrimaryGeneratorAction(runAction));
   //SetUserAction(new SteppingAction);
   SetUserAction(new TrackingAction);
   SetUserAction(new EventAction);

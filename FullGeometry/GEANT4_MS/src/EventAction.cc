@@ -124,8 +124,6 @@ void EventAction::EndOfEventAction(const G4Event* event)
   RootIO::GetInstance()->FillMonitoring(insideIBHits,25);
 
   RootIO::GetInstance()->Write();
-
-
-}  
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

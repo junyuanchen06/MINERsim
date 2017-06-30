@@ -9,11 +9,11 @@
 /cry/input returnMuons 1
 
 /cry/input date 6-29-2017
-/cry/input latitude 47.578
+/cry/input latitude 30.6
 /cry/input altitude 0
-/cry/input subboxLength 5
+/cry/input subboxLength 10
 
-/cry/input nParticlesMin 1
-/cry/input nParticlesMax 100
+# /cry/input nParticlesMin 1
+# /cry/input nParticlesMax 100
 
 /cry/update

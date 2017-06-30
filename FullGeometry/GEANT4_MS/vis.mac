@@ -15,7 +15,7 @@
 # /control/execute gps.mac
 /control/execute cry.mac
 
-/tracking/verbose 1
+/tracking/verbose 0
 
 /run/printProgress 100
 /run/verbose 0

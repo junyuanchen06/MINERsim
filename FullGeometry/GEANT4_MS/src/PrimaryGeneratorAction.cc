@@ -28,6 +28,7 @@
 
 #include <CLHEP/Random/RandomEngine.h>
 #include <CLHEP/Random/Random.h>
+#include <RunAction.hh>
 #include "PrimaryGeneratorAction.hh"
 #include "RNGWrapper.hh"
 
@@ -39,8 +40,8 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorAction::PrimaryGeneratorAction()
-    : G4VUserPrimaryGeneratorAction(), generalParticleSource(0), useCry(false), cryDistanceZ(0 * m)
+PrimaryGeneratorAction::PrimaryGeneratorAction(RunAction* run)
+    : G4VUserPrimaryGeneratorAction(), generalParticleSource(0), useCry(false), cryDistanceZ(0 * m), runAction(run)
 {
   generalParticleSource = new G4GeneralParticleSource();
   particleGun = new G4ParticleGun();
@@ -90,6 +91,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     G4String particleName;
     cryParticles->clear();
     cryGenerator->genEvent(cryParticles);
+    runAction->setElapsedTime(cryGenerator->timeSimulated());
 
     for (unsigned j=0; j<cryParticles->size(); j++) {
       particleName = CRYUtils::partName((*cryParticles)[j]->id());

@@ -42,6 +42,7 @@
 #include <G4ParticleGun.hh>
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "PrimaryGeneratorMessenger.hh"
+#include "RunAction.hh"
 
 class G4GeneralParticleSource;
 class G4Event;
@@ -51,7 +52,7 @@ class G4Event;
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    PrimaryGeneratorAction();
+    PrimaryGeneratorAction(RunAction* run);
     ~PrimaryGeneratorAction();
 
     virtual void GeneratePrimaries(G4Event*);
@@ -70,6 +71,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4bool useCry;
     G4double cryDistanceZ;
     PrimaryGeneratorMessenger* primaryGeneratorMessenger;
+    RunAction* runAction;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
