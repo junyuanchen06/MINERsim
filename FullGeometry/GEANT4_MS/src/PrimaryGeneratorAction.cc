@@ -61,7 +61,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::updateCry(std::string *messengerInput)
 {
-  CRYSetup *crySetup = new CRYSetup(*messengerInput, getenv("CRYDATAPATH"));
+  CRYSetup *crySetup = new CRYSetup(*messengerInput, getenv(CRY_DATA_PATH_ENVIRONMENT_VARIABLE));
   cryGenerator = new CRYGenerator(crySetup);
 
   RNGWrapper<CLHEP::HepRandomEngine>::set(CLHEP::HepRandom::getTheEngine(),&CLHEP::HepRandomEngine::flat);

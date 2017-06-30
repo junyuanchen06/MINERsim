@@ -59,6 +59,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     void setUseCry(G4bool use);
 
   private:
+    G4String CRY_DATA_PATH_ENVIRONMENT_VARIABLE = "CRYDATAPATH";
+
     G4GeneralParticleSource* generalParticleSource;
     std::vector<CRYParticle*> *cryParticles;
     G4ParticleTable* particleTable;
