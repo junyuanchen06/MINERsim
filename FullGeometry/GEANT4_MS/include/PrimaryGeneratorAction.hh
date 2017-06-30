@@ -57,6 +57,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     virtual void GeneratePrimaries(G4Event*);
     void updateCry(std::string *messengerInput);
     void setUseCry(G4bool use);
+    void setCryDistanceZ(G4double d);
 
   private:
     G4String CRY_DATA_PATH_ENVIRONMENT_VARIABLE = "CRYDATAPATH";
@@ -67,6 +68,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4ParticleGun* particleGun;
     CRYGenerator* cryGenerator;
     G4bool useCry;
+    G4double cryDistanceZ;
     PrimaryGeneratorMessenger* primaryGeneratorMessenger;
 };
 

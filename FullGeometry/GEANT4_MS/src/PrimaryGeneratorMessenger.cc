@@ -1,8 +1,5 @@
-#include <G4UIcmdWithABool.hh>
 #include "PrimaryGeneratorMessenger.hh"
 #include "PrimaryGeneratorAction.hh"
-#include "G4UIcmdWithAString.hh"
-#include "G4UIcmdWithoutParameter.hh"
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -26,6 +23,11 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* gun
   cryUseCmd = new G4UIcmdWithABool("/cry/useCry", this);
   cryUseCmd->SetGuidance("Enable/Disable CRY, 1 for using CRY, 0 for using general particle source.");
 
+  cryDistanceZCmd = new G4UIcmdWithADoubleAndUnit("/cry/distanceZ", this);
+  cryDistanceZCmd->SetGuidance("Set Z distance of the plane from which the cosmic rays are generated.");
+  cryDistanceZCmd->SetParameterName("cryDistanceZCmd", false);
+  cryDistanceZCmd->SetDefaultUnit("m");
+
   messengerInput = new std::string;
 }
 
@@ -46,14 +48,15 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
     (*messengerInput).append(newValue);
     (*messengerInput).append(" ");
   }
-
-  if (command == cryUpdateCmd) {
+  else if (command == cryUpdateCmd) {
     primaryGeneratorAction->updateCry(messengerInput);
     *messengerInput = "";
   }
-
-  if (command == cryUseCmd) {
+  else if (command == cryUseCmd) {
     primaryGeneratorAction->setUseCry(cryUseCmd->GetNewBoolValue(newValue));
+  }
+  else if (command == cryDistanceZCmd) {
+    primaryGeneratorAction->setCryDistanceZ(cryDistanceZCmd->GetNewDoubleValue(newValue));
   }
 }
 

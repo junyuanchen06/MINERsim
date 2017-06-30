@@ -1,4 +1,5 @@
 /cry/useCry 1
+/cry/distanceZ 3 m
 
 /cry/input returnNeutrons 1
 /cry/input returnProtons 1
@@ -13,6 +14,6 @@
 /cry/input subboxLength 5
 
 /cry/input nParticlesMin 1
-/cry/input nParticlesMax 10
+/cry/input nParticlesMax 100
 
 /cry/update

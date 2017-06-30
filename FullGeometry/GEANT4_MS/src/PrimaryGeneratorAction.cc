@@ -40,7 +40,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
-    : G4VUserPrimaryGeneratorAction(), generalParticleSource(0), useCry(false)
+    : G4VUserPrimaryGeneratorAction(), generalParticleSource(0), useCry(false), cryDistanceZ(0 * m)
 {
   generalParticleSource = new G4GeneralParticleSource();
   particleGun = new G4ParticleGun();
@@ -77,6 +77,13 @@ void PrimaryGeneratorAction::setUseCry(G4bool use)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void PrimaryGeneratorAction::setCryDistanceZ(G4double distance)
+{
+  cryDistanceZ = distance;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   if(useCry){
@@ -88,7 +95,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
       particleName = CRYUtils::partName((*cryParticles)[j]->id());
       particleGun->SetParticleDefinition(particleTable->FindParticle((*cryParticles)[j]->PDGid()));
       particleGun->SetParticleEnergy((*cryParticles)[j]->ke()*MeV);
-      particleGun->SetParticlePosition(G4ThreeVector((*cryParticles)[j]->x()*m, (*cryParticles)[j]->y()*m, (*cryParticles)[j]->z()*m));
+      particleGun->SetParticlePosition(G4ThreeVector((*cryParticles)[j]->x()*m, (*cryParticles)[j]->y()*m, (*cryParticles)[j]->z()*m + cryDistanceZ));
       particleGun->SetParticleMomentumDirection(G4ThreeVector((*cryParticles)[j]->u(), (*cryParticles)[j]->v(), (*cryParticles)[j]->w()));
       particleGun->SetParticleTime((*cryParticles)[j]->t());
       particleGun->GeneratePrimaryVertex(anEvent);
