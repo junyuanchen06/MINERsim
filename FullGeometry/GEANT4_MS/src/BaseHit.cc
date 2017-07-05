@@ -1,5 +1,4 @@
 #include "BaseHit.hh"
-#include <iostream>
 
 BaseHit::BaseHit() {
 
@@ -8,11 +7,6 @@ BaseHit::BaseHit() {
 BaseHit::~BaseHit() {
 
 }
-
-
-
-// "get" methods -------------------------------------
-
 
 TVector3 BaseHit::pos() const {
    return _pos;
@@ -57,8 +51,6 @@ int BaseHit::preproc() const {
 int BaseHit::postproc() const {
    return _post;
 }
-
-// "set" methods ---------------------------------------------
 
 void BaseHit::SetInc(int i) {
    _inc = i;
