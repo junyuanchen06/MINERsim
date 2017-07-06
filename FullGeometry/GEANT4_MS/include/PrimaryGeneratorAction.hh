@@ -52,7 +52,7 @@ class G4Event;
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    PrimaryGeneratorAction(RunAction* run);
+    PrimaryGeneratorAction();
     ~PrimaryGeneratorAction();
 
     virtual void GeneratePrimaries(G4Event*);
@@ -71,7 +71,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4bool useCry;
     G4double cryDistanceZ;
     PrimaryGeneratorMessenger* primaryGeneratorMessenger;
-    RunAction* runAction;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

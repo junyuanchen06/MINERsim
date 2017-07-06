@@ -51,10 +51,6 @@ class RunAction : public G4UserRunAction
 
     virtual void BeginOfRunAction(const G4Run*);
     virtual void EndOfRunAction(const G4Run*);
-    void setElapsedTime(G4double time);
-
-  private:
-    G4double elapsedTime;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

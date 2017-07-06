@@ -41,8 +41,8 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PrimaryGeneratorAction::PrimaryGeneratorAction(RunAction* run)
-    : G4VUserPrimaryGeneratorAction(), generalParticleSource(0), useCry(false), cryDistanceZ(0 * m), runAction(run)
+PrimaryGeneratorAction::PrimaryGeneratorAction()
+    : G4VUserPrimaryGeneratorAction(), generalParticleSource(0), useCry(false), cryDistanceZ(0 * m)
 {
   generalParticleSource = new G4GeneralParticleSource();
   particleGun = new G4ParticleGun();
@@ -92,7 +92,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     G4String particleName;
     cryParticles->clear();
     cryGenerator->genEvent(cryParticles);
-    runAction->setElapsedTime(cryGenerator->timeSimulated());
     RootIO::GetInstance()->updateElapsedTime(cryGenerator->timeSimulated());
 
     G4int eventId = anEvent->GetEventID();

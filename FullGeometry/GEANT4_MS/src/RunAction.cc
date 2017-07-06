@@ -39,7 +39,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::RunAction()
- : G4UserRunAction(), elapsedTime(0.0)
+ : G4UserRunAction()
 {
 }
 
@@ -61,14 +61,6 @@ void RunAction::BeginOfRunAction(const G4Run*)
 void RunAction::EndOfRunAction(const G4Run* )
 {
   RootIO::GetInstance()->Close();
-  G4cout << "elapsedTime = " << elapsedTime << G4endl;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void RunAction::setElapsedTime(G4double time)
-{
-  elapsedTime = time;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
