@@ -29,6 +29,7 @@
 #include <CLHEP/Random/RandomEngine.h>
 #include <CLHEP/Random/Random.h>
 #include <RunAction.hh>
+#include <RootIO.hh>
 #include "PrimaryGeneratorAction.hh"
 #include "RNGWrapper.hh"
 
@@ -92,6 +93,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     cryParticles->clear();
     cryGenerator->genEvent(cryParticles);
     runAction->setElapsedTime(cryGenerator->timeSimulated());
+    RootIO::GetInstance()->updateElapsedTime(cryGenerator->timeSimulated());
 
     G4int eventId = anEvent->GetEventID();
     if (eventId % 100 == 0)

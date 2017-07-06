@@ -32,6 +32,9 @@ void RootIO::Setup()
 {
   theFile = new TFile(fileName, "RECREATE");
   theFile->cd();
+
+  hElapsedTime = new TH1D("hElapsedTime", "hElapsedTime", 1, 0, 1);
+
   theTree = new TTree("theTree", "theTree");
   sHits = new TClonesArray("BaseHit");
   theTree->Branch("sHits", &sHits, 6400, 0);
@@ -150,6 +153,13 @@ void RootIO::FillMonitoring(MinerHitsCollection * zipHits, G4int detID)
                       (*zipHits)[i]->GetWeight(),
                       "Det" + detNumber + "_Monitoring");
   }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void RootIO::updateElapsedTime(G4double elapsedTime)
+{
+  hElapsedTime->SetBinContent(1, elapsedTime);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

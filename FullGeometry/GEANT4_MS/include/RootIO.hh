@@ -27,7 +27,7 @@
 /// \brief Definition of the RootIO class
 //
 // $Id: RootIO.hh 71791 2013-06-24 14:08:28Z gcosmo $
-#ifndef INCLUDE_ROOTIO_HH 
+#ifndef INCLUDE_ROOTIO_HH
 #define INCLUDE_ROOTIO_HH 1
 
 // Include files
@@ -41,40 +41,40 @@
 #include "RootIOMessenger.hh"
 #include "HistManager.hh"
 
-class RootIO 
+class RootIO
 {
-public: 
-  //RootIO();
-  virtual ~RootIO();
-  
-  static RootIO* GetInstance();
-  void Write();
-  void Close();
-  void SetIncomingE(G4double en);
-  void AddHits(MinerHitsCollection * zipHits, G4int detID);
-  void AddTrack(const G4Track* trk);
-  void FillMonitoring(MinerHitsCollection * zipHits, G4int detID);
-  void Setup();
-  void SetFileName(G4String name);
-  G4String GetFileName();
+  public:
+    //RootIO();
+    virtual ~RootIO();
 
+    static RootIO* GetInstance();
+    void Write();
+    void Close();
+    void SetIncomingE(G4double en);
+    void AddHits(MinerHitsCollection * zipHits, G4int detID);
+    void AddTrack(const G4Track* trk);
+    void FillMonitoring(MinerHitsCollection * zipHits, G4int detID);
+    void updateElapsedTime(G4double elapsedTime);
+    void Setup();
+    void SetFileName(G4String name);
+    G4String GetFileName();
 
-protected:
-  RootIO(); 
-  
-private:
+  protected:
+    RootIO();
 
-   RootIOMessenger *fMessenger;
-   HistManager *hists;
-  // stuff for root
-   G4String fileName;
-   TTree *theTree;
-   TFile *theFile;
-   TClonesArray* sHits;
-   TClonesArray* sTracks;
-   int hitC;
-   int trackC;
-   int event;
-   float eInc;
+  private:
+    RootIOMessenger *fMessenger;
+    HistManager *hists;
+    // stuff for root
+    G4String fileName;
+    TH1D* hElapsedTime;
+    TTree* theTree;
+    TFile* theFile;
+    TClonesArray* sHits;
+    TClonesArray* sTracks;
+    int hitC;
+    int trackC;
+    int event;
+    float eInc;
 };
 #endif // INCLUDE_ROOTIO_HH
