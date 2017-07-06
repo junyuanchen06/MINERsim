@@ -93,6 +93,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     cryGenerator->genEvent(cryParticles);
     runAction->setElapsedTime(cryGenerator->timeSimulated());
 
+    G4int eventId = anEvent->GetEventID();
+    if (eventId % 100 == 0)
+      G4cout << "eventId = " << eventId << G4endl;
+
     for (unsigned j=0; j<cryParticles->size(); j++) {
       particleName = CRYUtils::partName((*cryParticles)[j]->id());
       particleGun->SetParticleDefinition(particleTable->FindParticle((*cryParticles)[j]->PDGid()));
