@@ -104,7 +104,7 @@ G4AssemblyVolume* GeometryConstruction::ConstructBEGe(std::string name)
 
   G4VSolid* target1 = new G4Tubs("Target1"+name,0.,detRad,detHalfZ,0,360*deg);
   G4VSolid* target2 = new G4Tubs("Target2"+name,0.,4.75*mm,15.0*mm,0,360*deg);
-  G4ThreeVector targetOffset(0,0,-1*(48.05*mm - 15.0*mm));
+  G4ThreeVector targetOffset(0,0,-1*(detHalfZ - 15.0*mm));
   G4SubtractionSolid *target = new G4SubtractionSolid("Target"+name,target1,target2,0,targetOffset);
   G4LogicalVolume *fLogicDet = new G4LogicalVolume(target, mats->GetDetGe(),"Craig_log"+name);
 
@@ -117,7 +117,7 @@ G4AssemblyVolume* GeometryConstruction::ConstructBEGe(std::string name)
 
 
   G4VSolid* cuCasing1 = new G4Tubs("cuCasing1"+name,0.,detRad+cuCasingThick,35.5*mm/2. + detHalfZ + cuCasingThick/2.,0,360*deg);
-  G4VSolid* cuCasing2 = new G4Tubs("cuCasing2"+name,0.,detRad,35.5*mm/2. + detHalfZ + cuCasingThick/2.,0,360*deg);
+  G4VSolid* cuCasing2 = new G4Tubs("cuCasing2"+name,0.,detRad+.001*mm,35.5*mm/2. + detHalfZ + cuCasingThick/2.,0,360*deg);
   G4ThreeVector casingOffset(0,0,3.0*mm);
   G4SubtractionSolid *cuCasing = new G4SubtractionSolid("cuCasting"+name,cuCasing1,cuCasing2,0,casingOffset);
 
@@ -737,7 +737,7 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
 
   // Paraffin shield
   G4double parOuterDia = 11.*in;
-  G4double parInnerDia = 3.*in;
+  G4double parInnerDia = 3.131*in;
   G4double parInnerDepth = 5.*in;
   G4double parOuterDepth = 9.5*in;
 
@@ -768,9 +768,9 @@ G4VPhysicalVolume* GeometryConstruction::Construct()
   RotDet->rotateX(0.);
   RotDet->rotateY(-pi/2.);
 
-  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick - thermalC_length_big - thermalC_length_small + 66.*in + 8.5*in + 0.5*detHalfZ + 5*mm + 2.*in,-5.5*in,-(worldZ/2.)+floor_thick_out+floor_to_TC_out-3.5*in);
+  G4ThreeVector posDet = G4ThreeVector(water_rad+bioShield_thick - thermalC_length_big - thermalC_length_small + 66.*in + 8.5*in + 0.5*detHalfZ + 5*mm + 1.1*in,-5.5*in,-(worldZ/2.)+floor_thick_out+floor_to_TC_out-3.5*in);
 
-  G4ThreeVector posDet2 = G4ThreeVector(water_rad+bioShield_thick - thermalC_length_big - thermalC_length_small + 66.*in + 0.5*detHalfZ + 5*mm + 2.*in,-5.5*in,-(worldZ/2.)+floor_thick_out+floor_to_TC_out+13.5*in);
+  G4ThreeVector posDet2 = G4ThreeVector(water_rad+bioShield_thick - thermalC_length_big - thermalC_length_small + 66.*in + 0.5*detHalfZ + 5*mm + 1.1*in,-5.5*in,-(worldZ/2.)+floor_thick_out+floor_to_TC_out+13.5*in);
 
 
   // collecting placements here to make it easy to turn stuff off
