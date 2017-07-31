@@ -27,7 +27,7 @@ void SteppingAction::UserSteppingAction(const G4Step * theStep)
 
   G4StepStatus stepStatus = theStep->GetPostStepPoint()->GetStepStatus();
   G4bool transmit = (stepStatus==fGeomBoundary || stepStatus==fWorldBoundary);
-  if (transmit) return;
+  if (transmit) {return;}
   //secondaries
   G4ParticleDefinition* particle = theStep->GetTrack()->GetDefinition();
   const std::vector<const G4Track*>* secondary  = theStep->GetSecondaryInCurrentStep();  

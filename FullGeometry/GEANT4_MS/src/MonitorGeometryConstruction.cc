@@ -103,6 +103,7 @@ void MonitorGeometryConstruction::Construct()
 
   G4Box *FluxMonitor = new G4Box("FluxMonitor",layerThick/2.,thermalC_height_big/2.,thermalC_height_big/2.);
 
+  G4LogicalVolume *atMovable_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atMovable_log");
   G4LogicalVolume *atNeutronDet_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atNeutronDet_log");
   G4LogicalVolume *atLead_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atLead_log");
   G4LogicalVolume *atStartTC_log = new G4LogicalVolume(FluxMonitor, dummyMat, "atStartTC_log");
@@ -119,6 +120,8 @@ void MonitorGeometryConstruction::Construct()
 
   G4ThreeVector   posShield(water_rad+bioShield_thick +SSPlate_thick  - thermalC_length_big + iceboxRadius+iceboxPoly_thick+iceboxLead_thick+TCLead_thick , 0, -(worldZ/2.)+floor_thick_out+floor_to_TC_out);
   G4ThreeVector   atNeutronDet_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick),0.,posShield.z());
+  G4ThreeVector   atMovable_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick)+3*in,0.,posShield.z());
+
   G4ThreeVector   atLead_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick,0.,posShield.z());
   G4ThreeVector   atStartTC_place(posShield.x() - (iceboxRadius+iceboxPoly_thick+iceboxLead_thick) - TCLead_thick - TCPoly_thick - SSPlate_thick,0.,posShield.z());
 
@@ -134,6 +137,7 @@ void MonitorGeometryConstruction::Construct()
 
 
   new G4PVPlacement(0,posShield,insideIB_log,"insideIB_phys",worldLogical,false,0,false);
+  new G4PVPlacement(0,atMovable_place,atMovable_log,"atMovable_phys",worldLogical,false,0,false);
   new G4PVPlacement(0,atNeutronDet_place,atNeutronDet_log,"atNeutronDet_phys",worldLogical,false,0,false);
   new G4PVPlacement(0,atLead_place,atLead_log,"atLead_phys",worldLogical,false,0,false);
   new G4PVPlacement(0,atStartTC_place,atStartTC_log,"atStartTC_phys",worldLogical,false,0,false);
@@ -179,6 +183,10 @@ void MonitorGeometryConstruction::ConstructSD()
   MinerSD* insideIB_Det = new MinerSD("/MINERsim/insideIB_Det","MS_insideIB_hits");
   SDman->AddNewDetector(insideIB_Det);
   SetSensitiveDetector("insideIB_log",insideIB_Det, true);
+
+  MinerSD* atMovable_Det = new MinerSD("/MINERsim/atMovable_Det","MS_atMovable_hits");
+  SDman->AddNewDetector(atMovable_Det);
+  SetSensitiveDetector("atMovable_log",atMovable_Det, true);
 
   MinerSD* atNeutronDet_Det = new MinerSD("/MINERsim/atNeutronDet_Det","MS_atNeutronDet_hits");
   SDman->AddNewDetector(atNeutronDet_Det);

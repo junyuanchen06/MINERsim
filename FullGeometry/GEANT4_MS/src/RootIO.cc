@@ -218,7 +218,7 @@ void RootIO::FillNeutronStuff(G4double energy, G4double x, G4double y, G4double 
 {
 
       hists->fill1DHist(x,"Neutron_x","Neutron_x",4000,-1000,3000,weight,"");
-      hists->fill1DHist(x,"Neutron_E","Neutron_E",500,0,10,1.,"");
+      hists->fill1DHist(energy,"Neutron_E","Neutron_E",500,0,10,1.,"");
       hists->fill2DHist(y,z,"Neutron_yz","",120,-600,600,120,-1900,-700,weight,"");
       hists->fill2DHist(x,z,"Neutron_xz","",120,-600,600,400,-1000,3000,weight,"");
 

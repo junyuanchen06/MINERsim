@@ -838,22 +838,22 @@ G4VIStore* ImportanceGeometryConstruction::CreateImportanceStore()
   istore->AddImportanceGeometryCell(std::pow(2,9), GetGeometryCell(23).GetPhysicalVolume());
   istore->AddImportanceGeometryCell(std::pow(2,10), GetGeometryCell(24).GetPhysicalVolume());
   istore->AddImportanceGeometryCell(std::pow(2,10), GetGeometryCell(25).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,12), GetGeometryCell(26).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,13), GetGeometryCell(27).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,14), GetGeometryCell(28).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,16), GetGeometryCell(29).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,18), GetGeometryCell(30).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,20), GetGeometryCell(31).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,22), GetGeometryCell(32).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,24), GetGeometryCell(33).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,26), GetGeometryCell(34).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,28), GetGeometryCell(35).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,30), GetGeometryCell(36).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,32), GetGeometryCell(37).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,32), GetGeometryCell(38).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,32), GetGeometryCell(39).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,32), GetGeometryCell(40).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,32), GetGeometryCell(41).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,11), GetGeometryCell(26).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,11), GetGeometryCell(27).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,12), GetGeometryCell(28).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,14), GetGeometryCell(29).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,16), GetGeometryCell(30).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,17), GetGeometryCell(31).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,18), GetGeometryCell(32).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,19), GetGeometryCell(33).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,21), GetGeometryCell(34).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,23), GetGeometryCell(35).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,25), GetGeometryCell(36).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,25), GetGeometryCell(37).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,25), GetGeometryCell(38).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,25), GetGeometryCell(39).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,25), GetGeometryCell(40).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,25), GetGeometryCell(41).GetPhysicalVolume());
 
   // these are regions outside the interesting region but touching them
   //  should be close but less than the inner part they touch in importance value
@@ -878,29 +878,29 @@ G4VIStore* ImportanceGeometryConstruction::CreateImportanceStore()
   istore->AddImportanceGeometryCell(std::pow(2,4), GetGeometryCell(59).GetPhysicalVolume());
   istore->AddImportanceGeometryCell(std::pow(2,5), GetGeometryCell(60).GetPhysicalVolume());
   istore->AddImportanceGeometryCell(std::pow(2,5), GetGeometryCell(61).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,7), GetGeometryCell(62).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,7), GetGeometryCell(63).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,8), GetGeometryCell(64).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,8), GetGeometryCell(65).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,9), GetGeometryCell(66).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,10), GetGeometryCell(67).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,12), GetGeometryCell(68).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,14), GetGeometryCell(69).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,16), GetGeometryCell(70).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,18), GetGeometryCell(71).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,20), GetGeometryCell(72).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,22), GetGeometryCell(73).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,24), GetGeometryCell(74).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,26), GetGeometryCell(75).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,28), GetGeometryCell(76).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,30), GetGeometryCell(77).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,30), GetGeometryCell(78).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,30), GetGeometryCell(79).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,30), GetGeometryCell(80).GetPhysicalVolume());
-  istore->AddImportanceGeometryCell(std::pow(2,30), GetGeometryCell(81).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,6), GetGeometryCell(62).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,6), GetGeometryCell(63).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,7), GetGeometryCell(64).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,7), GetGeometryCell(65).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,8), GetGeometryCell(66).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,8), GetGeometryCell(67).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,9), GetGeometryCell(68).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,11), GetGeometryCell(69).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,13), GetGeometryCell(70).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,15), GetGeometryCell(71).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,16), GetGeometryCell(72).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,17), GetGeometryCell(73).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,19), GetGeometryCell(74).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,21), GetGeometryCell(75).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,23), GetGeometryCell(76).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,23), GetGeometryCell(77).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,23), GetGeometryCell(78).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,23), GetGeometryCell(79).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,23), GetGeometryCell(80).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,23), GetGeometryCell(81).GetPhysicalVolume());
 
   // finally, the region behind the TC
-  istore->AddImportanceGeometryCell(std::pow(2,28), GetGeometryCell(82).GetPhysicalVolume());
+  istore->AddImportanceGeometryCell(std::pow(2,21), GetGeometryCell(82).GetPhysicalVolume());
 
   return istore;
 
